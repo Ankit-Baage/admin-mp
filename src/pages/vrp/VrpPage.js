@@ -38,6 +38,8 @@ export const VrpPage = () => {
   const { data, isError, isLoading, isSuccess, error, refetch } =
     useGetVrp(filters);
 
+    console.log(data)
+
   const rejectMutation = useMutation({
     mutationFn: vrpRejectRequest,
     onSuccess: (response) => {
@@ -193,64 +195,15 @@ export const VrpPage = () => {
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-    columnHelper.display({
-      id: "lotStatus",
-      header: <div style={{ textAlign: "center" }}>Lot Status</div>,
-      cell: (props) => (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <button
-            // disabled={
-            //   props.row.original.approval_status === "pending for status"
-            // }
-            // onClick={() => onDownload(props.row.original)}
-            style={{
-              width: "76px",
-              color: "#FFFFFF",
-              backgroundColor: "#46CD80",
-              fontSize: "12px",
-              lineHeight: "12px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              borderRadius: "4px",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-           Sold
-          </button>
-          {/* <AnimatePresence>
-            {showConfirmation === props.row.original.request_id && (
-              <motion.div
-                onClick={closeModal}
-                style={{
-                  position: "fixed",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  zIndex: 100,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <Modal
-                  data={selectedRow}
-                  onReject={(requestId, remarks) => {
-                    onReject(requestId, remarks);
-                  }}
-                  onApproval={onApproval}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence> */}
-        </div>
-      ),
+    columnHelper.accessor("stock_status", {
+      header: "Stock Status",
+      cell: (info) => info.getValue(),
+      footer: (props) => props.column.id,
+    }),
+    columnHelper.accessor("remarks", {
+      header: "Remarks",
+      cell: (info) => info.getValue(),
+      footer: (props) => props.column.id,
     }),
 
     columnHelper.display({
