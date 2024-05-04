@@ -8,6 +8,7 @@ import { Authentication } from "./pages/authentication/Authentication";
 import { HomePage } from "./pages/home/homePage/HomePage";
 
 import { checkAuthLoader } from "./utils/loaders/checkAuthLoader";
+import { action as logOutAction } from "./pages/home/homePage/logOut/LogOut";
 
 import "./App.css";
 import { VrpPage } from "./pages/vrp/VrpPage";
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
         loader: checkAuthLoader,
         children: [{ index: true, element: <VrpPage /> }],
       },
+      { path: "logout", action: logOutAction },
     ],
   },
 ]);
