@@ -6,26 +6,29 @@
 
 .box__table {
   display: flex;
- justify-content: center;
-  border-radius: 4px;
+  justify-content: center;
+
   border: 1px solid #EFEFEF;
   overflow: hidden;
-
+  padding: 4px
 }
 
 .box__modelTable {
   width: 100%;
   border-collapse: collapse;
 
+
 }
 
 .box__modelTable__head {
+
   font-family: "Poppins", sans;
   font-weight: 500;
   font-size: 12px;
   line-height: 12px;
   background-color: #FF6F3F;
   color: #FFFFFF;
+
 
 }
 
@@ -52,4 +55,3 @@
   text-align: center;
 
 }
-

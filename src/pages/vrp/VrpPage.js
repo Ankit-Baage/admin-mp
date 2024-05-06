@@ -17,11 +17,12 @@ import { SellerListPage } from "./SellerListPage";
 import { SellerStatusPage } from "./SellerStatusPage";
 import { useSearchParams } from "react-router-dom";
 import { formatNumber } from "../../utils/helpers/formatNumber";
+import { VrpPageSkeleton } from "../../components/skeleton/vrpPageSkeleton/VrpPageSkeleton";
 
 export const VrpPage = () => {
   const [showConfirmation, setShowConfirmation] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
-  const [vrpData, setVrpData] = useState([]);
+  // const [vrpData, setVrpData] = useState([]);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const sellerId = searchParams.get("seller_id");
@@ -38,7 +39,7 @@ export const VrpPage = () => {
   const { data, isError, isLoading, isSuccess, error, refetch } =
     useGetVrp(filters);
 
-    console.log(data)
+  console.log(data);
 
   const rejectMutation = useMutation({
     mutationFn: vrpRejectRequest,
@@ -77,14 +78,18 @@ export const VrpPage = () => {
 
   useEffect(() => {
     if (isLoading) {
-      setVrpData([]);
+      // setVrpData([]);
       dispatch(showToastWithTimeout("Loading...", "#FF6F3F"));
     } else if (isSuccess) {
-      setVrpData(data.data.data);
-      dispatch(showToastWithTimeout("Vrp Details Found", "#00A167"));
+      // setVrpData(data.data.data);
+      dispatch(
+        showToastWithTimeout(data.data.message.displayMessage, "#00A167")
+      );
     } else if (isError) {
-      setVrpData([]);
-      dispatch(showToastWithTimeout("Error: Vrp Details Not Found", "#D32F2F"));
+      // setVrpData([]);
+      dispatch(
+        showToastWithTimeout(data.data.message.displayMessage, "#D32F2F")
+      );
     }
   }, [isLoading, isSuccess, isError, data, dispatch]);
 
@@ -186,7 +191,7 @@ export const VrpPage = () => {
     }),
 
     columnHelper.accessor("rate_card", {
-      header: "Rate Card",
+      header: "Discounted Price",
       cell: (info) => formatNumber(info.getValue()),
       footer: (props) => props.column.id,
     }),
@@ -213,6 +218,7 @@ export const VrpPage = () => {
         <div style={{ display: "flex", justifyContent: "center" }}>
           <button
             onClick={() => openModal(props.row.original)}
+            disabled={props.row.original.status === "deactivated"}
             style={{
               width: "76px",
               color: "#FFFFFF",
@@ -221,15 +227,22 @@ export const VrpPage = () => {
               fontWeight: 500,
               fontFamily: "Poppins, sans",
               backgroundColor:
-                props.row.original.approval_status === "approved"
+                props.row.original.status === "deactivated"
+                  ? "#FFD4C5"
+                  : props.row.original.approval_status === "approved"
                   ? "#00A167"
                   : props.row.original.approval_status === "pending"
                   ? "#FF6F3F"
-                  : "#FF0000",
+                  : props.row.original.approval_status === "rejected"
+                  ? "#FF0000"
+                  : null,
               borderRadius: "4px",
               padding: "8px",
               border: "none",
-              cursor: "pointer",
+              cursor:
+                props.row.original.status === "deactivated"
+                  ? "not-allowed"
+                  : "pointer",
             }}
           >
             {props.row.original.approval_status === "approved"
@@ -333,7 +346,7 @@ export const VrpPage = () => {
     }),
   ];
 
-  return (
+  return isSuccess ? (
     <div className={classes.box}>
       <div className={classes.status}>
         <SellerListPage
@@ -348,8 +361,9 @@ export const VrpPage = () => {
           Apply
         </button>
       </div>
-
-      <BasicTable data={vrpData} columns={columns} />
+      <BasicTable data={data.data.data} columns={columns} />
     </div>
+  ) : (
+    <VrpPageSkeleton />
   );
 };

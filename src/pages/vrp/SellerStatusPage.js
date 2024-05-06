@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import useGetSellerStatus from "../../tanstack-query/vrp/useGetSellerStatus";
 import { SellerStatus } from "../../components/sellerStatus/SellerStatus";
+import { SelectSkeleton } from "../../components/skeleton/selectSkeleton/SelectSkeleton";
 
 export const SellerStatusPage = ({ status, onFilter }) => {
   const [selectedStatus, setSelectedStatus] = useState(status);
-  
-  const { data, isSuccess } = useGetSellerStatus();
 
+  const { data, isSuccess } = useGetSellerStatus();
 
   const handleItemSelected = (itemId) => {
     setSelectedStatus(itemId);
-    onFilter(itemId)
+    onFilter(itemId);
   };
   return isSuccess ? (
     <SellerStatus
@@ -18,5 +18,7 @@ export const SellerStatusPage = ({ status, onFilter }) => {
       onItemSelected={(itemId) => handleItemSelected(itemId)}
       status={selectedStatus}
     />
-  ) : null;
+  ) : (
+    <SelectSkeleton />
+  );
 };
