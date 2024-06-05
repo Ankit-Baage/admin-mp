@@ -5,7 +5,7 @@ import vrp from "../../assets/vrp.svg";
 import openBox from "../../assets/openBox.svg";
 import spare from "../../assets/spare.svg"
 
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Form, Link, NavLink, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button/Button";
 import classes from "./sidebar.module.css";
 import { logOut } from "../../utils/https-request/auth/logInRequest";
@@ -33,8 +33,7 @@ export const SideBar = () => {
     dispatch(showToastWithTimeout("Logging Out..."));
     navigate("/")
     logOut();
-    
-
+  
   }
   return (
     <div className={classes.stack}>
@@ -117,7 +116,10 @@ export const SideBar = () => {
           <hr className={classes.box__item__divider} />
         </div>
         <div className={classes.container__box__categories}>
-          <Button text="Log Out" type="button" onClick={handleLogOut}/>
+          {/* <Button text="Log Out" type="button" onClick={handleLogOut}/> */}
+          <Form action="/logout" method="post">
+            <Button text="Log Out" />
+          </Form>
         </div>
       </div>
     </div>
