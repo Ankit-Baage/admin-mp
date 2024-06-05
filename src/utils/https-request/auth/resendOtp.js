@@ -1,4 +1,4 @@
-import { resendOtpUrl } from "../../../config/config";
+import { resendOtpUrl } from "../../../config/vrp/auth/authConfig";
 import axios from "axios";
 
 export const resendOtp = async (mobile_no) => {

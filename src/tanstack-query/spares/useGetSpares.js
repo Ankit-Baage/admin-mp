@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { vrpRequest } from "../../utils/https-request/vrp/VrpRequest";
+import { sparesRequest } from "../../utils/https-request/spares/sparesRequest";
 
-function useGetVrp(filters) {
-  
+
+
+function useGetSpares(filters) {
   const { data, isError, isLoading, isSuccess,refetch } = useQuery({
     queryKey: ["vrp", filters],
-    queryFn: () => vrpRequest(filters),
+    queryFn: () => sparesRequest(filters),
     refetchOnWindowFocus: false,
     retry: 1,
     retryDelay: 1000,
@@ -13,4 +14,4 @@ function useGetVrp(filters) {
   return { data, isError, isLoading, isSuccess, refetch };
 }
 
-export default useGetVrp;
+export default useGetSpares;

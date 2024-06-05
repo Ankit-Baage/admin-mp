@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from "react";
-import useGetVrp from "../../tanstack-query/vrp/useGetVrp";
+
 import { BasicTable } from "../../components/table/BasicTable";
 import { createColumnHelper } from "@tanstack/react-table";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import classes from "./vrpPage.module.css";
 import { useDispatch } from "react-redux";
 import { showToastWithTimeout } from "../../store/toaster/toasterActions";
 import { Modal } from "../../components/ui/modal/Modal";
 import { vrpRejectRequest } from "../../utils/https-request/vrp/vrpRejectRequest";
 
 import { vrpApprovalRequest } from "../../utils/https-request/vrp/vrpApprovalRequest";
-import { vrpDownloadRequest } from "../../utils/https-request/vrp/vrpDownloadRequest";
-import { SellerListPage } from "./SellerListPage";
-import { SellerStatusPage } from "./SellerStatusPage";
+
+
 import { useSearchParams } from "react-router-dom";
 
+import { SellerListPage } from "../vrp/SellerListPage";
+import { SellerStatusPage } from "../vrp/SellerStatusPage";
+import classes from "./sparesPage.module.css";
+import useGetSpares from "../../tanstack-query/spares/useGetSpares";
+import { sparesDownloadRequest } from "../../utils/https-request/spares/sparesDownloadRequest";
 
-export const VrpPage = () => {
+export const SparesPage = () => {
   const [showConfirmation, setShowConfirmation] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
   const [vrpData, setVrpData] = useState([]);
@@ -36,7 +39,7 @@ export const VrpPage = () => {
   const [filters, setFilters] = useState(initialFilters);
 
   const { data, isError, isLoading, isSuccess, error, refetch } =
-    useGetVrp(filters);
+    useGetSpares(filters);
 
   const rejectMutation = useMutation({
     mutationFn: vrpRejectRequest,
@@ -90,7 +93,7 @@ export const VrpPage = () => {
     dispatch(showToastWithTimeout("Downloading...", "#00A167"));
 
     try {
-      const fileData = await vrpDownloadRequest({
+      const fileData = await sparesDownloadRequest({
         requestId: rowData.request_id,
       });
       const contentType =
@@ -166,28 +169,22 @@ export const VrpPage = () => {
 
   // Define your columns using the column helper
   const columns = [
-    columnHelper.accessor("lot_id", {
-      header: "Lot Id",
-      cell: (info) => info.getValue(),
-      footer: (props) => props.column.id,
-    }),
     columnHelper.accessor("request_id", {
       header: "Request Id",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-
-    columnHelper.accessor("original_price", {
-      header: "Original Price",
+    columnHelper.accessor("seller_name", {
+      header: "Seller Name",
+      cell: (info) => info.getValue(),
+      footer: (props) => props.column.id,
+    }),
+    columnHelper.accessor("quantity", {
+      header: "Quantity",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
 
-    columnHelper.accessor("rate_card", {
-      header: "Rate Card",
-      cell: (info) => info.getValue(),
-      footer: (props) => props.column.id,
-    }),
     columnHelper.accessor("status", {
       header: "Status",
       cell: (info) => info.getValue(),

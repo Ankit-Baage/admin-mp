@@ -36,10 +36,7 @@ export const BasicTable = ({ data, columns, onSelect }) => {
 
           <tbody className={classes.box__modelTable__body}>
             {table.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                style={{ textAlign: "center", position: "relative" }}
-              >
+              <tr key={row.id} style={{ textAlign: "center", position:"relative" }}>
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}

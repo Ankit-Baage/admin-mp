@@ -35,7 +35,7 @@ export const Modal = ({ data, onApproval, onReject, }) => {
       transition={{ duration: 0.5 }}
     >
       <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-        <div className={classes.form__group}>
+        {/* <div className={classes.form__group}>
           <input
             type="text"
             id="lotId"
@@ -48,7 +48,7 @@ export const Modal = ({ data, onApproval, onReject, }) => {
           <label htmlFor="lotId" className={classes.form__label}>
             Lot ID
           </label>
-        </div>
+        </div> */}
         <div className={classes.form__group}>
           <input
             type="text"
@@ -63,7 +63,7 @@ export const Modal = ({ data, onApproval, onReject, }) => {
             Request ID
           </label>
         </div>
-        <div className={classes.form__group}>
+        {/* <div className={classes.form__group}>
           <input
             type="text"
             id="rateCard"
@@ -76,7 +76,7 @@ export const Modal = ({ data, onApproval, onReject, }) => {
           <label htmlFor="rateCard" className={classes.form__label}>
             Rate Card
           </label>
-        </div>
+        </div> */}
         <div className={classes.form__group}>
           <textarea
             type="text"

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import useGetSellerList from "../../tanstack-query/vrp/useGetSellerList";
 import { SellerList } from "../../components/sellerList/SellerList";
-import { SelectSkeleton } from "../../components/skeleton/selectSkeleton/SelectSkeleton";
 
 export const SellerListPage = ({ sellerId, onFilter }) => {
   const [selectedSellerId, setSelectedSellerId] = useState(sellerId);
 
-  const { data, isSuccess, isPending, isLoading } = useGetSellerList();
+  const { data, isSuccess } = useGetSellerList();
 
   const handleItemSelected = (itemId) => {
     setSelectedSellerId(itemId);
@@ -19,7 +18,5 @@ export const SellerListPage = ({ sellerId, onFilter }) => {
       onItemSelected={(itemId) => handleItemSelected(itemId)}
       sellerId={selectedSellerId}
     />
-  ) : (
-    <SelectSkeleton />
-  );
+  ) : null;
 };

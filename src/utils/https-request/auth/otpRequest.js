@@ -1,4 +1,4 @@
-import { requestOtpUrl } from "../../../config/config";
+import { requestOtpUrl } from "../../../config/vrp/auth/authConfig";
 import axios from "axios";
 import axiosInstance from "../../axios-middleware/axiosMiddleware";
 

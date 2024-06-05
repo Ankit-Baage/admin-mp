@@ -1,6 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { otpVerificationUrl } from "../../../config/config";
+
+import { otpVerificationUrl } from "../../../config/vrp/auth/authConfig";
 import axiosInstance from "../../axios-middleware/axiosMiddleware";
 
 export const otpVerificationRequest = async (data) => {

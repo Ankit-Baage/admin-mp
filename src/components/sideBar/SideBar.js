@@ -3,13 +3,14 @@ import profile from "../../assets/profile_pic.png";
 import prexo from "../../assets/prexo.svg";
 import vrp from "../../assets/vrp.svg";
 import openBox from "../../assets/openBox.svg";
+import spares from "../../assets/spare.svg";
 
-import { Link, useNavigate, Form } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button/Button";
 import classes from "./sidebar.module.css";
-// import { logOut } from "../../utils/https-request/auth/logInRequest";
+import { logOut } from "../../utils/https-request/auth/logInRequest";
 import { useDispatch } from "react-redux";
-// import { showToastWithTimeout } from "../../store/toaster/toasterActions";
+import { showToastWithTimeout } from "../../store/toaster/toasterActions";
 
 export const SideBar = () => {
   const dispatch = useDispatch();
@@ -18,23 +19,23 @@ export const SideBar = () => {
   const categories = [
     { id: "prexo", image: prexo, name: "PREXO" },
     { id: "vrp", image: vrp, name: "VRP" },
+    { id: "spares", image: spares, name: "SPARES" },
     { id: "openBox", image: openBox, name: "OPEN-BOX" },
   ];
 
   const contacts = [
-    { id: "phone", link: "+919999123511", label: "+91 9999123511" },
-    {
-      id: "email",
-      link: "contact@mobigarage.com",
-      label: "contact@mobigarage.com",
-    },
+    { id: "phone", link: "+91 9999123511" },
+    { id: "email", link: "contact@mobigarage.com" },
   ];
 
-  // const handleLogOut = () => {
-  //   dispatch(showToastWithTimeout("Logging Out..."));
-  //   navigate("/");
-  //   logOut();
-  // };
+
+  const handleLogOut = ()=>{
+    dispatch(showToastWithTimeout("Logging Out..."));
+    navigate("/")
+    logOut();
+    
+
+  }
   return (
     <div className={classes.stack}>
       <div className={classes.container}>
@@ -67,6 +68,7 @@ export const SideBar = () => {
               <Link
                 key={category.id}
                 className={classes.container__box__categories__box__category}
+                to={category.id}
               >
                 <img
                   src={category.image}
@@ -94,12 +96,9 @@ export const SideBar = () => {
           <div className={classes.container__box__categories__box}>
             {contacts.map((contact) => (
               <a
+                href="tel:+91 9999123511"
                 key={contact.id}
-                href={
-                  contact.id === "phone"
-                    ? `tel:${contact.link}`
-                    : `mailto:${contact.link}`
-                }
+                className={classes.container__box__categories__box__category}
               >
                 <h5
                   className={
@@ -114,9 +113,7 @@ export const SideBar = () => {
           <hr className={classes.box__item__divider} />
         </div>
         <div className={classes.container__box__categories}>
-          <Form action="/logout" method="post">
-            <Button text="Log Out" />
-          </Form>
+          <Button text="Log Out" type="button" onClick={handleLogOut}/>
         </div>
       </div>
     </div>

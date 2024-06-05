@@ -1,5 +1,6 @@
-import { adminLoginUrl } from "../../../config/config";
-import axios from "axios";
+
+
+import { adminLoginUrl } from "../../../config/auth/authConfig";
 import axiosInstance from "../../axios-middleware/axiosMiddleware";
 import Cookies from "js-cookie";
 

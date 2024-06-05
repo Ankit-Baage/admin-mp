@@ -5,14 +5,14 @@ import { RootLayout } from "./pages/RootLayout";
 import { Home } from "./pages/home/Home";
 import { LoginPage } from "./pages/authentication/login/LoginPage";
 import { Authentication } from "./pages/authentication/Authentication";
-import { HomePage } from "./pages/home/homePage/HomePage";
 
 import { checkAuthLoader } from "./utils/loaders/checkAuthLoader";
-import { action as logOutAction } from "./pages/home/homePage/logOut/LogOut";
 
 import "./App.css";
 import { VrpPage } from "./pages/vrp/VrpPage";
 import { ErrorPage } from "./pages/error/ErrorPage";
+import { SparesPage } from "./pages/spares/SparesPage";
+import { HomePage } from "./pages/home/HomePage";
 
 const router = createBrowserRouter([
   {
@@ -29,9 +29,12 @@ const router = createBrowserRouter([
         path: "/home",
         element: <Home />,
         loader: checkAuthLoader,
-        children: [{ index: true, element: <VrpPage /> }],
+        children: [
+          { index: true, element: <HomePage /> },
+          { path: "vrp", element: <VrpPage /> },
+          { path: "spares", element: <SparesPage /> },
+        ],
       },
-      { path: "logout", action: logOutAction },
     ],
   },
 ]);

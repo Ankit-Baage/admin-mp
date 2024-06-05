@@ -1,4 +1,5 @@
-import { sellerListUrl } from "../../../config/config";
+
+import { sellerListUrl } from "../../../config/vrp/vrpConfig";
 import axiosInstance from "../../axios-middleware/axiosMiddleware";
 
 export const sellerListRequest = async () => {

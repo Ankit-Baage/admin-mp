@@ -1,4 +1,5 @@
-import { vrpApprovalUrl } from "../../../config/config";
+
+import { vrpApprovalUrl } from "../../../config/vrp/vrpConfig";
 import axiosInstance from "../../axios-middleware/axiosMiddleware";
 
 export const vrpApprovalRequest = async (data) => {

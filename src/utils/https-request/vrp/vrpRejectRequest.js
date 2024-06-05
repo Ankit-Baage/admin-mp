@@ -1,4 +1,5 @@
-import { vrpRejectUrl } from "../../../config/config";
+
+import { vrpRejectUrl } from "../../../config/vrp/vrpConfig";
 import axiosInstance from "../../axios-middleware/axiosMiddleware";
 
 export const vrpRejectRequest = async (data) => {
