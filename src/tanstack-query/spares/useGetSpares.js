@@ -5,7 +5,7 @@ import { sparesRequest } from "../../utils/https-request/spares/sparesRequest";
 
 function useGetSpares(filters) {
   const { data, isError, isLoading, isSuccess,refetch } = useQuery({
-    queryKey: ["vrp", filters],
+    queryKey: ["spares", filters],
     queryFn: () => sparesRequest(filters),
     refetchOnWindowFocus: false,
     retry: 1,

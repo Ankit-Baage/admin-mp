@@ -7,6 +7,7 @@ import { LoginPage } from "./pages/authentication/login/LoginPage";
 import { Authentication } from "./pages/authentication/Authentication";
 
 import { checkAuthLoader } from "./utils/loaders/checkAuthLoader";
+import { action as logOutAction } from "./pages/home/homePage/logOut/LogOut";
 
 import "./App.css";
 import { VrpPage } from "./pages/vrp/VrpPage";
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
           { path: "spares", element: <SparesPage /> },
         ],
       },
+      { path: "logout", action: logOutAction },
     ],
   },
 ]);

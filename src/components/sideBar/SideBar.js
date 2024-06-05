@@ -3,9 +3,9 @@ import profile from "../../assets/profile_pic.png";
 import prexo from "../../assets/prexo.svg";
 import vrp from "../../assets/vrp.svg";
 import openBox from "../../assets/openBox.svg";
-import spares from "../../assets/spare.svg";
+import spare from "../../assets/spare.svg"
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button/Button";
 import classes from "./sidebar.module.css";
 import { logOut } from "../../utils/https-request/auth/logInRequest";
@@ -19,7 +19,7 @@ export const SideBar = () => {
   const categories = [
     { id: "prexo", image: prexo, name: "PREXO" },
     { id: "vrp", image: vrp, name: "VRP" },
-    { id: "spares", image: spares, name: "SPARES" },
+    { id: "spares", image: spare, name: "SPARES" },
     { id: "openBox", image: openBox, name: "OPEN-BOX" },
   ];
 
@@ -65,11 +65,15 @@ export const SideBar = () => {
           </h1>
           <div className={classes.container__box__categories__box}>
             {categories.map((category) => (
-              <Link
-                key={category.id}
-                className={classes.container__box__categories__box__category}
-                to={category.id}
-              >
+              <NavLink
+              key={category.id}
+              to={category.id}
+              className={({ isActive }) =>
+                isActive
+                  ? `${classes.container__box__categories__box__category} ${classes.isActive}`
+                  : classes.container__box__categories__box__category
+              }
+            >
                 <img
                   src={category.image}
                   alt={category.name}
@@ -84,7 +88,7 @@ export const SideBar = () => {
                 >
                   {category.name}
                 </h5>
-              </Link>
+              </NavLink>
             ))}
           </div>
           <hr className={classes.box__item__divider} />
