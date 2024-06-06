@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import { selectToasterState } from "../../../store/toaster/toasterSlice";
+
 import classes from "./toaster.module.css";
+import { selectToasterState } from "../../../store/toaster/toasterSlice";
 
 export const Toaster = () => {
   const { isOpen, message, backgroundColor } = useSelector(selectToasterState);
