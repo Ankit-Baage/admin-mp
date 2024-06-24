@@ -12,7 +12,6 @@ import { vrpRejectRequest } from "../../utils/https-request/vrp/vrpRejectRequest
 
 import { vrpApprovalRequest } from "../../utils/https-request/vrp/vrpApprovalRequest";
 
-
 import { useSearchParams } from "react-router-dom";
 
 import { SellerListPage } from "../vrp/SellerListPage";
@@ -20,11 +19,14 @@ import { SellerStatusPage } from "../vrp/SellerStatusPage";
 import classes from "./sparesPage.module.css";
 import useGetSpares from "../../tanstack-query/spares/useGetSpares";
 import { sparesDownloadRequest } from "../../utils/https-request/spares/sparesDownloadRequest";
+import { openPriorityModal } from "../../store/sellerPriorityModal/sellerPriorityModalSlice";
+import { SpareSellerPriorityModal } from "../../components/ui/spareSellerPriorityModal/SpareSellerPriorityModal";
 
 export const SparesPage = () => {
   const [showConfirmation, setShowConfirmation] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
   const [vrpData, setVrpData] = useState([]);
+  const [priorityVisible, setPriorityVisible] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const sellerId = searchParams.get("seller_id");
@@ -36,15 +38,23 @@ export const SparesPage = () => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
+  const handlePriorityModalOpen = () => {
+    // dispatch(openPriorityModal());
+    setPriorityVisible(true);
+    console.log(priorityVisible);
+  };
+  const handlePriorityModalClose = () => {
+    setPriorityVisible(false);
+  };
+
   const [filters, setFilters] = useState(initialFilters);
 
-  const { data, isError, isLoading, isSuccess, error, refetch } =
-    useGetSpares(filters);
+  const { data, isError, isLoading, isSuccess } = useGetSpares(filters);
 
   const rejectMutation = useMutation({
     mutationFn: vrpRejectRequest,
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ["vrp"] });
+      queryClient.invalidateQueries({ queryKey: ["spares"] });
       dispatch(
         showToastWithTimeout(response.message.displayMessage, "#00A167")
       );
@@ -61,7 +71,7 @@ export const SparesPage = () => {
   const approvalMutation = useMutation({
     mutationFn: vrpApprovalRequest,
     onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ["vrp"] });
+      queryClient.invalidateQueries({ queryKey: ["spares"] });
       dispatch(
         showToastWithTimeout(response.message.displayMessage, "#00A167")
       );
@@ -82,7 +92,8 @@ export const SparesPage = () => {
       dispatch(showToastWithTimeout("Loading...", "#FF6F3F"));
     } else if (isSuccess) {
       setVrpData(data.data.data);
-      dispatch(showToastWithTimeout("Vrp Details Found", "#00A167"));
+      
+      dispatch(showToastWithTimeout("Spares Details Found", "#00A167"));
     } else if (isError) {
       setVrpData([]);
       dispatch(showToastWithTimeout("Error: Vrp Details Not Found", "#D32F2F"));
@@ -179,6 +190,7 @@ export const SparesPage = () => {
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
+
     columnHelper.accessor("quantity", {
       header: "Quantity",
       cell: (info) => info.getValue(),
@@ -332,6 +344,16 @@ export const SparesPage = () => {
         <button className={classes.status__apply} onClick={handleApplied}>
           Apply
         </button>
+        <button
+          className={classes.setPriority}
+          onClick={() => handlePriorityModalOpen()}
+        >
+          Set Priority
+        </button>
+
+        {priorityVisible && (
+          <SpareSellerPriorityModal onClose={handlePriorityModalClose} />
+        )}
       </div>
 
       <BasicTable data={vrpData} columns={columns} />

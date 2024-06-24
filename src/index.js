@@ -8,6 +8,7 @@ import { store } from "./store";
 
 import "./index.css";
 import { Toaster } from "./components/ui/toaster/Toaster";
+import { SpareSellerPriorityModal } from "./components/ui/spareSellerPriorityModal/SpareSellerPriorityModal";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <QueryClientProvider client={queryClient}>
     <Provider store={store}>
+      {/* <SpareSellerPriorityModal /> */}
       <Toaster />
       <App />
     </Provider>
