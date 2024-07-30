@@ -1,34 +1,31 @@
-import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-
-import { RootLayout } from "./pages/RootLayout";
-import { Home } from "./pages/home/Home";
-import { LoginPage } from "./pages/authentication/login/LoginPage";
-import { Authentication } from "./pages/authentication/Authentication";
-import { HomePage } from "./pages/home/homePage/HomePage";
-
-import { checkAuthLoader } from "./utils/loaders/checkAuthLoader";
-
 import "./App.css";
-import { VrpPage } from "./pages/vrp/VrpPage";
+import { LoginPage } from "./pages/auth/LogInPage";
+import { HomePage } from "./pages/homePage/HomePage";
+import {
+  checkAuthLoader,
+  DashBoardPage,
+} from "./pages/dashboard/DashBoardPage";
+import { CategoryPage } from "./pages/category/CategoryPage";
 import { ErrorPage } from "./pages/error/ErrorPage";
+import { RootLayout } from "./pages/RootLayout";
 
 const router = createBrowserRouter([
+  // { path: "/", element: <LoginPage /> },
   {
     path: "/",
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
+      { index: true, element: <LoginPage /> },
       {
-        path: "/",
-        element: <Authentication />,
-        children: [{ index: true, element: <LoginPage /> }],
-      },
-      {
-        path: "/home",
-        element: <Home />,
+        path: "dashboard",
+        element: <DashBoardPage />,
         loader: checkAuthLoader,
-        children: [{ index: true, element: <VrpPage /> }],
+        children: [
+          { index: true, element: <HomePage /> },
+          { path: ":category", element: <CategoryPage /> },
+        ],
       },
     ],
   },
