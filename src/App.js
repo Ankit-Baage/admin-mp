@@ -13,7 +13,7 @@ import { RootLayout } from "./pages/RootLayout";
 const router = createBrowserRouter([
   // { path: "/", element: <LoginPage /> },
   {
-    path: "/",
+    path: "/admin-mp",
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
