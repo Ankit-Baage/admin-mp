@@ -18,7 +18,9 @@ export const ActionModal = () => {
 
   useEffect(() => {
     if (modalData) {
-      setRemarks(modalData?.approval_status === "rejected" ? modalData.remarks : "");
+      setRemarks(
+        modalData?.approval_status === "rejected" ? modalData.remarks : ""
+      );
     }
   }, [modalData]);
 
@@ -77,6 +79,8 @@ export const ActionModal = () => {
   const handleClose = () => {
     dispatch(onClose());
   };
+  const isEnabled =
+    remarks.trim() !== "" && modalData?.approval_status === "pending";
 
   return isOpen ? (
     <motion.div
@@ -138,9 +142,9 @@ export const ActionModal = () => {
             <button
               type="submit"
               className={`${classes.form__btn} ${
-                remarks.trim() !== "" ? classes.form__btn__enabled : ""
+                isEnabled ? classes.form__btn__enabled : ""
               }`}
-              disabled={remarks.trim() === ""}
+              disabled={!isEnabled}
             >
               Reject
             </button>

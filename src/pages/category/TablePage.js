@@ -60,7 +60,7 @@ export const TablePage = ({ data }) => {
     if (columnsConfig[category]) {
       setColumnDefs(columnsConfig[category](handleOpenModal, handleDownload));
     }
-  }, [category, data.length, handleDownload, handleOpenModal]);
+  }, [category, handleDownload, handleOpenModal]);
 
   return <Table data={data} columns={columnDefs} />;
 };

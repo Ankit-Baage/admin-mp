@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import classes from "./customSelect.module.css";
+import { useSelector } from "react-redux";
+import { selectCategoryState } from "../../store/categorySlice";
 
 export const CustomSelect = ({
   optionData,
@@ -7,11 +9,16 @@ export const CustomSelect = ({
   selectedId,
   label,
 }) => {
-  const [currentSeller, setCurrentSeller] = useState(selectedId);
+  const category = useSelector(selectCategoryState);
+  const [currentSelection, setCurrentSelection] = useState(selectedId);
+
+  useEffect(() => {
+    setCurrentSelection(selectedId);
+  }, [selectedId, category.category]);
 
   const handleChange = (event) => {
     const optionId = event.target.value;
-    setCurrentSeller(optionId);
+    setCurrentSelection(optionId);
     onSelection(label, optionId);
   };
 
@@ -19,7 +26,7 @@ export const CustomSelect = ({
     <select
       className={classes.box}
       onChange={handleChange}
-      value={currentSeller}
+      value={currentSelection || ""}
     >
       <option value="" className={classes.box__option}>
         Select {label}

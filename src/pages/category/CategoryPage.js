@@ -7,7 +7,6 @@ import {
   useGetCategoryListQuery,
 } from "../../services/categoryApiSlice";
 import {
-  clearFilters,
   selectCategoryState,
   setCategory,
 } from "../../store/categorySlice";
@@ -15,7 +14,6 @@ import { TablePage } from "./TablePage";
 import { FiltersPage } from "../filters/FiltersPage";
 import classes from "./categoryPage.module.css";
 import { CategoryPageSkeleton } from "../../component/skeleton/CategoryPageSkeleton";
-import { toast } from "react-toastify";
 
 export const CategoryPage = () => {
   const dispatch = useDispatch();
@@ -25,14 +23,16 @@ export const CategoryPage = () => {
 
   const appliedFilters = useSelector(selectCategoryState);
 
-  const { isSuccess, error } = useGetCategoryListQuery(appliedFilters, {
-    skip: !appliedFilters.category,
-  });
+  const { isLoading, isSuccess, error } = useGetCategoryListQuery(
+    appliedFilters,
+    {
+      skip: !appliedFilters.category,
+    }
+  );
   const tableData = useSelector(selectCategoryList);
 
   useEffect(() => {
     dispatch(setCategory({ category }));
-    dispatch(clearFilters());
   }, [category, dispatch]);
 
   return isSuccess ? (
