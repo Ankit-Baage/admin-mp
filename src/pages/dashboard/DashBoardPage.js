@@ -6,10 +6,14 @@ import { Header } from "../../component/header/Header";
 import { SideBar } from "../../component/sideBar/SideBar";
 import classes from "./dashboard.module.css";
 import { getExpirationDuration } from "../../utils/getExpirationDuration";
+import { useUserProfileQuery } from "../../services/authApiSlice";
 
 export const DashBoardPage = () => {
   const navigate = useNavigate();
   const token = Cookies.get("token");
+
+ 
+
 
   useEffect(() => {
     if (!token) {
@@ -39,9 +43,8 @@ export const DashBoardPage = () => {
     <div className={classes.container}>
       <Header />
       <div className={classes.container__outlet}>
-        <SideBar />
+        <SideBar  />
         <div className={classes.container__outlet__box}>
-         
           <Outlet />
         </div>
       </div>
