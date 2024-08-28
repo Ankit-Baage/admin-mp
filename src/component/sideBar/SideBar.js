@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
-import profile from "../../assets/profile_pic.png";
 import dashboard from "../../assets/home.svg";
 import prexo from "../../assets/prexo.svg";
 import vrp from "../../assets/vrp.svg";
@@ -28,7 +27,8 @@ const categories = [
     path: "new_phones",
   },
   { id: "prexo", image: prexo, name: "PREXO", path: "prexo" },
-  { id: "openBox", image: openBox, name: "OPEN-BOX", path: "openBox" },
+  { id: "openBox", image: openBox, name: "OPEN-BOX", path: "open_box" },
+  { id: "advertisement", image: openBox, name: "ADVERTISEMENT", path: "advertisement" },
 ];
 
 const contacts = [

@@ -9,6 +9,8 @@ import { ActionModal } from "./component/actionModal/ActionModal";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import PriorityModal from "./component/priorityModal/PriorityModal";
+import { AdvertisementActionModal } from "./component/advertisementActionModal/AdvertisementActionModal";
+import { ImagePreview } from "./component/imagePreview/ImagePreview";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,6 +18,8 @@ root.render(
     <Provider store={store}>
       <PriorityModal />
       <ActionModal />
+      <AdvertisementActionModal />
+      <ImagePreview />
       <App />
       <ToastContainer
         autoClose={2000}

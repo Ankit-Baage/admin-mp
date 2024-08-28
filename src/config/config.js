@@ -8,3 +8,7 @@ export const spares = "/spares";
 export const newPhones = "/new_phones";
 export const login = "/login";
 
+const uploadImageEndPoint = "upload?file_name=hmmm.zip";
+
+export const uploadImageUrl = `${baseUrl}${version}${mode}/accounts/${uploadImageEndPoint}`;
+

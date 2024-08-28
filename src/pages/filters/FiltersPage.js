@@ -18,7 +18,7 @@ import classes from "./filterPage.module.css";
 import { useSearchParams } from "react-router-dom";
 import { onOpen } from "../../store/priorityModalSlice";
 import { CustomSelect } from "../../component/customSelect/CustomSelect";
-import { clear } from "@testing-library/user-event/dist/clear";
+
 
 export const FiltersPage = () => {
   const [appliedFilters, setAppliedFilters] = useState({

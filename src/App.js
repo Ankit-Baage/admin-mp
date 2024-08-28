@@ -9,6 +9,7 @@ import {
 import { CategoryPage } from "./pages/category/CategoryPage";
 import { ErrorPage } from "./pages/error/ErrorPage";
 import { RootLayout } from "./pages/RootLayout";
+import { AdvertisementPage } from "./pages/advertisement/AdvertisementPage";
 
 const router = createBrowserRouter([
   // { path: "/", element: <LoginPage /> },
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <HomePage /> },
           { path: ":category", element: <CategoryPage /> },
+          { path: "advertisement", element: <AdvertisementPage /> },
         ],
       },
     ],

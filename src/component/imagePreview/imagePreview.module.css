@@ -1,0 +1,42 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+
+.box {
+  position: fixed;
+  top: 50%;
+  left: 40%;
+  right: 20%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  padding: 4px;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  z-index: 11;
+}
+.box__img {
+  display: block;
+  width:100%;
+  height: 100%;
+}
+
+
+.box__btn {
+  background-image: url(../../assets/close-circle.svg);
+  width: 24px;
+  height: 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  right: 0;
+  top:0;
+  cursor: pointer;
+}
