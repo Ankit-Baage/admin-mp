@@ -33,6 +33,7 @@ export const AdvertisementActionModal = () => {
   );
 
   const [selectedValues, setSelectedValues] = useState({
+    sequence: null,
     category: null,
     page: null,
     url: null,
@@ -75,12 +76,13 @@ export const AdvertisementActionModal = () => {
     } else if (modalData?.action === "Add") {
       try {
         await addAdvertisement({
+          sequence: selectedValues.sequence,
           category: selectedValues.category,
           page: selectedValues.page,
           url: selectedValues.url,
-          mediaType: selectedValues.mediaType
+          mediaType: selectedValues.mediaType,
         }).unwrap();
-        console.log(selectedValues)
+        console.log(selectedValues);
         handleClose();
       } catch (err) {
         console.error("Failed to delete advertisement:", err);
@@ -139,10 +141,23 @@ export const AdvertisementActionModal = () => {
               onChange={(itemId) => handleSelectChange("mediaType", itemId)}
             />
             <FileUploadInput
-              label="Upload Image"
+              label="Upload Media"
               urlWithExt={modalData?.urlLabel}
               onChange={(url) => handleSelectChange("url", url)}
             />
+            <div className={classes.form__group__seq}>
+              <input
+                type="number"
+                id="sequence"
+                className={classes.form__field}
+                placeholder="Sequence"
+                defaultValue={modalData?.sequence}
+                required
+              />
+              <label htmlFor="sequence" className={classes.form__label}>
+                Sequence
+              </label>
+            </div>
           </div>
 
           <div className={classes.buttonGroup}>
@@ -151,7 +166,7 @@ export const AdvertisementActionModal = () => {
               className={classes.buttonGroup__cancel}
               onClick={handleClose}
             >
-              cancel
+              Cancel
             </button>
             <button type="submit" className={classes.buttonGroup__submit}>
               {modalData?.action}

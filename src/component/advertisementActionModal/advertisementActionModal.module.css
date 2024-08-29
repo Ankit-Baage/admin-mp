@@ -49,21 +49,60 @@
 
 }
 
-textarea.form__field {
-  width: 100%;
-  min-height: 80px;
-  padding: 8px;
-  font-size: 12px;
-  resize: none;
-  border: 1px solid #E6E6E6;
-  border-radius: 4px;
-  color: #808080;
-  background-color: #F7F7F7;
-  line-height: 16px;
-  font-weight: 500;
-  font-family: "Poppins", sans;
-  padding: 12px;
+
+.form__group__seq {
+  position: relative;
+  padding: 16px 0 0;
 }
+
+.form__field {
+  width: 100%;
+  color: #808080;
+  font-size: 14px;
+  line-height: 14px;
+  border: 1px solid #E6E6E6;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  font-family: "Poppins", sans;
+  padding: 8px 4px 4px;
+  background: transparent;
+}
+
+.form__field::placeholder {
+  color: transparent;
+}
+
+.form__field:placeholder-shown~.form__label {
+  font-size: 14px;
+  cursor: text;
+  top: 24px;
+}
+
+.form__label {
+  font-family: "Poppins", sans;
+  color: #808080;
+  font-size: 14px;
+  line-height: 14px;
+  left: 8px;
+  padding: 0 8px;
+}
+
+.form__label,
+.form__field:focus~.form__label {
+  position: absolute;
+  top: 10px;
+  display: block;
+  transition: 0.2s;
+  font-size: 14px;
+  color: #808080;
+  background-color: #ffff;
+}
+
+.form__field:focus~.form__label {
+  color: #808080;
+}
+
+
 
 
 
@@ -99,4 +138,3 @@ textarea.form__field {
   border-radius: 4px;
   cursor: pointer;
 }
-

@@ -28,6 +28,7 @@ export const AdvertisementCustomSelect = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
+      required
     >
       <option value="" className={classes.box__option}>
         {label}

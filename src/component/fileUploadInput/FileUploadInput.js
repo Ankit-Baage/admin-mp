@@ -36,6 +36,7 @@ export const FileUploadInput = ({ id, label, urlWithExt, onChange }) => {
             id={id}
             className={classes.form__field__upload}
             onChange={fileUpload}
+            required
           />
         </label>
 
