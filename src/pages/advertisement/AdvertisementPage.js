@@ -5,21 +5,17 @@ import {
   selectAdvertisementList,
   useGetAdvertisementListQuery,
 } from "../../services/advertisementApiSlice";
-import { FiltersPage } from "../filters/FiltersPage";
-import { TablePage } from "../category/TablePage";
 import { CategoryPageSkeleton } from "../../component/skeleton/CategoryPageSkeleton";
-import classes from "./advertisementPage.module.css"
+import classes from "./advertisementPage.module.css";
 import { AdvertisementFilterPage } from "./advertisementFilter/AdvertisementFilterPage";
 import { AdvertisementTablePage } from "./advertisementTable/AdvertisementTablePage";
 
 export const AdvertisementPage = () => {
-  const dispatch = useDispatch();
   const appliedFilters = useSelector(selectAdvertisementState);
 
-  const { isLoading, isSuccess, error } =
-    useGetAdvertisementListQuery(appliedFilters);
+  const { isSuccess } = useGetAdvertisementListQuery(appliedFilters);
   const tableData = useSelector(selectAdvertisementList);
-  console.log(tableData)
+  console.log(tableData);
   return isSuccess ? (
     <div className={classes.box}>
       <AdvertisementFilterPage />

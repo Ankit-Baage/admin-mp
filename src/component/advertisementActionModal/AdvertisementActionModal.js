@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import {
@@ -21,6 +22,7 @@ import {
   useDeleteAdvertisementListMutation,
   useUpdateAdvertisementListMutation,
 } from "../../services/updateAdvertisementSlice";
+import { toast } from "react-toastify";
 
 const medias = [
   { id: "image", itemLabel: "image" },
@@ -32,75 +34,88 @@ export const AdvertisementActionModal = () => {
     selectAdvertisementActionModalState
   );
 
-  const [selectedValues, setSelectedValues] = useState({
-    sequence: null,
-    category: null,
-    page: null,
-    url: null,
-    mediaType: null,
+  const { register, handleSubmit, control, reset, formState } = useForm({
+    defaultValues: {
+      sequence: "",
+      category: "",
+      page: "",
+      url: "",
+      media_type: "",
+    },
   });
+
+  const { isDirty, isValid, isSubmitting } = formState;
+
+  const dispatch = useDispatch();
 
   const { isSuccess: moduleSuccess } = useGetModuleListQuery();
   const moduleList = useSelector(selectModuleList);
   const { isSuccess: pageSuccess } = useGetPageListQuery();
   const pageList = useSelector(selectPageList);
-  const dispatch = useDispatch();
 
   const [updateAdvertisementList] = useUpdateAdvertisementListMutation();
   const [deleteAdvertisementList] = useDeleteAdvertisementListMutation();
   const [addAdvertisement] = useAddAdvertisementMutation();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (modalData) {
+      reset({
+        sequence: modalData?.sequence,
+        category: modalData?.category,
+        page: modalData?.page,
+        url: modalData?.url,
+        media_type: modalData?.media_type,
+      });
+    }
+  }, [modalData, reset]);
+
+  const submitHandler = async (formData) => {
     if (modalData?.action === "Update") {
+      const advertisementData = {
+        sequence: formData.sequence,
+        category: formData.category,
+        page: formData.page,
+        url: formData.url,
+        media_type: formData.media_type,
+      };
       try {
-        await updateAdvertisementList({
+        const response = await updateAdvertisementList({
           id: modalData.id,
-          sequence: modalData.sequence,
-          category: selectedValues.category,
-          page: selectedValues.page,
-          url: selectedValues.url,
-          mediaType: selectedValues.mediaType,
+          ...advertisementData,
         }).unwrap();
+        toast.success(response.message.displayMessage);
         handleClose();
       } catch (err) {
         console.error("Failed to update advertisement:", err);
+        toast.error(err.data.message.displayMessage);
       }
     } else if (modalData?.action === "Delete") {
       try {
-        await deleteAdvertisementList({ id: modalData.id }).unwrap();
+        const response = await deleteAdvertisementList({
+          id: modalData.id,
+        }).unwrap();
+        toast.success(response.message.displayMessage);
         handleClose();
       } catch (err) {
         console.error("Failed to delete advertisement:", err);
+        toast.error(err.data.message.displayMessage);
       }
     } else if (modalData?.action === "Add") {
       try {
-        await addAdvertisement({
-          sequence: selectedValues.sequence,
-          category: selectedValues.category,
-          page: selectedValues.page,
-          url: selectedValues.url,
-          mediaType: selectedValues.mediaType,
-        }).unwrap();
-        console.log(selectedValues);
+        const response = await addAdvertisement({ ...formData }).unwrap();
+        toast.success(response.message.displayMessage);
         handleClose();
       } catch (err) {
-        console.error("Failed to delete advertisement:", err);
+        console.error("Failed to add advertisement:", err);
+        toast.error(err.data.message.displayMessage);
       }
     }
-  };
-  const handleSelectChange = (field, itemId) => {
-    setSelectedValues((prevState) => ({
-      ...prevState,
-      [field]: itemId,
-    }));
   };
 
   const handleClose = () => {
     dispatch(onClose());
   };
 
-  console.log(modalData ? modalData : null);
   return isOpen ? (
     <motion.div
       onClick={handleClose}
@@ -117,42 +132,67 @@ export const AdvertisementActionModal = () => {
         exit={{ opacity: 0, y: 30 }}
         transition={{ duration: 0.5 }}
       >
-        <form onSubmit={handleSubmit} className={classes.form}>
+        <form onSubmit={handleSubmit(submitHandler)} className={classes.form}>
           <h3 className={classes.form__title}>
             {modalData?.action} Advertisement
           </h3>
           <div className={classes.form__group}>
-            <AdvertisementCustomSelect
-              optionData={moduleList}
-              label="Module"
-              selectedId={modalData?.category}
-              onChange={(itemId) => handleSelectChange("category", itemId)}
+            <Controller
+              name="category"
+              control={control}
+              render={({ field }) => (
+                <AdvertisementCustomSelect
+                  {...field}
+                  optionData={moduleList}
+                  label="Module"
+                  onChange={(itemId) => field.onChange(itemId)}
+                />
+              )}
             />
-            <AdvertisementCustomSelect
-              optionData={pageList}
-              label="Page"
-              selectedId={modalData?.page}
-              onChange={(itemId) => handleSelectChange("page", itemId)}
+            <Controller
+              name="page"
+              control={control}
+              render={({ field }) => (
+                <AdvertisementCustomSelect
+                  {...field}
+                  optionData={pageList}
+                  label="Page"
+                  onChange={(itemId) => field.onChange(itemId)}
+                />
+              )}
             />
-            <AdvertisementCustomSelect
-              optionData={medias}
-              label="Media Type"
-              selectedId={modalData?.mediaType}
-              onChange={(itemId) => handleSelectChange("mediaType", itemId)}
+            <Controller
+              name="media_type"
+              control={control}
+              render={({ field }) => (
+                <AdvertisementCustomSelect
+                  {...field}
+                  optionData={medias}
+                  label="Media Type"
+                  onChange={(itemId) => field.onChange(itemId)}
+                />
+              )}
             />
-            <FileUploadInput
-              label="Upload Media"
-              urlWithExt={modalData?.urlLabel}
-              onChange={(url) => handleSelectChange("url", url)}
+            <Controller
+              name="url"
+              control={control}
+              render={({ field }) => (
+                <FileUploadInput
+                  {...field}
+                  label="Upload Media"
+                  urlWithExt={modalData?.urlLabel}
+                  onChange={(itemId) => field.onChange(itemId)}
+                />
+              )}
             />
             <div className={classes.form__group__seq}>
               <input
-                type="number"
                 id="sequence"
+                name="sequence"
+                type="number"
                 className={classes.form__field}
                 placeholder="Sequence"
-                defaultValue={modalData?.sequence}
-                required
+                {...register("sequence", { required: true })}
               />
               <label htmlFor="sequence" className={classes.form__label}>
                 Sequence
@@ -168,7 +208,19 @@ export const AdvertisementActionModal = () => {
             >
               Cancel
             </button>
-            <button type="submit" className={classes.buttonGroup__submit}>
+            <button
+              type="submit"
+              className={`${classes.buttonGroup__submit} ${
+                (modalData?.action === "Update" && isDirty &isValid) ||
+                (modalData?.action === "Add" && isValid)
+                  ? classes.isActive
+                  : ""
+              }`}
+              disabled={
+                (modalData?.action === "Update" && !isDirty && !isValid) ||
+                (modalData?.action === "Add" && !isValid)
+              }
+            >
               {modalData?.action}
             </button>
           </div>

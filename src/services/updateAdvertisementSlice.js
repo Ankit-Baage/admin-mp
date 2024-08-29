@@ -3,7 +3,7 @@ import { apiSlice } from "./apiSlice";
 export const advertisementSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     updateAdvertisementList: builder.mutation({
-      query: ({ id, sequence, category, page, url, mediaType }) => ({
+      query: ({ id, sequence, category, page, url, media_type }) => ({
         url: `advertisement`,
         method: "PUT",
         body: {
@@ -12,7 +12,7 @@ export const advertisementSlice = apiSlice.injectEndpoints({
           category,
           page,
           url,
-          mediaType,
+          media_type,
         },
       }),
       onQueryStarted: async (
@@ -32,7 +32,7 @@ export const advertisementSlice = apiSlice.injectEndpoints({
                   advertisement.category = data.category;
                   advertisement.page = data.page;
                   advertisement.url = data.url;
-                  advertisement.mediaType = data.mediaType;
+                  advertisement.media_type = data.media_type;
                 }
               }
             )
@@ -71,7 +71,7 @@ export const advertisementSlice = apiSlice.injectEndpoints({
       ],
     }),
     addAdvertisement: builder.mutation({
-      query: ({ sequence, category, page, url, mediaType }) => ({
+      query: ({ sequence, category, page, url, media_type }) => ({
         url: `advertisement`,
         method: "POST",
         body: {
@@ -79,11 +79,11 @@ export const advertisementSlice = apiSlice.injectEndpoints({
           category,
           page,
           url,
-          mediaType,
+          media_type,
         },
       }),
       onQueryStarted: async (
-        { sequence, category, page, url, mediaType },
+        { sequence, category, page, url, media_type },
         { dispatch, queryFulfilled }
       ) => {
         try {

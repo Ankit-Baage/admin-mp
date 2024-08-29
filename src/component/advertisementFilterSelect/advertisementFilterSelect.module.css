@@ -1,0 +1,26 @@
+.box {
+  font-family: "Poppins", sans;
+  color: #808080;
+  font-size: 14px;
+  line-height: 14px;
+  border: 1px solid #E6E6E6;
+  border-radius: 4px;
+  padding: 4px;
+  width:156px;
+  cursor: pointer;
+  background-color: #F7F7F7;
+  width: 100%;
+}
+
+
+.box__option {
+  font-family: "Poppins", sans;
+  color: #808080;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+
+.box__option:checked {
+  background-color: #E6E6E6;
+}

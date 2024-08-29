@@ -44,7 +44,7 @@ export const moduleListSlice = apiSlice.injectEndpoints({
             itemLabel,
           };
         });
-        console.log(loadedModuleList);
+        console.log("moduleList: ",loadedModuleList);
         return moduleListAdapter.setAll(initialState, loadedModuleList);
       },
       providesTags: (result, error, arg) => {

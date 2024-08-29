@@ -18,6 +18,7 @@ import {
   setAdvertisementFilters,
 } from "../../../store/advertisementFilterSlice";
 import { onOpen } from "../../../store/advertisementActionModalSlice";
+import { AdvertisementFilterSelect } from "../../../component/advertisementFilterSelect/AdvertisementFilterSelect";
 
 export const AdvertisementFilterPage = () => {
   const [appliedFilters, setAppliedFilters] = useState({
@@ -62,16 +63,16 @@ export const AdvertisementFilterPage = () => {
     setSearchParams(searchParams);
     dispatch(setAdvertisementFilters(appliedFilters));
   };
-  const handleAdd = (rowData, action) => {
+  const handleAdd = () => {
     dispatch(
       onOpen({
-        action:"Add",
-        category: null,
-        categoryLabel: null,
-        page: null,
-        url: null,
-        mediaType: null,
-        urlLabel: null,
+        action :"Add",
+        category: "",
+        categoryLabel: "",
+        page: "",
+        url: "",
+        media_type: "",
+        urlLabel: "",
       })
     );
   };
@@ -93,13 +94,13 @@ export const AdvertisementFilterPage = () => {
   return (
     <div className={classes.box}>
       <div className={classes.box__filter}>
-        <AdvertisementCustomSelect
+        <AdvertisementFilterSelect
           optionData={moduleList}
           label="Module"
           selectedId={advertisementFilter.category}
           onChange={(itemId) => handleSelection("category", itemId)}
         />
-        <AdvertisementCustomSelect
+        <AdvertisementFilterSelect
           optionData={pageList}
           label="Page"
           selectedId={advertisementFilter.page}

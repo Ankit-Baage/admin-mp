@@ -23,7 +23,7 @@ export const AdvertisementTablePage = ({ data }) => {
           categoryLabel: rowData.categoryLabel,
           page: rowData.page,
           url: rowData.url,
-          mediaType: rowData.media_type,
+          media_type: rowData.media_type,
           urlLabel: rowData.urlLabel,
           sequence: rowData.sequence,
         })

@@ -5,15 +5,15 @@ const advertisementActionModalSlice = createSlice({
   initialState: {
     isOpen: false,
     modalData: {
-      id: null,
-      action: null,
-      category: null,
-      categoryLabel: null,
-      page: null,
-      url: null,
-      mediaType: null,
-      urlLabel: null,
-      sequence: null,
+      id: "",
+      action: "",
+      category: "",
+      categoryLabel: "",
+      page: "",
+      url: "",
+      media_type: "",
+      urlLabel: "",
+      sequence: "",
     },
   },
   reducers: {
@@ -26,7 +26,7 @@ const advertisementActionModalSlice = createSlice({
         categoryLabel: action.payload.categoryLabel,
         page: action.payload.page,
         url: action.payload.url,
-        mediaType: action.payload.mediaType,
+        media_type: action.payload.media_type,
         urlLabel: action.payload.urlLabel,
         sequence: action.payload.sequence,
       };
@@ -34,15 +34,15 @@ const advertisementActionModalSlice = createSlice({
     onClose: (state) => {
       state.isOpen = false;
       state.modalData = {
-        id: null,
-        action: null,
-        category: null,
-        categoryLabel: null,
-        page: null,
-        url: null,
-        mediaType: null,
-        urlLabel: null,
-        sequence: null,
+        id: "",
+        action: "",
+        category: "",
+        categoryLabel: "",
+        page: "",
+        url: "",
+        media_type: "",
+        urlLabel: "",
+        sequence: "",
       };
     },
     updateUrlAndLabel: (state, action) => {
@@ -52,7 +52,8 @@ const advertisementActionModalSlice = createSlice({
   },
 });
 
-export const { onOpen, onClose, updateUrlAndLabel } = advertisementActionModalSlice.actions;
+export const { onOpen, onClose, updateUrlAndLabel } =
+  advertisementActionModalSlice.actions;
 
 export const selectAdvertisementActionModalState = (state) =>
   state.advertisementActionModal;

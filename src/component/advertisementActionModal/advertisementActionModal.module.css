@@ -133,8 +133,12 @@
   font-weight: 400;
   font-family: "Poppins", sans;
   padding: 12px 44px;
-  ;
-  background-color: #FF6F3F;
+  background-color: #FFD4C5;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.isActive {
+  background-color: #46CD80;
+
 }
