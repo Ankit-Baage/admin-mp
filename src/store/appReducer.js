@@ -5,17 +5,17 @@ import actionModalReducer from "./actionModalSlice";
 import priorityModalReducer from "./priorityModalSlice";
 import advertisementFilterReducer from "./advertisementFilterSlice";
 import advertisementActionModalReducer from "./advertisementActionModalSlice";
-import imagePreviewReducer from "./imagePreviewSlice"
+import mediaPreviewReducer from "./mediaPreviewSlice";
 import { apiSlice } from "../services/apiSlice";
 
 const appReducer = combineReducers({
   auth: authReducer,
   categoryFilter: categoryFilterReducer,
   actionModal: actionModalReducer,
-  advertisementActionModal:advertisementActionModalReducer,
+  advertisementActionModal: advertisementActionModalReducer,
   priorityModal: priorityModalReducer,
   advertisementFilter: advertisementFilterReducer,
-  imagePreview:imagePreviewReducer,
+  mediaPreview: mediaPreviewReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

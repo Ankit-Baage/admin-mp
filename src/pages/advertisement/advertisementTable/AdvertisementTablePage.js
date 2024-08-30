@@ -1,12 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-
 import { useDispatch } from "react-redux";
 
-import { toast } from "react-toastify";
 import { advertisementTableColumnsConfig } from "./advertisementTableColumnDef";
 import { Table } from "../../../component/table/Table";
 import { onOpen } from "../../../store/advertisementActionModalSlice";
-import { openImage } from "../../../store/imagePreviewSlice";
+import { openMedia } from "../../../store/mediaPreviewSlice";
 
 export const AdvertisementTablePage = ({ data }) => {
   const [columnDefs, setColumnDefs] = useState([]);
@@ -35,8 +33,9 @@ export const AdvertisementTablePage = ({ data }) => {
     (rowData) => {
       console.log(rowData);
       dispatch(
-        openImage({
+        openMedia({
           url: rowData.url,
+          media_type: rowData.media_type
         })
       );
     },

@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
@@ -10,7 +9,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import PriorityModal from "./component/priorityModal/PriorityModal";
 import { AdvertisementActionModal } from "./component/advertisementActionModal/AdvertisementActionModal";
-import { ImagePreview } from "./component/imagePreview/ImagePreview";
+import { MediaPreview } from "./component/mediaPreview/MediaPreview";
+import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,7 +19,7 @@ root.render(
       <PriorityModal />
       <ActionModal />
       <AdvertisementActionModal />
-      <ImagePreview />
+      <MediaPreview />
       <App />
       <ToastContainer
         autoClose={2000}

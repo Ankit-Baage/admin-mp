@@ -44,7 +44,7 @@ export const AdvertisementActionModal = () => {
     },
   });
 
-  const { isDirty, isValid, isSubmitting } = formState;
+  const { isDirty, isValid } = formState;
 
   const dispatch = useDispatch();
 
@@ -211,13 +211,15 @@ export const AdvertisementActionModal = () => {
             <button
               type="submit"
               className={`${classes.buttonGroup__submit} ${
-                (modalData?.action === "Update" && isDirty &isValid) ||
-                (modalData?.action === "Add" && isValid)
+                modalData?.action === "Delete"
+                  ? classes.delete
+                  : (modalData?.action === "Update" && isDirty && isValid ) ||
+                    (modalData?.action === "Add" && isValid)
                   ? classes.isActive
                   : ""
               }`}
               disabled={
-                (modalData?.action === "Update" && !isDirty && !isValid) ||
+                (modalData?.action === "Update" && (!isDirty || !isValid)) ||
                 (modalData?.action === "Add" && !isValid)
               }
             >
