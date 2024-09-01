@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { CustomSelect } from "../../../component/customSelect/CustomSelect";
+import React, { useEffect, useState } from "react";
+
 import { useSearchParams } from "react-router-dom";
 
 import classes from "./advertisementFilterPage.module.css";
-import { AdvertisementCustomSelect } from "../../../component/advertisementSelect/AdvertisementSelect";
 import {
   selectModuleList,
   useGetModuleListQuery,
@@ -17,8 +16,10 @@ import {
   selectAdvertisementState,
   setAdvertisementFilters,
 } from "../../../store/advertisementFilterSlice";
-import { onOpen } from "../../../store/advertisementActionModalSlice";
+
 import { AdvertisementFilterSelect } from "../../../component/advertisementFilterSelect/AdvertisementFilterSelect";
+import { onOpen } from "../../../store/advertisementActionModalSlice";
+
 
 export const AdvertisementFilterPage = () => {
   const [appliedFilters, setAppliedFilters] = useState({

@@ -49,6 +49,67 @@
 
 }
 
+.form__group__box {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+
+}
+
+.form__field__upload__title {
+  font-size: 12px;
+  color: #808080;
+  font-family: "Poppins", sans;
+  font-weight: 400;
+  padding-bottom: 4px;
+
+}
+
+.form__group__upload {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+  border: 1px dashed #E6E6E6;
+  padding: 4px;
+}
+
+
+
+
+.form__field__upload__label {
+  display: block;
+  width: 111px;
+  height: 24px;
+  background-image: url("../../assets//upload.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+  cursor: pointer;
+
+}
+
+
+.form__field__upload {
+  display: none;
+
+}
+
+.form__group__upload {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.uploadedUrl {
+  font-size: 10px;
+  color: #808080;
+  font-family: "Poppins", sans;
+  font-weight: 400;
+  word-break: break-all;
+}
+
 
 .form__group__seq {
   position: relative;

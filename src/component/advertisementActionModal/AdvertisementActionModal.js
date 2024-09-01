@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
@@ -33,13 +33,16 @@ export const AdvertisementActionModal = () => {
   const { isOpen, modalData } = useSelector(
     selectAdvertisementActionModalState
   );
+  const [uploadedImage, setUploadedImage] = useState({
+    url: modalData?.url,
+    urlLabel: modalData?.urlLabel,
+  });
 
   const { register, handleSubmit, control, reset, formState } = useForm({
     defaultValues: {
       sequence: "",
       category: "",
       page: "",
-      url: "",
       media_type: "",
     },
   });
@@ -63,26 +66,40 @@ export const AdvertisementActionModal = () => {
         sequence: modalData?.sequence,
         category: modalData?.category,
         page: modalData?.page,
-        url: modalData?.url,
         media_type: modalData?.media_type,
       });
     }
   }, [modalData, reset]);
 
+  useEffect(() => {
+    setUploadedImage({
+      url: modalData?.url,
+      urlLabel: modalData?.urlLabel,
+    });
+  }, [modalData?.url, modalData?.urlLabel]);
+
+  const handleChange = (imageUrl) => {
+    const urlParts = imageUrl.split("/");
+    const urlLabelWithExt = urlParts[urlParts.length - 1];
+    console.log(imageUrl);
+    setUploadedImage({ url: imageUrl, urlLabel: urlLabelWithExt });
+  };
+
   const submitHandler = async (formData) => {
     if (modalData?.action === "Update") {
       const advertisementData = {
+        id: modalData.id,
         sequence: formData.sequence,
         category: formData.category,
         page: formData.page,
-        url: formData.url,
+        url: uploadedImage.url,
         media_type: formData.media_type,
       };
       try {
-        const response = await updateAdvertisementList({
-          id: modalData.id,
-          ...advertisementData,
-        }).unwrap();
+        console.log(advertisementData);
+        const response = await updateAdvertisementList(
+          advertisementData
+        ).unwrap();
         toast.success(response.message.displayMessage);
         handleClose();
       } catch (err) {
@@ -102,7 +119,7 @@ export const AdvertisementActionModal = () => {
       }
     } else if (modalData?.action === "Add") {
       try {
-        const response = await addAdvertisement({ ...formData }).unwrap();
+        const response = await addAdvertisement({ ...formData, url:uploadedImage.url }).unwrap();
         toast.success(response.message.displayMessage);
         handleClose();
       } catch (err) {
@@ -173,18 +190,7 @@ export const AdvertisementActionModal = () => {
                 />
               )}
             />
-            <Controller
-              name="url"
-              control={control}
-              render={({ field }) => (
-                <FileUploadInput
-                  {...field}
-                  label="Upload Media"
-                  urlWithExt={modalData?.urlLabel}
-                  onChange={(itemId) => field.onChange(itemId)}
-                />
-              )}
-            />
+
             <div className={classes.form__group__seq}>
               <input
                 id="sequence"
@@ -198,6 +204,11 @@ export const AdvertisementActionModal = () => {
                 Sequence
               </label>
             </div>
+            <FileUploadInput
+              urlWithExt={uploadedImage.urlLabel}
+              url={uploadedImage.url}
+              onSelection={(imageUrl) => handleChange(imageUrl)}
+            />
           </div>
 
           <div className={classes.buttonGroup}>
@@ -213,7 +224,7 @@ export const AdvertisementActionModal = () => {
               className={`${classes.buttonGroup__submit} ${
                 modalData?.action === "Delete"
                   ? classes.delete
-                  : (modalData?.action === "Update" && isDirty && isValid ) ||
+                  : (modalData?.action === "Update" && isDirty && isValid) ||
                     (modalData?.action === "Add" && isValid)
                   ? classes.isActive
                   : ""

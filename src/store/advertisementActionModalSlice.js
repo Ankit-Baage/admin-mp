@@ -46,8 +46,11 @@ const advertisementActionModalSlice = createSlice({
       };
     },
     updateUrlAndLabel: (state, action) => {
-      state.modalData.url = action.payload.url;
-      state.modalData.urlLabel = action.payload.urlLabel;
+      state.modalData = {
+        ...state.modalData, 
+        url: action.payload.url,
+        urlLabel: action.payload.urlLabel,
+      };
     },
   },
 });

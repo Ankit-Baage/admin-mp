@@ -1,6 +1,3 @@
-import axios from "axios";
-
-
 import { uploadImageUrl } from "../config/config";
 import axiosInstance from "../axios/axiosTokenMiddleware";
 

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { advertisementTableColumnsConfig } from "./advertisementTableColumnDef";
 import { Table } from "../../../component/table/Table";
-import { onOpen } from "../../../store/advertisementActionModalSlice";
+import {  onOpen, setIsOpen } from "../../../store/advertisementActionModalSlice";
 import { openMedia } from "../../../store/mediaPreviewSlice";
 
 export const AdvertisementTablePage = ({ data }) => {
@@ -12,7 +12,7 @@ export const AdvertisementTablePage = ({ data }) => {
   const dispatch = useDispatch();
   const handleOpenModal = useCallback(
     (rowData, action) => {
-      console.log(rowData);
+      // Step 1: Update modalData
       dispatch(
         onOpen({
           id: rowData.id,
@@ -29,6 +29,7 @@ export const AdvertisementTablePage = ({ data }) => {
     },
     [dispatch]
   );
+  
   const handleOpenView = useCallback(
     (rowData) => {
       console.log(rowData);
