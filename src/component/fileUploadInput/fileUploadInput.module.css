@@ -2,11 +2,12 @@
 
 .form__group__upload {
   display: flex;
-  justify-content: space-between;
+  column-gap: 8px;
   align-items: center;
   border-radius: 4px;
-  border: 1px dashed #E6E6E6;
+  border: 1px dashed #00A267;
   padding: 4px;
+  background-color: #EDFEF8;
 }
 
 .form__field__upload__title {
@@ -29,15 +30,27 @@
 
 
 .form__field__upload__label {
-  display: block;
-  width: 111px;
-  height: 24px;
-  background-image: url("../../assets//upload.svg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  display: flex;
+  column-gap: 8px;
+  align-items: center;
+  background-color:#00A267;
   border-radius: 4px;
   cursor: pointer;
+  padding: 4px 8px;
+
+}
+.upload__img {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+.upload__label {
+  width: max-content;
+  font-size: 12px;
+  color: #FFFFFF;
+  font-family: "Poppins", sans;
+  font-weight: 400;
 
 }
 
