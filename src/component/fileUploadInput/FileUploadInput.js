@@ -39,6 +39,7 @@ export const FileUploadInput = ({ urlWithExt, url, onSelection }) => {
             id="url"
             className={classes.form__field__upload}
             onChange={fileUpload}
+            required
           />
         </label>
         <span className={classes.uploadedUrl}>{urlWithExt}</span>

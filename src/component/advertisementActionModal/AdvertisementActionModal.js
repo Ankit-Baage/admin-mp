@@ -119,7 +119,10 @@ export const AdvertisementActionModal = () => {
       }
     } else if (modalData?.action === "Add") {
       try {
-        const response = await addAdvertisement({ ...formData, url:uploadedImage.url }).unwrap();
+        const response = await addAdvertisement({
+          ...formData,
+          url: uploadedImage.url,
+        }).unwrap();
         toast.success(response.message.displayMessage);
         handleClose();
       } catch (err) {
@@ -224,14 +227,19 @@ export const AdvertisementActionModal = () => {
               className={`${classes.buttonGroup__submit} ${
                 modalData?.action === "Delete"
                   ? classes.delete
-                  : (modalData?.action === "Update" && isDirty && isValid) ||
-                    (modalData?.action === "Add" && isValid)
+                  : (modalData?.action === "Update" &&
+                      isValid &&
+                      uploadedImage.urlLabel) ||
+                    (modalData?.action === "Add" &&
+                      isValid &&
+                      uploadedImage.urlLabel)
                   ? classes.isActive
                   : ""
               }`}
               disabled={
-                (modalData?.action === "Update" && (!isDirty || !isValid)) ||
-                (modalData?.action === "Add" && !isValid)
+                (modalData?.action === "Update" &&
+                  (!isDirty || (!isValid && !uploadedImage.url))) ||
+                (modalData?.action === "Add" && !isValid && !uploadedImage.url)
               }
             >
               {modalData?.action}
