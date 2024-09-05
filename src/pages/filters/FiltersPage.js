@@ -5,7 +5,6 @@ import {
   useGetSellerListQuery,
 } from "../../services/sellerApiSlice";
 import {
-  clearFilters,
   selectCategoryState,
   setFilters,
 } from "../../store/categorySlice";

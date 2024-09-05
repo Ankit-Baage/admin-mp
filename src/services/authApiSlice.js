@@ -14,9 +14,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
           const { auth_token, expiry_timestamp } = data.data;
-          console.log(auth_token)
-          Cookies.set("token",auth_token, );
-          Cookies.set("expirationTime",expiry_timestamp, );
+          console.log(auth_token);
+          Cookies.set("token", auth_token);
+          Cookies.set("expirationTime", expiry_timestamp);
         } catch (err) {
           console.error("Login failed:", err);
         }
@@ -31,6 +31,20 @@ export const authApiSlice = apiSlice.injectEndpoints({
         } catch (err) {
           console.error("Fetching user profile failed:", err);
         }
+      },
+      transformResponse: (response) => {
+        const id = response.data.id;
+        const name = response.data.name || "A";
+        const firstAlpha = name.slice(0, 1).toUpperCase();
+        const userName = firstAlpha + name.slice(1);
+        const email = response.data.email;
+
+        return {
+          id,
+          firstAlpha,
+          userName,
+          email
+        };
       },
     }),
   }),

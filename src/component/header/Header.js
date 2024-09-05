@@ -1,9 +1,9 @@
 import React from "react";
 import logo from "../../assets/logoWithName.svg";
-import notification from "../../assets/notification.svg";
-import classes from "./header.module.css";
+
 import { useNavigate } from "react-router-dom";
-import { SearchInput } from "../searchInput/SearchInput";
+import classes from "./header.module.css";
+
 
 
 export const Header = ({ isPending }) => {
@@ -18,7 +18,6 @@ export const Header = ({ isPending }) => {
         <div className={classes.container__box__logo}>
           <img src={logo} alt="Logo" className={classes.container__box__img} />
         </div>
-        {/* <SearchInput placeholder="Search..." /> */}
       </div>
     </div>
   );

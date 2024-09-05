@@ -6,7 +6,6 @@ import { Header } from "../../component/header/Header";
 import { SideBar } from "../../component/sideBar/SideBar";
 import classes from "./dashboard.module.css";
 import { getExpirationDuration } from "../../utils/getExpirationDuration";
-import { useUserProfileQuery } from "../../services/authApiSlice";
 
 export const DashBoardPage = () => {
   const navigate = useNavigate();

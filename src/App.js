@@ -10,6 +10,7 @@ import { CategoryPage } from "./pages/category/CategoryPage";
 import { ErrorPage } from "./pages/error/ErrorPage";
 import { RootLayout } from "./pages/RootLayout";
 import { AdvertisementPage } from "./pages/advertisement/AdvertisementPage";
+import { MasterPage } from "./pages/master/MasterPage";
 
 const router = createBrowserRouter([
   // { path: "/", element: <LoginPage /> },
@@ -27,6 +28,14 @@ const router = createBrowserRouter([
           { index: true, element: <HomePage /> },
           { path: ":category", element: <CategoryPage /> },
           { path: "advertisement", element: <AdvertisementPage /> },
+          {
+            path: "masters",
+            element: <MasterPage />,
+            children: [
+              { path: ":category", element: <CategoryPage /> },
+              { path: "master", element: <AdvertisementPage /> },
+            ],
+          },
         ],
       },
     ],
