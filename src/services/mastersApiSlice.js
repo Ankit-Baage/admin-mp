@@ -10,60 +10,53 @@ const initialState = mastersListAdapter.getInitialState();
 export const mastersListSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getMastersList: builder.query({
-      query: ({ category, id, brand, model }) => {
+      query: ({ category, brand, model }) => {
         let queryString = `masters/${category}`;
 
-        // Case for 'vrp' category
-        if (category === "vrp" && id) {
-          queryString += `?vrp_no=${id}`;
-        }
-        // Case for other categories with 'brand'
-        else if (category !== "vrp" && brand) {
-          queryString += `?brand=${brand}`;
-
-          // If 'model' exists, append 'model' as well
-          if (model) {
-            queryString += `&model=${model}`;
-          }
-        }
-        // Case for other categories with only 'model'
-        else if (category !== "vrp" && model) {
-          queryString += `?model=${model}`;
-        }
-        // If only 'id' exists
-        else if (id) {
-          queryString += `?id=${id}`;
+        let queryParams = [];
+        if (brand) queryParams.push(`brand=${brand}`);
+        if (model) queryParams.push(`model=${model}`);
+        if (queryParams.length > 0) {
+          queryString += `?${queryParams.join("&")}`;
         }
 
         return queryString;
       },
+
       transformResponse: (responseData) => {
-        const loadedMastersList = responseData.data;
+        const data = responseData?.data ?? [];
+        const loadedMastersList = data.map((item) => ({
+          ...item,
+          modifiedModel: item.model ? item.model.toUpperCase() : null,
+          modifiedBrand: item.brand ? item.brand.toUpperCase() : null,
+          modifiedColor: item.color?item.color.toUpperCase() : null,
+          modifiedPartName: item["part_name"]
+            ? item.part_name.toUppercase()
+            : null,
+        }));
         console.log(loadedMastersList);
+
         return mastersListAdapter.setAll(initialState, loadedMastersList);
       },
-      providesTags: (result, error, arg) => {
-        if (!result) {
-          return [{ type: "masters", id: "masters" }];
-        }
-        return [
-          { type: "masters", id: "masters" },
-          ...result.ids.map((id) => ({ type: "masters", id })),
-        ];
-      },
+
+      providesTags: (result, error, arg) => [
+        { type: `masters${arg.category}`, id: `masters${arg.category}` },
+        ...(result
+          ? result.ids.map((id) => ({ type: `masters${arg.category}`, id }))
+          : []),
+      ],
     }),
   }),
 });
 
 export const { useGetMastersListQuery } = mastersListSlice;
 
-const mastersFilter = (state) => state.mastersFilter;
+const mastersCategoryFilter = (state) => state.mastersCategoryFilter;
 
 const selectMastersListResult = createSelector(
-  [mastersFilter, (state) => state],
+  [mastersCategoryFilter, (state) => state],
   (filter, state) => {
     const result = mastersListSlice.endpoints.getMastersList.select({
-      id: filter.id,
       category: filter.category,
       brand: filter.brand,
       model: filter.model,

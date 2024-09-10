@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-const mastersFilterSlice = createSlice({
-  name: "mastersFilter",
+
+const mastersCategoryFilterSlice = createSlice({
+  name: "mastersCategoryFilter",
   initialState: {
     category: null,
-    id: null,
     brand: null,
     model: null,
   },
@@ -23,7 +23,8 @@ const mastersFilterSlice = createSlice({
 });
 
 export const { setCategory, setFilters, clearFilters } =
-  mastersFilterSlice.actions;
-export const selectMastersState = (state) => state.mastersFilter;
+  mastersCategoryFilterSlice.actions;
 
-export default mastersFilterSlice.reducer;
+export const selectMastersCategoryFilterState = (state) => state.mastersCategoryFilter;
+
+export default mastersCategoryFilterSlice.reducer;

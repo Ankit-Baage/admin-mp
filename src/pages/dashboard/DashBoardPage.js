@@ -11,9 +11,6 @@ export const DashBoardPage = () => {
   const navigate = useNavigate();
   const token = Cookies.get("token");
 
- 
-
-
   useEffect(() => {
     if (!token) {
       navigate("/");
@@ -42,7 +39,7 @@ export const DashBoardPage = () => {
     <div className={classes.container}>
       <Header />
       <div className={classes.container__outlet}>
-        <SideBar  />
+        <SideBar />
         <div className={classes.container__outlet__box}>
           <Outlet />
         </div>

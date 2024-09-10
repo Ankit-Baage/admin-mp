@@ -1,25 +1,21 @@
 import { createColumnHelper } from "@tanstack/react-table";
+import viewIcon from "../../../assets/view.svg";
 const columnHelper = createColumnHelper();
 
 export const mastersTableColumnsConfig = {
-  vrp: (handleOpenModal, handleOpenView) => [
-    columnHelper.accessor("brand", {
+  spares: (handleVariant) => [
+    columnHelper.accessor("modifiedBrand", {
       header: "Brand",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-    columnHelper.accessor("model", {
+    columnHelper.accessor("modifiedModel", {
       header: "Model",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-    columnHelper.accessor("ram", {
-      header: "Ram",
-      cell: (info) => info.getValue(),
-      footer: (props) => props.column.id,
-    }),
-    columnHelper.accessor("rom", {
-      header: "Rom",
+    columnHelper.accessor("variants_count", {
+      header: "Variant Count",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
@@ -37,131 +33,34 @@ export const mastersTableColumnsConfig = {
         >
           <button
             style={{
-              color: "#46CD80",
-              fontSize: "12px",
-              lineHeight: "12px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
+              width:"64px",
+              height:"22px",
+              backgroundImage: `url(${viewIcon})`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
               padding: "8px",
               border: "none",
               cursor: "pointer",
             }}
-            onClick={() => handleOpenView(props.row.original)}
-          >
-            Approve
-          </button>
-          |
-          <button
-            style={{
-              color: "#FE0000",
-              fontSize: "14px",
-              lineHeight: "14px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenModal(props.row.original, "Delete")}
-          >
-            Reject
-          </button>
+            onClick={() => handleVariant(props.row.original)}
+          ></button>
         </div>
       ),
     }),
   ],
-  spares: (handleOpenModal, handleOpenView) => [
-    columnHelper.accessor("categoryLabel", {
-      header: "Category",
+  new_phones:  (handleVariant) => [
+    columnHelper.accessor("modifiedBrand", {
+      header: "Brand",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-    columnHelper.accessor("page", {
-      header: "Page",
+    columnHelper.accessor("modifiedModel", {
+      header: "Model",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-    columnHelper.accessor("urlLabel", {
-      header: "File Name",
-      cell: (info) => info.getValue(),
-      footer: (props) => props.column.id,
-    }),
-    columnHelper.display({
-      id: "actions",
-      header: <div style={{ textAlign: "center" }}>Action</div>,
-      cell: (props) => (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <button
-            style={{
-              color: "#46CD80",
-              fontSize: "12px",
-              lineHeight: "12px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenView(props.row.original)}
-          >
-            View
-          </button>
-          |
-          <button
-            style={{
-              color: "#FF6F3F",
-              fontSize: "12px",
-              lineHeight: "12px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenModal(props.row.original, "Update")}
-          >
-            Update
-          </button>
-          |
-          <button
-            style={{
-              color: "#FE0000",
-              fontSize: "14px",
-              lineHeight: "14px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenModal(props.row.original, "Delete")}
-          >
-            Delete
-          </button>
-        </div>
-      ),
-    }),
-  ],
-  new_phones: (handleOpenModal, handleOpenView) => [
-    columnHelper.accessor("categoryLabel", {
-      header: "Category",
-      cell: (info) => info.getValue(),
-      footer: (props) => props.column.id,
-    }),
-    columnHelper.accessor("page", {
-      header: "Page",
-      cell: (info) => info.getValue(),
-      footer: (props) => props.column.id,
-    }),
-    columnHelper.accessor("urlLabel", {
-      header: "File Name",
+    columnHelper.accessor("variants_count", {
+      header: "Variant Count",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
@@ -179,69 +78,35 @@ export const mastersTableColumnsConfig = {
         >
           <button
             style={{
-              color: "#46CD80",
-              fontSize: "12px",
-              lineHeight: "12px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
+              width:"64px",
+              height:"22px",
+              backgroundImage: `url(${viewIcon})`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
               padding: "8px",
               border: "none",
               cursor: "pointer",
             }}
-            onClick={() => handleOpenView(props.row.original)}
-          >
-            View
-          </button>
-          |
-          <button
-            style={{
-              color: "#FF6F3F",
-              fontSize: "12px",
-              lineHeight: "12px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenModal(props.row.original, "Update")}
-          >
-            Update
-          </button>
-          |
-          <button
-            style={{
-              color: "#FE0000",
-              fontSize: "14px",
-              lineHeight: "14px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenModal(props.row.original, "Delete")}
-          >
-            Delete
-          </button>
+            onClick={() => handleVariant(props.row.original)}
+          ></button>
         </div>
       ),
     }),
   ],
 
-  open_box: (handleOpenModal, handleOpenView) => [
-    columnHelper.accessor("categoryLabel", {
-      header: "Category",
+  open_box:  (handleVariant) => [
+    columnHelper.accessor("modifiedBrand", {
+      header: "Brand",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-    columnHelper.accessor("page", {
-      header: "Page",
+    columnHelper.accessor("modifiedModel", {
+      header: "Model",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-    columnHelper.accessor("urlLabel", {
-      header: "File Name",
+    columnHelper.accessor("variants_count", {
+      header: "Variant Count",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
@@ -259,68 +124,34 @@ export const mastersTableColumnsConfig = {
         >
           <button
             style={{
-              color: "#46CD80",
-              fontSize: "12px",
-              lineHeight: "12px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
+              width:"64px",
+              height:"22px",
+              backgroundImage: `url(${viewIcon})`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
               padding: "8px",
               border: "none",
               cursor: "pointer",
             }}
-            onClick={() => handleOpenView(props.row.original)}
-          >
-            View
-          </button>
-          |
-          <button
-            style={{
-              color: "#FF6F3F",
-              fontSize: "12px",
-              lineHeight: "12px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenModal(props.row.original, "Update")}
-          >
-            Update
-          </button>
-          |
-          <button
-            style={{
-              color: "#FE0000",
-              fontSize: "14px",
-              lineHeight: "14px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenModal(props.row.original, "Delete")}
-          >
-            Delete
-          </button>
+            onClick={() => handleVariant(props.row.original)}
+          ></button>
         </div>
       ),
     }),
   ],
-  prexo: (handleOpenModal, handleOpenView) => [
-    columnHelper.accessor("categoryLabel", {
-      header: "Category",
+  prexo:  (handleVariant) => [
+    columnHelper.accessor("modifiedBrand", {
+      header: "Brand",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-    columnHelper.accessor("page", {
-      header: "Page",
+    columnHelper.accessor("modifiedModel", {
+      header: "Model",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-    columnHelper.accessor("urlLabel", {
-      header: "File Name",
+    columnHelper.accessor("variants_count", {
+      header: "Variants",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
@@ -338,51 +169,17 @@ export const mastersTableColumnsConfig = {
         >
           <button
             style={{
-              color: "#46CD80",
-              fontSize: "12px",
-              lineHeight: "12px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
+              width:"64px",
+              height:"22px",
+              backgroundImage: `url(${viewIcon})`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
               padding: "8px",
               border: "none",
               cursor: "pointer",
             }}
-            onClick={() => handleOpenView(props.row.original)}
-          >
-            View
-          </button>
-          |
-          <button
-            style={{
-              color: "#FF6F3F",
-              fontSize: "12px",
-              lineHeight: "12px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenModal(props.row.original, "Update")}
-          >
-            Update
-          </button>
-          |
-          <button
-            style={{
-              color: "#FE0000",
-              fontSize: "14px",
-              lineHeight: "14px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenModal(props.row.original, "Delete")}
-          >
-            Delete
-          </button>
+            onClick={() => handleVariant(props.row.original)}
+          ></button>
         </div>
       ),
     }),

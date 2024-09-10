@@ -11,6 +11,8 @@ import PriorityModal from "./component/priorityModal/PriorityModal";
 import { AdvertisementActionModal } from "./component/advertisementActionModal/AdvertisementActionModal";
 import { MediaPreview } from "./component/mediaPreview/MediaPreview";
 import "./index.css";
+import { MastersVrpActionModal } from "./component/mastersActionModal/MastersVrpActionModal";
+import { VariantModal } from "./component/variantModal/VariantModal";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,6 +22,8 @@ root.render(
       <ActionModal />
       <AdvertisementActionModal />
       <MediaPreview />
+      <MastersVrpActionModal />
+      <VariantModal />
       <App />
       <ToastContainer
         autoClose={2000}

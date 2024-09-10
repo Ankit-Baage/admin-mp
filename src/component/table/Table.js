@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-table";
 import classes from "./table.module.css";
 
-export const Table = ({ data, columns}) => {
+export const Table = ({ data, columns }) => {
   const table = useReactTable({
     data,
     columns,
@@ -18,7 +18,10 @@ export const Table = ({ data, columns}) => {
         <table className={classes.box__modelTable}>
           <thead className={classes.box__modelTable__head}>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
+              <tr
+                key={headerGroup.id}
+                className={classes.box__modelTable__head__row}
+              >
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
@@ -39,21 +42,27 @@ export const Table = ({ data, columns}) => {
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  style={{ textAlign: "center", position: "relative" }}
+                  style={{ textAlign: "center", position: "relative", borderBottom: "1.5px solid #EFEFEF" }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td
                       key={cell.id}
                       className={classes.box__modelTable__body__row__data}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </td>
                   ))}
                 </tr>
               ))
             ) : (
               <tr style={{ textAlign: "center" }}>
-                <td colSpan={columns.length} className={classes.box__modelTable__body__row__data__empty}>
+                <td
+                  colSpan={columns.length}
+                  className={classes.box__modelTable__body__row__data__empty}
+                >
                   No Data Available
                 </td>
               </tr>

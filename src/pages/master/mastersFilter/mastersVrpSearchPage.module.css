@@ -1,0 +1,18 @@
+.box {
+  display: flex;
+  align-items: center;
+  column-gap: 100px;
+  justify-content: space-between;
+}
+
+.box__btn{
+  border-radius: 4px;
+  padding: 12px 64px;
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
+  font-family: "Poppins", sans;
+  color: #FFFFFF;
+  background-color: #FF6F3F;
+  cursor: pointer;
+}

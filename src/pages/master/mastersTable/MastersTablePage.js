@@ -1,52 +1,46 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { mastersTableColumnsConfig } from "./mastersTableColumnDef";
-import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useNavigate, useParams } from "react-router-dom";
 import { Table } from "../../../component/table/Table";
+
+import { mastersTableColumnsConfig } from "./mastersTableColumnDef";
+import {
+  selectMastersVariantState,
+  setVariantFilters,
+} from "../../../store/mastersVariantFilterSlice";
 
 export const MastersTablePage = ({ data }) => {
   const { category } = useParams();
   const [columnDefs, setColumnDefs] = useState([]);
+  const masterVariantState = useSelector(selectMastersVariantState);
+  const navigate = useNavigate();
+ 
 
   const dispatch = useDispatch();
-  const handleOpenModal = useCallback(
-    (rowData, action) => {
-      // Step 1: Update modalData
-      // dispatch(
-      //   onOpen({
-      //     id: rowData.id,
-      //     action,
-      //     category: rowData.category,
-      //     categoryLabel: rowData.categoryLabel,
-      //     page: rowData.page,
-      //     url: rowData.url,
-      //     media_type: rowData.media_type,
-      //     urlLabel: rowData.urlLabel,
-      //     sequence: rowData.sequence,
-      //   })
-      // );
-    },
-    [dispatch]
-  );
-
-  const handleOpenView = useCallback(
+  const handleVariant = useCallback(
     (rowData) => {
       console.log(rowData);
-      // dispatch(
-      //   openMedia({
-      //     url: rowData.url,
-      //     media_type: rowData.media_type,
-      //   })
-      // );
+
+      dispatch(
+        setVariantFilters({
+          brand: rowData.brand,
+          model: rowData.model,
+        })
+      );
+      const queryParams = new URLSearchParams({
+        brand: rowData.brand,
+        model: rowData.model,
+      }).toString();
+      navigate(`variants?${queryParams}`);
+
     },
-    [dispatch]
+    [dispatch, navigate]
   );
 
   useEffect(() => {
-    setColumnDefs(
-      mastersTableColumnsConfig[category](handleOpenModal, handleOpenView)
-    );
-  }, [category, handleOpenModal, handleOpenView]);
+    setColumnDefs(mastersTableColumnsConfig[category](handleVariant));
+  }, [category, handleVariant]);
 
   return <Table data={data} columns={columnDefs} />;
 };

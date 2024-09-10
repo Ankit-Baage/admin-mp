@@ -1,0 +1,72 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+
+.box {
+  position: fixed;
+  top: 32%;
+  left: 44%;
+  right: 24%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  padding: 24px;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  z-index: 11;
+}
+
+
+
+
+.box__title {
+  font-family: "Poppins", sans;
+  color: #808080;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+
+}
+
+.box__form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+.box__buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.box__buttonGroup__cancel {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 400;
+  font-family: "Poppins", sans;
+  color: #FE0000;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.box__buttonGroup__submit {
+  color: #FFFFFF;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 500;
+  font-family: "Poppins", sans;
+  background-color: #FF6F3F;
+  padding: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}

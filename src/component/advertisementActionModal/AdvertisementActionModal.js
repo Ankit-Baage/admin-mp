@@ -130,6 +130,7 @@ export const AdvertisementActionModal = () => {
         toast.error(err.data.message.displayMessage);
       }
     }
+    
   };
 
   const handleClose = () => {

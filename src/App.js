@@ -10,10 +10,12 @@ import { CategoryPage } from "./pages/category/CategoryPage";
 import { ErrorPage } from "./pages/error/ErrorPage";
 import { RootLayout } from "./pages/RootLayout";
 import { AdvertisementPage } from "./pages/advertisement/AdvertisementPage";
-import { MasterPage } from "./pages/master/MasterPage";
+import { MastersPage } from "./pages/master/MastersPage";
+import { MasterVrpPage } from "./pages/master/masterVrp/MasterVrpPage";
+import { MastersVariantPage } from "./pages/master/masterVariant/MastersVariantPage";
+import { MastersCategoryPage } from "./pages/master/mastersCategoryPage/MastersCategoryPage";
 
 const router = createBrowserRouter([
-  // { path: "/", element: <LoginPage /> },
   {
     path: "/",
     element: <RootLayout />,
@@ -26,14 +28,19 @@ const router = createBrowserRouter([
         loader: checkAuthLoader,
         children: [
           { index: true, element: <HomePage /> },
-          { path: ":category", element: <CategoryPage /> },
           { path: "advertisement", element: <AdvertisementPage /> },
+          { path: ":category", element: <CategoryPage /> },
+
           {
             path: "masters",
-            element: <MasterPage />,
+            element: <MastersPage />,
             children: [
-              { path: ":category", element: <CategoryPage /> },
-              { path: "master", element: <AdvertisementPage /> },
+              { path: "vrp", element: <MasterVrpPage /> },
+              {
+                path: ":category",
+                element: <MastersCategoryPage />,
+              },
+              { path: ":category/variants", element: <MastersVariantPage /> },
             ],
           },
         ],
