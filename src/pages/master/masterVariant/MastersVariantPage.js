@@ -19,7 +19,6 @@ export const MastersVariantPage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const masterVariantState = useSelector(selectMastersVariantState);
-  
 
   const params = useParams();
   const category = params.category;
@@ -47,9 +46,9 @@ export const MastersVariantPage = () => {
         })
       );
     }
-    return () => {
-      dispatch(clearVariantFilters());
-    };
+    // return () => {
+    //   dispatch(clearVariantFilters());
+    // };
   }, [brand, model, dispatch, category]);
 
   const tableData = useSelector(selectMastersVariantList);
@@ -59,11 +58,14 @@ export const MastersVariantPage = () => {
     dispatch(
       onOpen({
         action: "Add",
-        brand:"",
-        model:"",
-        ram: "",
-        rom: "",
-        color: "",
+        brand: null,
+        model: null,
+        ram: null,
+        rom: null,
+        color: null,
+        part_name: null,
+        price: null,
+        original_price: null,
       })
     );
   };

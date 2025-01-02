@@ -10,6 +10,7 @@ import actionModalReducer from "./actionModalSlice";
 import priorityModalReducer from "./priorityModalSlice";
 import advertisementFilterReducer from "./advertisementFilterSlice";
 import advertisementActionModalReducer from "./advertisementActionModalSlice";
+import orderActionModalReducer from "./orderActionModalSlice"
 import variantModalReducer from "./variantModalSlice"
 import mediaPreviewReducer from "./mediaPreviewSlice";
 import mastersVrpActionModalReducer from "./mastersVrpActionModalSlice";
@@ -19,6 +20,7 @@ const appReducer = combineReducers({
   categoryFilter: categoryFilterReducer,
   actionModal: actionModalReducer,
   advertisementActionModal: advertisementActionModalReducer,
+  orderActionModal: orderActionModalReducer,
   mastersVrpFilter:mastersVrpFilterReducer,
   mastersCategoryFilter: mastersCategoryFilterReducer,
   mastersVariantFilter: mastersVariantFilterReducer,

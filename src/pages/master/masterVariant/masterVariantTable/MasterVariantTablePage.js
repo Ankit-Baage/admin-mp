@@ -31,6 +31,9 @@ export const MastersVariantTablePage = ({ data }) => {
           ram: rowData.ram,
           rom: rowData.rom,
           color: rowData.color,
+          part_name:rowData.part_name,
+          original_price: rowData.original_price,
+          price: rowData.price
         })
       );
     },

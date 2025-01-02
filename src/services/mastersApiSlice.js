@@ -10,12 +10,13 @@ const initialState = mastersListAdapter.getInitialState();
 export const mastersListSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getMastersList: builder.query({
-      query: ({ category, brand, model }) => {
+      query: ({ category, brand, model, part_name }) => {
         let queryString = `masters/${category}`;
 
         let queryParams = [];
         if (brand) queryParams.push(`brand=${brand}`);
         if (model) queryParams.push(`model=${model}`);
+        if (part_name) queryParams.push(`part_name=${part_name}`);
         if (queryParams.length > 0) {
           queryString += `?${queryParams.join("&")}`;
         }
@@ -29,9 +30,9 @@ export const mastersListSlice = apiSlice.injectEndpoints({
           ...item,
           modifiedModel: item.model ? item.model.toUpperCase() : null,
           modifiedBrand: item.brand ? item.brand.toUpperCase() : null,
-          modifiedColor: item.color?item.color.toUpperCase() : null,
-          modifiedPartName: item["part_name"]
-            ? item.part_name.toUppercase()
+          modifiedColor: item.color ? item.color.toUpperCase() : null,
+          modifiedPartName: item.part_name
+            ? item.part_name.toUpperCase()
             : null,
         }));
         console.log(loadedMastersList);
@@ -60,6 +61,7 @@ const selectMastersListResult = createSelector(
       category: filter.category,
       brand: filter.brand,
       model: filter.model,
+      part_name:filter.part_name,
     })(state);
     return result;
   }

@@ -1,24 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 
 import classes from "./variantModal.module.css";
-import {
-  selectModuleList,
-  useGetModuleListQuery,
-} from "../../services/modulesApiSlice";
-import {
-  selectPageList,
-  useGetPageListQuery,
-} from "../../services/pagesApiSlice";
-import { AdvertisementCustomSelect } from "../advertisementSelect/AdvertisementSelect";
-import { FileUploadInput } from "../fileUploadInput/FileUploadInput";
-import {
-  useAddAdvertisementMutation,
-  useDeleteAdvertisementListMutation,
-  useUpdateAdvertisementListMutation,
-} from "../../services/updateAdvertisementSlice";
+
 import { toast } from "react-toastify";
 import {
   onClose,
@@ -30,7 +16,6 @@ import {
   useDeleteVariantMutation,
   useUpdateVariantMutation,
 } from "../../services/mastersVariantMutationSlice";
-import { useParams } from "react-router-dom";
 import { selectMastersVariantState } from "../../store/mastersVariantFilterSlice";
 
 export const VariantModal = () => {
@@ -78,19 +63,30 @@ export const VariantModal = () => {
   ];
 
   const dispatch = useDispatch();
-  const params = useParams();
   const masterVariantState = useSelector(selectMastersVariantState);
-
-  const { isSuccess: moduleSuccess } = useGetModuleListQuery();
-  const moduleList = useSelector(selectModuleList);
-  const { isSuccess: pageSuccess } = useGetPageListQuery();
-  const pageList = useSelector(selectPageList);
 
   const [updateVariant] = useUpdateVariantMutation();
   const [deleteVariant] = useDeleteVariantMutation();
   const [addVariant] = useAddVariantMutation();
 
-  console.log(variantData);
+  console.log("variantData :", masterVariantState);
+
+  const getFilteredInputs = () => {
+    const filteredInputs = inputs.filter((input) => {
+      if (masterVariantState.category === "spares") {
+        return input.id !== "ram" && input.id !== "rom";
+      } else if (
+        masterVariantState.category === "new_phones" ||
+        masterVariantState.category === "open_box"
+      ) {
+        return input.id !== "part_name";
+      }
+      return true; // Render all inputs for other categories
+    });
+    return filteredInputs;
+  };
+
+  const filteredInputs = getFilteredInputs();
 
   useEffect(() => {
     if (variantData) {
@@ -124,7 +120,6 @@ export const VariantModal = () => {
       }
     } else if (variantData?.action === "Delete") {
       try {
-        console.log(masterVariantState.category);
         const response = await deleteVariant({
           id: variantData.id,
           category: masterVariantState.category,
@@ -176,7 +171,7 @@ export const VariantModal = () => {
             Do You Want To {variantData?.action} ?
           </h3>
           <div className={classes.form__group__box}>
-            {inputs.map((input) => (
+            {filteredInputs.map((input) => (
               <CustomInput
                 key={input.id}
                 id={input.id}

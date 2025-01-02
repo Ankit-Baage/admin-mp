@@ -19,6 +19,7 @@ export const mastersVariantListSlice = apiSlice.injectEndpoints({
         const loadedMastersVariantList = data.map((item) => ({
           ...item,
           modifiedColor: item.color ? item.color.toUpperCase() : null,
+          modifiedPartName: item.part_name ? item.part_name.toUpperCase() : null,
         }));
         console.log(loadedMastersVariantList);
 

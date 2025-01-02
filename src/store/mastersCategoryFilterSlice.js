@@ -6,6 +6,7 @@ const mastersCategoryFilterSlice = createSlice({
     category: null,
     brand: null,
     model: null,
+    part_name: null
   },
   reducers: {
     setCategory: (state, action) => {
@@ -14,10 +15,12 @@ const mastersCategoryFilterSlice = createSlice({
     setFilters: (state, action) => {
       state.brand = action.payload.brand;
       state.model = action.payload.model;
+      state.part_name = action.payload.part_name;
     },
     clearFilters: (state) => {
       state.brand = null;
       state.model = null;
+      state.part_name = null;
     },
   },
 });

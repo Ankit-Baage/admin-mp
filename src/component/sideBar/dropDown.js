@@ -38,6 +38,7 @@ export const dropdowns = [
       { id: "openBox", image: openBox, name: "OPEN-BOX", path: "masters/open_box" },
     ],
   },
+ 
 ];
 
 export const withoutDropdowns = [
@@ -48,4 +49,17 @@ export const withoutDropdowns = [
     name: "ADVERTISEMENT",
     path: "advertisement",
   },
+  {
+    id: "payment_verification",
+    image: openBox,
+    name: "Payment Verification",
+    path: "orders",
+  },
+  {
+    id: "profile_verification",
+    image: openBox,
+    name: "Profile Verification",
+    path: "retailers",
+  },
+  
 ];

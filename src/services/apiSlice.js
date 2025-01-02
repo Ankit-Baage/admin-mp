@@ -50,7 +50,10 @@ export const apiSlice = createApi({
     "mastersvariantspares",
     'mastersvariantnew_phones',
     "mastersvariantopen_box",
-    "mastersvariantprexo"
+    "mastersvariantprexo",
+    "sparespart_names",
+    "retailersList",
+    "ordersList"
   ],
   endpoints: (builder) => ({}),
 });

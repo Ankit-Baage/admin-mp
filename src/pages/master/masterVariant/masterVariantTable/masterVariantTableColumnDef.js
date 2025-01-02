@@ -5,7 +5,7 @@ const columnHelper = createColumnHelper();
 
 export const masterVariantTableColumnsConfig = {
   spares: (handleOpenModal, handleOpenView) => [
-    columnHelper.accessor("part_name", {
+    columnHelper.accessor("modifiedPartName", {
       header: "Part Name",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
@@ -82,6 +82,11 @@ export const masterVariantTableColumnsConfig = {
     }),
     columnHelper.accessor("modifiedColor", {
       header: "Color",
+      cell: (info) => info.getValue(),
+      footer: (props) => props.column.id,
+    }),
+    columnHelper.accessor("price", {
+      header: "Price",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),

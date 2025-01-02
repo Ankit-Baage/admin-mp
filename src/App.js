@@ -14,6 +14,8 @@ import { MastersPage } from "./pages/master/MastersPage";
 import { MasterVrpPage } from "./pages/master/masterVrp/MasterVrpPage";
 import { MastersVariantPage } from "./pages/master/masterVariant/MastersVariantPage";
 import { MastersCategoryPage } from "./pages/master/mastersCategoryPage/MastersCategoryPage";
+import { RetailerPage } from "./pages/retailer/RetailerPage";
+import { OrderPage } from "./pages/order/OrderPage";
 
 const router = createBrowserRouter([
   {
@@ -28,8 +30,8 @@ const router = createBrowserRouter([
         loader: checkAuthLoader,
         children: [
           { index: true, element: <HomePage /> },
-          { path: "advertisement", element: <AdvertisementPage /> },
           { path: ":category", element: <CategoryPage /> },
+          { path: "advertisement", element: <AdvertisementPage /> },
 
           {
             path: "masters",
@@ -43,6 +45,9 @@ const router = createBrowserRouter([
               { path: ":category/variants", element: <MastersVariantPage /> },
             ],
           },
+
+          { path: "retailers", element: <RetailerPage /> },
+          { path: "orders", element: <OrderPage /> },
         ],
       },
     ],
