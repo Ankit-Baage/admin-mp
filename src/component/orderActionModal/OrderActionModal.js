@@ -59,7 +59,7 @@ export const OrderActionModal = () => {
   const submitHandler = async (formData) => {
     const orderData = {
       id: modalData.id,
-      status: formData.status,
+      status: +formData.status,
       url: uploadedImage.url,
     };
     try {
@@ -110,7 +110,7 @@ export const OrderActionModal = () => {
             </div>
             <div className={classes.form__group__seq}>
               <Controller
-                name="media_type"
+                name="status"
                 control={control}
                 render={({ field }) => (
                   <AdvertisementCustomSelect
