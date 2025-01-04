@@ -2,8 +2,9 @@
   position: fixed;
   z-index: 1;
   left: 20px;
-  /* max-height: 80vh ;
-  overflow-y: scroll; */
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  border: 1.2px solid #F8F8F8 ;
 
 }
 
