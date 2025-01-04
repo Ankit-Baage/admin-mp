@@ -4,31 +4,49 @@ import { ordersListUrl } from "../config/config";
 
 // Create an adapter for the orders list
 const ordersListAdapter = createEntityAdapter({
-  selectId: (retailer) => retailer.id, // Assuming each retailer has a unique `id`
+  selectId: (order) => order.id,
 });
 
-// Get the initial state from the adapter
 const initialOrdersState = ordersListAdapter.getInitialState();
 
 // Define the slice
 export const ordersListSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getOrdersList: builder.query({
-      query: () => ordersListUrl, // No params, use the URL directly
+      query: (filters) => {
+        const validFilters = Object.fromEntries(
+          Object.entries(filters).filter(([key, value]) => value != null)
+        );
+
+        // Create query parameters string
+        const queryParams = new URLSearchParams(validFilters).toString();
+
+        // If there are no valid filters, just return the base URL
+        return queryParams ? `${ordersListUrl}?${queryParams}` : ordersListUrl;
+      },
       transformResponse: (responseData) => {
-        // Map the response data to add additional fields if needed
-        const loadedOrdersList = responseData.data.map((item) => ({
-          ...item,
-          // Add additional transformation logic if necessary
-        }));
+        const loadedOrdersList = responseData.data.map((item) => {
+          if (item.url) {
+            const urlParts = item.url.split("/");
+            const urlLabelWithExt = urlParts[urlParts.length - 1];
+            return {
+              ...item,
+              urlLabel: urlLabelWithExt,
+            };
+          }
+
+          // If you want to remove the extension and get the base name
+
+          return {
+            ...item,
+            urlLabel: "", // or you can set a default value here if necessary
+          };
+        });
 
         // Use the adapter to set all items in the state
-        return ordersListAdapter.setAll(
-          initialOrdersState,
-          loadedOrdersList
-        );
+        return ordersListAdapter.setAll(initialOrdersState, loadedOrdersList);
       },
-      providesTags: (result, error, arg) => {
+      providesTags: (result) => {
         if (!result) {
           return [{ type: "orders", id: "ordersList" }];
         }
@@ -44,20 +62,22 @@ export const ordersListSlice = apiSlice.injectEndpoints({
 // Export the hook
 export const { useGetOrdersListQuery } = ordersListSlice;
 
-// Define selectors
-const ordersListSelector = ordersListSlice.endpoints.getOrdersList.select();
+// Select the order filter state
+const orderFilter = (state) => state.orderFilter;
 
-const selectOrdersListResult = (state) => ordersListSelector(state);
+// Select the orders from the state (with applied filter)
 const selectOrdersListData = createSelector(
-  [selectOrdersListResult],
-  (ordersListResult) => ordersListResult?.data ?? initialOrdersState
+  [(state) => state, orderFilter],
+  (state, filter) => {
+    const result =
+      ordersListSlice.endpoints.getOrdersList.select(filter)(state);
+    return result?.data ?? initialOrdersState;
+  }
 );
 
+// Adapter selectors for orders
 export const {
   selectAll: selectOrders,
-  selectById: selectRetailerById,
-  selectIds: selectRetailerIds,
-} = ordersListAdapter.getSelectors((state) => {
-  const data = selectOrdersListData(state);
-  return data;
-});
+  selectById: selectOrderById,
+  selectIds: selectOrderIds,
+} = ordersListAdapter.getSelectors((state) => selectOrdersListData(state));

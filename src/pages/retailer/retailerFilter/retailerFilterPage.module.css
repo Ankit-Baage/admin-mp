@@ -5,7 +5,13 @@
   justify-content: space-between;
 }
 
-.box__filter {
+
+.box__content {
+  width: 50%
+}
+
+
+/* .box__filter {
   display: flex;
   column-gap: 40px;
   justify-content: center;
@@ -42,4 +48,4 @@
   border-radius: 4px;
   cursor: pointer;
 
-}
+} */

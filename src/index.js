@@ -14,11 +14,14 @@ import "./index.css";
 import { MastersVrpActionModal } from "./component/mastersActionModal/MastersVrpActionModal";
 import { VariantModal } from "./component/variantModal/VariantModal";
 import { OrderActionModal } from "./component/orderActionModal/OrderActionModal";
+import { RetailerActionModal } from "./component/retailerActionModal/RetailerActionModal";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <RetailerActionModal />
       <OrderActionModal />
       <PriorityModal />
       <ActionModal />

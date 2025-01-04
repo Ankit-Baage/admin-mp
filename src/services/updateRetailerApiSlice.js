@@ -1,11 +1,11 @@
 import { apiSlice } from "./apiSlice";
 import { toast } from "react-toastify";
 
-export const updateOrderApiSlice = apiSlice.injectEndpoints({
+export const updateRetailerApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    updateOrderList: builder.mutation({
+    updateRetailerList: builder.mutation({
       query: ({ payment_id, url, status }) => ({
-        url: "orders",
+        url: "retailers",
         method: "PATCH",
         body: {
           payment_id,
@@ -21,13 +21,13 @@ export const updateOrderApiSlice = apiSlice.injectEndpoints({
           if (data?.status && data?.url) {
             dispatch(
               apiSlice.util.updateQueryData(
-                "getOrdersList",
+                "getRetailersList",
                 undefined,
                 (draft) => {
-                  const order = draft.entities?.[id];
-                  if (order) {
-                    order.status = data.status;
-                    order.url = data.url;
+                  const retailer = draft.entities?.[id];
+                  if (retailer) {
+                    retailer.status = data.status;
+                    retailer.url = data.url;
                   }
                 }
               )
@@ -36,16 +36,16 @@ export const updateOrderApiSlice = apiSlice.injectEndpoints({
             console.warn("Unexpected API response:", data);
           }
         } catch (err) {
-          console.error("Update order failed:", err);
-          // Optional: Refetch the order list to ensure data integrity
-          // dispatch(apiSlice.util.invalidateTags([{ type: "orders", id }]));
+          console.error("Update retailer failed:", err);
+          // Optional: Refetch the retailer list to ensure data integrity
+          // dispatch(apiSlice.util.invalidateTags([{ type: "retailers", id }]));
         }
       },
       invalidatesTags: (result, error, { id }) => [
-        { type: "orders", id },
+        { type: "retailers", id },
       ],
     }),
   }),
 });
 
-export const { useUpdateOrderListMutation } = updateOrderApiSlice;
+export const { useUpdateRetailerListMutation } = updateRetailerApiSlice;

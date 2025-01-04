@@ -9,15 +9,17 @@ import { CategoryPageSkeleton } from "../../component/skeleton/CategoryPageSkele
 import { SearchInput } from "../../component/searchInput/SearchInput";
 import { RetailerTablePage } from "./retailerTable/RetailerTablePage";
 import { RetailersFilterPage } from "./retailerFilter/RetailerFilterPage";
+import { selectRetailerState } from "../../store/retailerFilterSlice";
 
 export const RetailerPage = () => {
-  const { data, isSuccess } = useGetRetailersListQuery();
+  const appliedFilters = useSelector(selectRetailerState);
+  const { data, isSuccess } = useGetRetailersListQuery(appliedFilters);
 
   const tableData = useSelector(selectRetailers);
 
   return isSuccess ? (
     <div className={classes.box}>
-      <RetailersFilterPage />
+      <RetailersFilterPage filters={appliedFilters} />
       <RetailerTablePage data={tableData} />
     </div>
   ) : (

@@ -4,31 +4,49 @@ import { retailersListUrl } from "../config/config";
 
 // Create an adapter for the retailers list
 const retailersListAdapter = createEntityAdapter({
-  selectId: (retailer) => retailer.id, // Assuming each retailer has a unique `id`
+  selectId: (retailer) => retailer.id,
 });
 
-// Get the initial state from the adapter
 const initialRetailersState = retailersListAdapter.getInitialState();
 
 // Define the slice
 export const retailersListSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getRetailersList: builder.query({
-      query: () => retailersListUrl, // No params, use the URL directly
+      query: (filters) => {
+        const validFilters = Object.fromEntries(
+          Object.entries(filters).filter(([key, value]) => value != null)
+        );
+
+        // Create query parameters string
+        const queryParams = new URLSearchParams(validFilters).toString();
+
+        // If there are no valid filters, just return the base URL
+        return queryParams ? `${retailersListUrl}?${queryParams}` : retailersListUrl;
+      },
       transformResponse: (responseData) => {
-        // Map the response data to add additional fields if needed
-        const loadedRetailersList = responseData.data.map((item) => ({
-          ...item,
-          // Add additional transformation logic if necessary
-        }));
+        const loadedRetailersList = responseData.data.map((item) => {
+          if (item.url) {
+            const urlParts = item.url.split("/");
+            const urlLabelWithExt = urlParts[urlParts.length - 1];
+            return {
+              ...item,
+              urlLabel: urlLabelWithExt,
+            };
+          }
+
+          // If you want to remove the extension and get the base name
+
+          return {
+            ...item,
+            urlLabel: "", // or you can set a default value here if necessary
+          };
+        });
 
         // Use the adapter to set all items in the state
-        return retailersListAdapter.setAll(
-          initialRetailersState,
-          loadedRetailersList
-        );
+        return retailersListAdapter.setAll(initialRetailersState, loadedRetailersList);
       },
-      providesTags: (result, error, arg) => {
+      providesTags: (result) => {
         if (!result) {
           return [{ type: "retailers", id: "retailersList" }];
         }
@@ -44,20 +62,22 @@ export const retailersListSlice = apiSlice.injectEndpoints({
 // Export the hook
 export const { useGetRetailersListQuery } = retailersListSlice;
 
-// Define selectors
-const retailersListSelector = retailersListSlice.endpoints.getRetailersList.select();
+// Select the retailer filter state
+const retailerFilter = (state) => state.retailerFilter;
 
-const selectRetailersListResult = (state) => retailersListSelector(state);
+// Select the retailers from the state (with applied filter)
 const selectRetailersListData = createSelector(
-  [selectRetailersListResult],
-  (retailersListResult) => retailersListResult?.data ?? initialRetailersState
+  [(state) => state, retailerFilter],
+  (state, filter) => {
+    const result =
+      retailersListSlice.endpoints.getRetailersList.select(filter)(state);
+    return result?.data ?? initialRetailersState;
+  }
 );
 
+// Adapter selectors for retailers
 export const {
   selectAll: selectRetailers,
   selectById: selectRetailerById,
   selectIds: selectRetailerIds,
-} = retailersListAdapter.getSelectors((state) => {
-  const data = selectRetailersListData(state);
-  return data;
-});
+} = retailersListAdapter.getSelectors((state) => selectRetailersListData(state));

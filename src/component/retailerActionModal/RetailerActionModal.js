@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { motion } from "framer-motion";
-import classes from "./orderActionModal.module.css";
+import classes from "./RetailerActionModal.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   onClose,
-  selectOrderActionModalState,
-} from "../../store/orderActionModalSlice";
+  selectRetailerActionModalState,
+} from "../../store/retailerActionModalSlice";
 import { toast } from "react-toastify";
-import { useUpdateOrderListMutation } from "../../services/updateOrderApiSlice";
+
 import { CustomInput } from "../customInput/CustomInput";
-import { FileUploadInput } from "../fileUploadInput/FileUploadInput";
-import { AdvertisementCustomSelect } from "../advertisementSelect/AdvertisementSelect";
-import { OrderCustomSelect } from "./orderActionCustomSelect/OrderCustomSelect";
-import { OrderActionFileUpload } from "./orderActionFileUpload/OrderActionFileUpload";
+import { useUpdateRetailerListMutation } from "../../services/updateRetailerApiSlice";
+import { OrderCustomSelect } from "../orderActionModal/orderActionCustomSelect/OrderCustomSelect";
+import { PaymentCustomSelect } from "../paymentCustomSelect/PaymentCustomSelect";
+
 
 const statuses = [
-  { id: 1, itemLabel: "Approved" },
-  { id: 2, itemLabel: "Reject" },
-  
+  { id: 1, label: "Incomplete" },
+  { id: 2, label: "Pending for verification" },
+  { id: 3, label: "Verified" },
+  { id: 4, label: "Rejected" },
 ];
-export const OrderActionModal = () => {
-  const { isOpen, modalData } = useSelector(selectOrderActionModalState);
+
+export const RetailerActionModal = () => {
+  const { isOpen, modalData } = useSelector(selectRetailerActionModalState);
+
   const [uploadedImage, setUploadedImage] = useState({
     url: modalData?.url,
     urlLabel: modalData?.urlLabel,
@@ -29,27 +32,25 @@ export const OrderActionModal = () => {
 
   const { register, handleSubmit, reset, formState } = useForm({
     defaultValues: {
-      order_id: "",
-      transaction_id: "",
-      payment_status: "",
-      payment_details: "",
-      approval_status: "",
-      url: "",
+      mobile_no: "",
+      aadhar_number: "",
+      aadhar_image_url:"",
+      pan_number: "",
+      pan_image_url:"",
+      p_status: "",
     },
   });
   const dispatch = useDispatch();
 
-  const [updateOrderList] = useUpdateOrderListMutation();
+  const [updateRetailerList] = useUpdateRetailerListMutation();
 
   useEffect(() => {
     if (modalData) {
       reset({
-        order_id: modalData?.order_id,
-        transaction_id: modalData?.transaction_id,
-        payment_status: modalData?.payment_status,
-        payment_details: modalData?.payment_details || "",
-        approval_status: modalData?.approval_status,
-        url: modalData?.url || "",
+        mobile_no: modalData?.mobile_no,
+        aadhar_number: modalData?.aadhar_number,
+        pan_number: modalData?.pan_number,
+        p_status: modalData?.p_status,
       });
     }
   }, [modalData, reset]);
@@ -78,7 +79,7 @@ export const OrderActionModal = () => {
     };
     try {
       console.log(orderData);
-      const response = await updateOrderList(orderData).unwrap();
+      const response = await updateRetailerList(orderData).unwrap();
       toast.success(response.message.displayMessage);
       handleClose();
     } catch (err) {
@@ -108,52 +109,60 @@ export const OrderActionModal = () => {
           <div className={classes.form__group}>
             <div className={classes.form__group__seq}>
               <CustomInput
-                id="order_id"
+                id="mobile_no"
                 type="text"
-                placeholder="Order ID"
+                placeholder="Phone Number"
                 register={register}
               />
             </div>
             <div className={classes.form__group__seq}>
               <CustomInput
-                id="transaction_id"
+                id="aadhar_number"
                 type="text"
-                placeholder="Transaction ID"
+                placeholder="Aadhar Number"
                 register={register}
               />
             </div>
             <div className={classes.form__group__seq}>
               <CustomInput
-                id="payment_status"
+                id="aadhar_image_url"
                 type="text"
-                placeholder="Payment Status"
+                placeholder="Aadhar Card Image"
                 register={register}
               />
             </div>
             <div className={classes.form__group__seq}>
               <CustomInput
-                id="payment_details"
+                id="pan_number"
                 type="text"
-                placeholder="Payment Detail"
+                placeholder="Pan Number"
                 register={register}
               />
             </div>
             <div className={classes.form__group__seq}>
-              <OrderCustomSelect
-                id="approval_status"
+              <CustomInput
+                id="pan_image_url"
+                type="text"
+                placeholder="Pan Card Image"
+                register={register}
+              />
+            </div>
+            <div className={classes.form__group__seq}>
+              <PaymentCustomSelect
+                id="p_status"
                 label="Approval Status"
                 register={register}
                 optionData={statuses}
               />
             </div>
 
-            <div className={classes.form__group__seq}>
+            {/* <div className={classes.form__group__seq}>
               <OrderActionFileUpload
                 urlWithExt={uploadedImage.urlLabel}
                 url={uploadedImage.url}
                 onSelection={(imageUrl) => handleChange(imageUrl)}
               />
-            </div>
+            </div> */}
           </div>
 
           <div className={classes.buttonGroup}>

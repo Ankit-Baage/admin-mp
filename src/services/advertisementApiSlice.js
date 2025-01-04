@@ -42,9 +42,9 @@ export const advertisementListSlice = apiSlice.injectEndpoints({
             case "new_phones":
               categoryLabel = "NEW PHONE";
               break;
-              case "home":
-                categoryLabel = "HOME";
-                break;
+            case "home":
+              categoryLabel = "HOME";
+              break;
             default:
               categoryLabel = "UNKNOWN";
               break;

@@ -5,16 +5,22 @@ import classes from "./orderPage.module.css";
 import { CategoryPageSkeleton } from "../../component/skeleton/CategoryPageSkeleton";
 import { OrderTablePage } from "./orderTable/OrderTablePage";
 import { OrderFilterPage } from "./orderFilter/OrderFilterPage";
-import { selectOrders, useGetOrdersListQuery } from "../../services/orderApiSlice";
+import {
+  selectOrders,
+  useGetOrdersListQuery,
+} from "../../services/orderApiSlice";
+import { selectOrderState } from "../../store/orderFilterSlice";
 
 export const OrderPage = () => {
-  const { data, isSuccess } = useGetOrdersListQuery();
+  const appliedFilters = useSelector(selectOrderState);
+  const { data, isSuccess } = useGetOrdersListQuery(appliedFilters);
 
   const tableData = useSelector(selectOrders);
+  console.log("orderFilter", appliedFilters);
 
   return isSuccess ? (
     <div className={classes.box}>
-      <OrderFilterPage />
+      <OrderFilterPage filters ={appliedFilters}/>
       <OrderTablePage data={tableData} />
     </div>
   ) : (

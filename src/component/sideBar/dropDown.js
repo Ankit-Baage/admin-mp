@@ -4,6 +4,9 @@ import vrp from "../../assets/vrp.svg";
 import openBox from "../../assets/openBox.svg";
 import spare from "../../assets/spare.svg";
 import new_phone from "../../assets/new_phone.svg";
+import payment from "../../assets/payment.svg";
+import profile from "../../assets/profile.svg";
+import advertisement from "../../assets/advertisement__sidebar.svg"
 
 export const dropdowns = [
   {
@@ -45,19 +48,19 @@ export const withoutDropdowns = [
   { id: "home", image: dashboard, name: "HOME", path: "/dashboard" },
   {
     id: "advertisement",
-    image: openBox,
+    image: advertisement,
     name: "ADVERTISEMENT",
     path: "advertisement",
   },
   {
     id: "payment_verification",
-    image: openBox,
+    image: payment,
     name: "Payment Verification",
     path: "orders",
   },
   {
     id: "profile_verification",
-    image: openBox,
+    image: profile,
     name: "Profile Verification",
     path: "retailers",
   },

@@ -1,14 +1,48 @@
-import React from "react";
-import classes from "./orderFilterPage.module.css";
+import React, { useEffect, useState } from "react";
 import { SearchInput } from "../../../component/searchInput/SearchInput";
-import { CustomSelect } from "../../../component/customSelect/CustomSelect";
+import { useSearchParams } from "react-router-dom";
 
-export const OrderFilterPage = () => {
-  const optionData = [
-    { id: 1, itemLabel: "vrp" },
-    { id: 2, itemLabel: "spares" },
-    { id: 3, itemLabel: "prexo" },
-  ];
+import { PaymentCustomSelect } from "../../../component/paymentCustomSelect/PaymentCustomSelect";
+import classes from "./orderFilterPage.module.css";
+import { useDispatch } from "react-redux";
+import { setOrderFilter } from "../../../store/orderFilterSlice";
+
+const optionData = [
+  { id: 1, label: "Approved" },
+  { id: 2, label: "Rejected" },
+];
+
+export const OrderFilterPage = ({ filters }) => {
+  const [appliedFilter, setAppliedFilter] = useState({
+    status: null,
+  });
+  const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const statusParam = searchParams.get("status");
+
+    setAppliedFilter((prevFilters) => ({
+      ...prevFilters,
+      status: statusParam || null,
+    }));
+    dispatch(setOrderFilter({ status: statusParam }));
+  }, [dispatch, searchParams]);
+
+  const handleSelection = (selectedOptionId) => {
+    setAppliedFilter((prevFilters) => ({
+      ...prevFilters,
+      status: selectedOptionId || null,
+    }));
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (selectedOptionId) {
+      newSearchParams.set("status", selectedOptionId);
+    } else {
+      newSearchParams.delete("status");
+    }
+    setSearchParams(newSearchParams);
+    dispatch(setOrderFilter({ status: appliedFilter.status }));
+  };
   return (
     <div className={classes.box}>
       <div className={classes.box__content}>
@@ -16,7 +50,12 @@ export const OrderFilterPage = () => {
       </div>
 
       <div className={classes.box__content}>
-        <CustomSelect label="orders" optionData={optionData} />
+        <PaymentCustomSelect
+          label="Approval Status"
+          optionData={optionData}
+          onChange={(selectedOptionId) => handleSelection(selectedOptionId)}
+          selectOptionId={filters.status}
+        />
       </div>
     </div>
   );

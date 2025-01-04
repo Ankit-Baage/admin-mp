@@ -3,21 +3,51 @@ const columnHelper = createColumnHelper();
 
 export const retailerTableColumnsConfig = {
   retailer: (handleOpenModal, handleOpenView) => [
-    columnHelper.accessor("categoryLabel", {
-      header: "Category",
+    columnHelper.accessor("name", {
+      header: "Name",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-    columnHelper.accessor("page", {
-      header: "Page",
+    columnHelper.accessor("mobile_no", {
+      header: "Ph No.",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
-    columnHelper.accessor("urlLabel", {
-      header: "File Name",
+    columnHelper.accessor("email", {
+      header: "Email Id",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),
+    columnHelper.accessor("p_status", {
+      header: "Profile Status",
+      cell: (info) => info.getValue(),
+      footer: (props) => props.column.id,
+    }),
+    // columnHelper.accessor("gst_number", {
+    //   header: "Gst No.",
+    //   cell: (info) => info.getValue(),
+    //   footer: (props) => props.column.id,
+    // }),
+    // columnHelper.accessor("pan_number", {
+    //   header: "Pan No.",
+    //   cell: (info) => info.getValue(),
+    //   footer: (props) => props.column.id,
+    // }),
+    // columnHelper.accessor("pan_image_url", {
+    //   header: "Pan Img",
+    //   cell: (info) => info.getValue(),
+    //   footer: (props) => props.column.id,
+    // }),
+    // columnHelper.accessor("aadhar_number", {
+    //   header: "Aadhar No.",
+    //   cell: (info) => info.getValue(),
+    //   footer: (props) => props.column.id,
+    // }),
+    // columnHelper.accessor("aadhar_image_url", {
+    //   header: "Aadhar Img",
+    //   cell: (info) => info.getValue(),
+    //   footer: (props) => props.column.id,
+    // }),
     columnHelper.display({
       id: "actions",
       header: <div style={{ textAlign: "center" }}>Action</div>,
@@ -32,50 +62,19 @@ export const retailerTableColumnsConfig = {
         >
           <button
             style={{
-              color: "#46CD80",
+              color: "#FFFFFF",
               fontSize: "12px",
               lineHeight: "12px",
-              fontWeight: 500,
+              fontWeight: 400,
               fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
+              backgroundColor: "#FF6F3F",
+              padding: "7px 8px",
+              borderRadius: "4px",
               cursor: "pointer",
             }}
-            onClick={() => handleOpenView(props.row.original)}
+            onClick={() => handleOpenModal(props.row.original)}
           >
-            View
-          </button>
-          |
-          <button
-            style={{
-              color: "#FF6F3F",
-              fontSize: "12px",
-              lineHeight: "12px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenModal(props.row.original, "Update")}
-          >
-            Update
-          </button>
-          |
-          <button
-            style={{
-              color: "#FE0000",
-              fontSize: "14px",
-              lineHeight: "14px",
-              fontWeight: 500,
-              fontFamily: "Poppins, sans",
-              padding: "8px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => handleOpenModal(props.row.original, "Delete")}
-          >
-            Delete
+            Pending
           </button>
         </div>
       ),
