@@ -16,10 +16,8 @@ import { PaymentCustomSelect } from "../paymentCustomSelect/PaymentCustomSelect"
 
 
 const statuses = [
-  { id: 1, label: "Incomplete" },
-  { id: 2, label: "Pending for verification" },
-  { id: 3, label: "Verified" },
-  { id: 4, label: "Rejected" },
+  { id: 1, label:"Approve" },
+  { id: 2, label: "Reject" },
 ];
 
 export const RetailerActionModal = () => {
@@ -150,7 +148,7 @@ export const RetailerActionModal = () => {
             <div className={classes.form__group__seq}>
               <PaymentCustomSelect
                 id="p_status"
-                label="Approval Status"
+                label="choose Status"
                 register={register}
                 optionData={statuses}
               />

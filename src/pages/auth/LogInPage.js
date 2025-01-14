@@ -16,7 +16,7 @@ export const LoginPage = () => {
       }).unwrap();
       toast.dismiss(loadingToastId);
       toast.success(response.message.displayMessage);
-      navigate("dashboard");
+      navigate("/");
     } catch (err) {
       toast.dismiss(loadingToastId);
       toast.error(err.data.message.displayMessage);

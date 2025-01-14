@@ -8,32 +8,7 @@ import classes from "./dashboard.module.css";
 import { getExpirationDuration } from "../../utils/getExpirationDuration";
 
 export const DashBoardPage = () => {
-  const navigate = useNavigate();
-  const token = Cookies.get("token");
-
-  useEffect(() => {
-    if (!token) {
-      navigate("/");
-      return;
-    }
-
-    if (token === "EXPIRED") {
-      navigate("/");
-      return;
-    }
-
-    const tokenDuration = getExpirationDuration();
-    if (!tokenDuration || tokenDuration <= 0) {
-      navigate("/");
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      navigate("/");
-    }, tokenDuration);
-
-    return () => clearTimeout(timeoutId);
-  }, [navigate, token]);
+  
 
   return (
     <div className={classes.container}>
@@ -53,7 +28,7 @@ export function checkAuthLoader() {
   const expirationTime = Cookies.get("expirationTime");
 
   if (!token && !expirationTime) {
-    return redirect("/");
+    return redirect("login");
   }
   return null;
 }

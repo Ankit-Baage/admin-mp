@@ -11,7 +11,7 @@ import advertisement from "../../assets/advertisement__sidebar.svg"
 export const dropdowns = [
   {
     id: "category",
-    title: "Modules",
+    title: "Categories",
     options: [
       { id: "vrp", image: vrp, name: "VRP", path: "vrp" },
       { id: "spares", image: spare, name: "SPARES", path: "spares" },
@@ -45,7 +45,7 @@ export const dropdowns = [
 ];
 
 export const withoutDropdowns = [
-  { id: "home", image: dashboard, name: "HOME", path: "/dashboard" },
+  { id: "home", image: dashboard, name: "HOME", path: "/" },
   {
     id: "advertisement",
     image: advertisement,

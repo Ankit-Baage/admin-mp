@@ -25,7 +25,7 @@ export const PieChart = ({ data }) => {
     const endAngle = startAngle + salesPercentage;
     const baseRadius = 50; // Base radius for the pie chart
     const outerRadius = baseRadius; // Constant outer radius for all segments
-    const innerRadius = 30; // Constant inner radius for all segments
+    // const innerRadius = 30; 
 
     // Calculate the stroke width for the largest segment
     const strokeWidth = item.sales === maxSales ? 8 : 4; // Larger stroke width for the largest segment
@@ -50,12 +50,33 @@ export const PieChart = ({ data }) => {
       {/* Inner circle for donut effect */}
       <text
         x="50"
-        y="50"
+        y="45"
         textAnchor="middle"
         dominantBaseline="middle"
-        fontSize="10"
+        style={{
+          fontSize: "12px",
+          lineHeight: "18px",
+          fontWeight: 600,
+          fontFamily: "'Poppins', sans-serif",
+          fill: "#0e0d0d",
+        }}
       >
         {Math.round((data[0].sales / totalSales) * 100)}%
+      </text>
+      <text
+        x="50"
+        y="55"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        style={{
+          fontSize: "8px",
+          lineHeight: "8px",
+          fontWeight: 500,
+          fontFamily: "'Poppins', sans-serif",
+          fill: "#9A9A9A",
+        }}
+      >
+        Total Sales
       </text>
     </svg>
   );

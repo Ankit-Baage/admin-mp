@@ -8,9 +8,7 @@ import { setRetailerFilter } from "../../../store/retailerFilterSlice";
 import { PaymentCustomSelect } from "../../../component/paymentCustomSelect/PaymentCustomSelect";
 
 const optionData = [
-  { id: 1, label: "Incomplete" },
-  { id: 2, label: "Pending for verification" },
-  { id: 3, label: "Verified" },
+  { id: 1, label: "Approved" },
   { id: 4, label: "Rejected" },
 ];
 
@@ -48,12 +46,12 @@ export const RetailersFilterPage = ({ filters }) => {
   return (
     <div className={classes.box}>
       <div className={classes.box__content}>
-        <SearchInput placeholder="Search orders..." />
+        <SearchInput placeholder="search by Name or Phone No." />
       </div>
 
       <div className={classes.box__content}>
         <PaymentCustomSelect
-          label="Approval Status"
+          label="Select All"
           optionData={optionData}
           onChange={(selectedOptionId) => handleSelection(selectedOptionId)}
           selectOptionId={filters.status}

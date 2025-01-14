@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import Cookies from "js-cookie";
 
 import { NavLink, useNavigate } from "react-router-dom";
@@ -18,29 +18,28 @@ const contacts = [
 ];
 
 export const SideBar = () => {
-  const [profile, setProfile] = useState({
-    userImg: null,
-    userName: null,
-    userId: null,
-  });
+  // const [profile, setProfile] = useState({
+  //   userImg: null,
+  //   userName: null,
+  //   userId: null,
+  // });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const carousel = useRef();
-  const { data, isSuccess } = useUserProfileQuery();
+  const { data } = useUserProfileQuery();
   console.log(data);
-  const name = data?.data?.name || "A"; // Default to "A" if name is undefined
-  const id = data?.data?.id;
-  const img = name.slice(0, 1).toUpperCase(); // First letter capitalized
-  const userName = img + name.slice(1); //
-  useEffect(() => {
-    if (isSuccess) {
-      setProfile({
-        userImg: img,
-        userName,
-        userId: id,
-      });
-    }
-  }, [id, img, isSuccess, userName]);
+  // const name = data?.data?.name || "A"; 
+  // const id = data?.data?.id;
+  // const img = name.slice(0, 1).toUpperCase(); // First letter capitalized
+  // const userName = img + name.slice(1); 
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setProfile({
+  //       userImg: img,
+  //       userName,
+  //       userId: id,
+  //     });
+  //   }
+  // }, [id, img, isSuccess, userName]);
 
   const handleLogOut = () => {
     Cookies.remove("token");
@@ -48,7 +47,7 @@ export const SideBar = () => {
     dispatch(logout());
     dispatch(apiSlice.util.resetApiState());
     toast.success("Logged out successfully");
-    navigate("/");
+    navigate("login");
   };
   return (
     <div className={classes.stack}>
@@ -73,17 +72,17 @@ export const SideBar = () => {
           ))}
         </div>
 
-        {dropdowns.map((dropdown) => (
+        {dropdowns.map((dropdown, index) => (
           <Dropdown
-            key={dropdown.id}
-            id={dropdown.id}
-            title={dropdown.title}
-            options={dropdown.options}
-          />
+          key={dropdown.id}
+          id={dropdown.id}
+          title={dropdown.title}
+          options={dropdown.options}
+          isLast={index === dropdowns.length - 1}
+        />
         ))}
 
         <div className={classes.container__box__categories}>
-          <hr className={classes.box__item__divider} />
           <h1 className={classes.container__box__categories__title}>
             Contact Us
           </h1>

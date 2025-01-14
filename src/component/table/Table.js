@@ -55,7 +55,9 @@ export const Table = ({ data, columns }) => {
                       )}
                     </td>
                   ))}
+                   {/* <hr className={classes.box__modelTable__body__}/> */}
                 </tr>
+               
               ))
             ) : (
               <tr style={{ textAlign: "center" }}>

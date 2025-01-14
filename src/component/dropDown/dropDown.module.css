@@ -58,6 +58,11 @@
   transition: max-height 0.9s ease, opacity 0.9s ease; /* Smooth transition */
 }
 
+.dropdown__menu::last-child {
+  display: none;
+
+}
+
 
 .dropdown__menu__item {
   display: flex;

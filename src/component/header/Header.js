@@ -1,17 +1,16 @@
 import React from "react";
 import logo from "../../assets/logoWithName.svg";
-
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import classes from "./header.module.css";
 
 
 
 export const Header = ({ isPending }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleNavigateToProfile = () => {
-    navigate("profile");
-  };
+  // const handleNavigateToProfile = () => {
+  //   navigate("profile");
+  // };
   return (
     <div className={classes.container}>
       <div className={classes.container__box}>

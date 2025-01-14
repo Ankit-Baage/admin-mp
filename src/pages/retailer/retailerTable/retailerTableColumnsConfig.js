@@ -9,7 +9,7 @@ export const retailerTableColumnsConfig = {
       footer: (props) => props.column.id,
     }),
     columnHelper.accessor("mobile_no", {
-      header: "Ph No.",
+      header: "Phone No.",
       cell: (info) => info.getValue(),
       footer: (props) => props.column.id,
     }),

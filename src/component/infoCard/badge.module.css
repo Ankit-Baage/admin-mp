@@ -1,0 +1,11 @@
+.box {
+  font-family: "Poppins", sans;
+  font-size: 12px;
+  line-height: 15.6px;
+  font-weight: 400;
+  color: #FF6F3F;
+  border-radius: 20px;
+  background-color: #F5F5F5;
+  padding:8px;
+  align-self: flex-end;
+}

@@ -22,12 +22,12 @@ const router = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     errorElement: <ErrorPage />,
+    loader: checkAuthLoader,
     children: [
-      { index: true, element: <LoginPage /> },
       {
-        path: "dashboard",
+        path: "/",
         element: <DashBoardPage />,
-        loader: checkAuthLoader,
+
         children: [
           { index: true, element: <HomePage /> },
           { path: ":category", element: <CategoryPage /> },
@@ -52,6 +52,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: "login", element: <LoginPage /> },
 ]);
 
 function App() {

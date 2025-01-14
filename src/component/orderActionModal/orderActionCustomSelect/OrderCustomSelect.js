@@ -9,7 +9,7 @@ export const OrderCustomSelect = ({
   label,
   register,
 }) => {
-  const [currentSelection, setCurrentSelection] = useState(selectedId || "");
+  const [currentSelection, setCurrentSelection] = useState(selectedId);
 
   const handleChange = (event) => {
     const optionId = event.target.value;
@@ -17,7 +17,7 @@ export const OrderCustomSelect = ({
     // onChange(optionId);
   };
   useEffect(() => {
-    setCurrentSelection(selectedId || "");
+    setCurrentSelection(selectedId);
   }, [selectedId]);
   return (
     <select

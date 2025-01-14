@@ -7,7 +7,9 @@
 
 .box__content {
   display: flex;
-  justify-content: space-between;
+  column-gap: 20px;
+  justify-content: center;
+  align-items: center;
 }
 
 .box__infoCards {
@@ -22,7 +24,7 @@
 }
 
 .box__earningCard {
-  width: 50%;
+  flex-grow: 1;
   padding: 12px
 }
 
@@ -77,11 +79,20 @@
 
 }
 
-.box__content__graph {
-  /* width:100% */
+.box__sep {
+  border: 1px solid #DCDFEB
+}
 
+.box__content__actions {
+  width: fit-content;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 
+}
 
+.box__content__actions__card {
+  padding: 8px 9px 32px 12px
 }
 
 
@@ -91,9 +102,9 @@
   row-gap: 12px;
   justify-content: center;
   box-shadow: 0px 4px 24px 0px #0000000D;
-background-color: #FFFFFF;
-border-radius: 4px;
-padding: 16px 12px;
+  background-color: #FFFFFF;
+  border-radius: 4px;
+  padding: 16px 12px;
 }
 
 .box__nav__head {
@@ -126,15 +137,14 @@ padding: 16px 12px;
 }
 
 .box__nav__buttons__button {
-  width: 197px;
-  height: 56px;
+  width: 160px;
+  height: 40px;
   display: flex;
   column-gap: 16px;
   align-items: center;
-  /* justify-content: center; */
   border: 1px solid #EBEBEB;
   border-radius: 4px;
-  padding: 12px
+  padding: 6px 8px;
 }
 
 .box__nav__buttons__bnt__img {
@@ -146,7 +156,7 @@ padding: 16px 12px;
 .box__nav__buttons__bnt__title {
   font-family: "Poppins", sans;
   color: #2F3567;
-  font-size: 16px;
-  line-height: 20.8px;
+  font-size: 14px;
+  line-height: 21px;
   font-weight: 500;
 }

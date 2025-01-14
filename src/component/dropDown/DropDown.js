@@ -5,7 +5,7 @@ import classes from "./dropDown.module.css";
 
 
 
-const Dropdown = ({ title, options, id }) => {
+const Dropdown = ({ title, options, id, isLast }) => {
   return (
     <div className={classes.dropDown__wrapper}>
       <div className={classes.dropdown}>

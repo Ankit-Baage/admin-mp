@@ -1,0 +1,18 @@
+.container__routes {
+  display: flex;
+  justify-content: space-between;
+}
+
+.box__colors__carousel {
+  display: flex;
+  overflow: hidden;
+
+}
+
+
+.box__colors__carousel__inner {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+
+}

@@ -16,7 +16,7 @@ import { OrderCustomSelect } from "./orderActionCustomSelect/OrderCustomSelect";
 import { OrderActionFileUpload } from "./orderActionFileUpload/OrderActionFileUpload";
 
 const statuses = [
-  { id: 1, itemLabel: "Approved" },
+  { id: 1, itemLabel: "Approve" },
   { id: 2, itemLabel: "Reject" },
   
 ];
@@ -141,7 +141,7 @@ export const OrderActionModal = () => {
             <div className={classes.form__group__seq}>
               <OrderCustomSelect
                 id="approval_status"
-                label="Approval Status"
+                label="Choose Status"
                 register={register}
                 optionData={statuses}
               />
