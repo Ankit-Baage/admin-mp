@@ -1,0 +1,48 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 10px;
+
+}
+
+.from__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: auto;
+  gap: 16px;
+  width: 100%;
+
+
+}
+
+.form__head {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 500;
+  font-family: "Poppins", sans;
+  color: #FF6F3F;
+  text-align: center;
+}
+
+.form__btns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form__btn {
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 500;
+  font-family: "Poppins", sans;
+  color: #FFFFFF;
+  background-color: #9C9C9C;
+  padding: 12px;
+  border-radius: 4px;
+}
+
+.form__btn__enabled {
+  background-color: #FF6F3F;
+  cursor: pointer;
+
+}

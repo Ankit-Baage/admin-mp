@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-
-import { useParams } from "react-router-dom";
-import { Table } from "../../component/table/Table";
 import { useDispatch } from "react-redux";
-import { onOpen } from "../../store/actionModalSlice";
+import { useParams } from "react-router-dom";
+
+import { Table } from "../../component/table/Table";
 import { columnsConfig } from "./columnsDef";
 import { downloadRequest } from "../../http-request/downloadFile";
 import { toast } from "react-toastify";
+import { openModal } from "../../store/modalSlice";
 
 export const TablePage = ({ data }) => {
   const { category } = useParams();
@@ -42,14 +42,24 @@ export const TablePage = ({ data }) => {
     [category]
   );
 
+
   const handleOpenModal = useCallback(
     (rowData) => {
+      console.log(rowData)
       dispatch(
-        onOpen({
-          category,
-          request_id: rowData.request_id,
-          approval_status: rowData.approval_status,
-          remarks: rowData.remarks,
+        openModal({
+          component: "DynamicForm",
+          uiData: {
+            heading: "Approve or Reject the request.",
+            primaryButtonLabel: "Reject",
+            secondaryButtonLabel: "Approve",
+          },
+          configData: {
+            category,
+            ...rowData, 
+          },
+          operationType: "approve",
+          module: "inventory"
         })
       );
     },

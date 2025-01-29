@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectSellerList,
   useGetSellerListQuery,
 } from "../../services/sellerApiSlice";
-import {
-  selectCategoryState,
-  setFilters,
-} from "../../store/categorySlice";
+import { selectCategoryState, setFilters } from "../../store/categorySlice";
 import {
   selectStatusList,
   useGetStatusListQuery,
@@ -16,15 +13,11 @@ import {
 import classes from "./filterPage.module.css";
 import { useSearchParams } from "react-router-dom";
 import { onOpen } from "../../store/priorityModalSlice";
-import { CustomSelect } from "../../component/customSelect/CustomSelect";
+// import { CustomSelect } from "../../component/customSelect/CustomSelect";
+import { CustomSelect } from "../../component/dynamicForm/customSelect/CustomSelect";
+import { openModal } from "../../store/modalSlice";
 
-
-export const FiltersPage = () => {
-  const [appliedFilters, setAppliedFilters] = useState({
-    identifier: null,
-    seller_id: null,
-    status: null,
-  });
+export const FiltersPage = ({ filters }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const category = useSelector(selectCategoryState);
@@ -43,71 +36,56 @@ export const FiltersPage = () => {
   const handlePriorityModal = () => {
     dispatch(onOpen());
   };
-
-  const handleSelection = (identifier, option) => {
-    const updatedFilters = {
-      ...appliedFilters,
-      [identifier === "seller" ? "seller_id" : "status"]:
-        option === "" ? null : option,
-    };
-
-    setAppliedFilters(updatedFilters);
-  };
+  
 
   useEffect(() => {
     const sellerParam = searchParams.get("seller_id");
     const statusParam = searchParams.get("status");
-    const newFilters = {
-      seller_id: sellerParam || null,
-      status: statusParam || null,
-    };
-    setAppliedFilters((prev) => ({
-      ...prev,
-      ...newFilters,
-    }));
-    dispatch(setFilters(newFilters));
-  }, [dispatch, searchParams]);
 
-  const handleApply = () => {
-    const { seller_id, status } = appliedFilters;
-
-    if (seller_id) {
-      searchParams.set("seller_id", seller_id);
-    } else {
-      searchParams.delete("seller_id");
+    if (filters.seller_id !== sellerParam || filters.status !== statusParam) {
+      dispatch(
+        setFilters({
+          seller_id: sellerParam || null,
+          status: statusParam || null,
+        })
+      );
     }
+  }, [dispatch, searchParams, filters]);
 
-    if (status) {
-      searchParams.set("status", status);
+  const updateFilterParams = (key, value) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (value) {
+      newSearchParams.set(key, value);
     } else {
-      searchParams.delete("status");
+      newSearchParams.delete(key);
     }
+    setSearchParams(newSearchParams);
+    dispatch(setFilters({ [key]: value || null }));
+  };
 
-    setSearchParams(searchParams);
-    dispatch(setFilters(appliedFilters));
+  const handleSelection = (identifier, selectedOptionId) => {
+    updateFilterParams(identifier, selectedOptionId);
   };
 
   return (
     <div className={classes.box}>
       <CustomSelect
-        optionData={sellerList}
-        label="seller"
-        onSelection={(identifier, option) => {
-          handleSelection(identifier, option);
+        options={sellerList}
+        label="Select Seller"
+        onChange={(option) => {
+          handleSelection("seller_id", option);
         }}
-        selectedId={category.seller_id || ""}
+        value={category.seller_id || ""}
       />
       <CustomSelect
-        optionData={statusList}
-        label="status"
-        onSelection={(identifier, option) => {
-          handleSelection(identifier, option);
+        options={statusList}
+        label="Select Status"
+        onChange={(option) => {
+          handleSelection("status", option);
         }}
-        selectedId={category.status || ""}
+        value={category.status || ""}
       />
-      <button className={classes.box__btn} onClick={handleApply}>
-        Apply
-      </button>
+
       <button
         className={`${classes.box__btn} ${classes.box__btn__secondary}`}
         onClick={handlePriorityModal}

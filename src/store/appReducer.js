@@ -18,6 +18,7 @@ import orderFilterReducer from "./orderFilterSlice";
 import orderActionModalReducer from "./orderActionModalSlice";
 import retailerFilterReducer from "./retailerFilterSlice";
 import retailerActionModalReducer from "./retailerActionModalSlice";
+import modalReducer from "./modalSlice"
 
 const appReducer = combineReducers({
   auth: authReducer,
@@ -26,6 +27,7 @@ const appReducer = combineReducers({
   orderActionModal: orderActionModalReducer,
   retailerFilter:retailerFilterReducer,
   retailerActionModal: retailerActionModalReducer,
+  modal: modalReducer,
 
   actionModal: actionModalReducer,
   advertisementActionModal: advertisementActionModalReducer,

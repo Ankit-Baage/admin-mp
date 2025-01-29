@@ -14,6 +14,7 @@ import { FileUploadInput } from "../fileUploadInput/FileUploadInput";
 import { AdvertisementCustomSelect } from "../advertisementSelect/AdvertisementSelect";
 import { OrderCustomSelect } from "./orderActionCustomSelect/OrderCustomSelect";
 import { OrderActionFileUpload } from "./orderActionFileUpload/OrderActionFileUpload";
+import { CustomSelect } from "../dynamicForm/customSelect/CustomSelect";
 
 const statuses = [
   { id: 1, itemLabel: "Approve" },
@@ -139,11 +140,11 @@ export const OrderActionModal = () => {
               />
             </div>
             <div className={classes.form__group__seq}>
-              <OrderCustomSelect
+              <CustomSelect
                 id="approval_status"
                 label="Choose Status"
                 register={register}
-                optionData={statuses}
+                options={statuses}
               />
             </div>
 

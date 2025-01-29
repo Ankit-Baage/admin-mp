@@ -37,7 +37,7 @@ export const CategoryPage = () => {
 
   return isSuccess ? (
     <div className={classes.box}>
-      <FiltersPage />
+      <FiltersPage filters={appliedFilters}/>
       <TablePage data={tableData} />
     </div>
   ) : (

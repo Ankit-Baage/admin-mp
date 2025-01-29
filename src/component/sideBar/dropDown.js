@@ -13,16 +13,16 @@ export const dropdowns = [
     id: "category",
     title: "Manage Inventory",
     options: [
-      { id: "vrp", image: vrp, name: "VRP", path: "vrp" },
       { id: "spares", image: spare, name: "Spares", path: "spares" },
+      { id: "vrp", image: vrp, name: "VRP", path: "vrp" },
       {
         id: "new_phones",
         image: new_phone,
         name: "New Phones",
         path: "new_phones",
       },
-      { id: "prexo", image: prexo, name: "Prexo", path: "prexo" },
       { id: "openBox", image: openBox, name: "Open Box", path: "open_box" },
+      // { id: "prexo", image: prexo, name: "Prexo", path: "prexo" },
     ],
   },
   {
@@ -37,8 +37,8 @@ export const dropdowns = [
         name: "New Phones",
         path: "masters/new_phones",
       },
-      { id: "prexo", image: prexo, name: "Prexo", path: "masters/prexo" },
       { id: "openBox", image: openBox, name: "Open Box", path: "masters/open_box" },
+      // { id: "prexo", image: prexo, name: "Prexo", path: "masters/prexo" },
     ],
   },
  

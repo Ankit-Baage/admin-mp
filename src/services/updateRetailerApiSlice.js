@@ -4,12 +4,11 @@ import { toast } from "react-toastify";
 export const updateRetailerApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     updateRetailerList: builder.mutation({
-      query: ({ payment_id, url, status }) => ({
+      query: ({ id, status }) => ({
         url: "retailers",
         method: "PATCH",
         body: {
-          payment_id,
-          url,
+          id,
           status,
         },
       }),

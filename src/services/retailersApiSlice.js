@@ -22,30 +22,38 @@ export const retailersListSlice = apiSlice.injectEndpoints({
         const queryParams = new URLSearchParams(validFilters).toString();
 
         // If there are no valid filters, just return the base URL
-        return queryParams ? `${retailersListUrl}?${queryParams}` : retailersListUrl;
+        return queryParams
+          ? `${retailersListUrl}?${queryParams}`
+          : retailersListUrl;
       },
       transformResponse: (responseData) => {
         const loadedRetailersList = responseData.data.map((item) => {
-          if (item.url) {
-            const urlParts = item.url.split("/");
-            const urlLabelWithExt = urlParts[urlParts.length - 1];
-            return {
-              ...item,
-              urlLabel: urlLabelWithExt,
-            };
-          }
-
-          // If you want to remove the extension and get the base name
+          // Helper function to shorten the URL
+          const extractReadableLabel = (url) => {
+            if (url) {
+              const urlParts = url.split("/");
+              const fileNameWithExt = urlParts[urlParts.length - 1]; // Get the last part of the URL
+              const shortFileName = fileNameWithExt.slice(0, 10); // Take first 10 characters
+              const fileExtension = fileNameWithExt.split(".").pop(); // Get file extension (e.g., png)
+              return `${shortFileName}...${fileExtension}`; // Add "..." and the extension at the end
+            }
+            return ""; // Return an empty string if URL is null
+          };
 
           return {
             ...item,
-            urlLabel: "", // or you can set a default value here if necessary
+            panUrlLabel: extractReadableLabel(item.pan_image_url),
+            aadharUrlLabel: extractReadableLabel(item.aadhar_image_url),
           };
         });
 
         // Use the adapter to set all items in the state
-        return retailersListAdapter.setAll(initialRetailersState, loadedRetailersList);
+        return retailersListAdapter.setAll(
+          initialRetailersState,
+          loadedRetailersList
+        );
       },
+
       providesTags: (result) => {
         if (!result) {
           return [{ type: "retailers", id: "retailersList" }];
@@ -80,4 +88,6 @@ export const {
   selectAll: selectRetailers,
   selectById: selectRetailerById,
   selectIds: selectRetailerIds,
-} = retailersListAdapter.getSelectors((state) => selectRetailersListData(state));
+} = retailersListAdapter.getSelectors((state) =>
+  selectRetailersListData(state)
+);

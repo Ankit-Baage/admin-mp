@@ -1,0 +1,37 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+
+.box__wrapper {
+  position: relative;
+  top: 8%;
+  transform: translateY(20%)
+}
+
+.box {
+  padding: 16px 12px;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  z-index: 11;
+}
+
+.backdrop__close {
+  position: absolute;
+  right: 0;
+  background-image: url(../../assets/close-circle.svg);
+  width: 24px;
+  height: 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  z-index: 12;
+}

@@ -15,12 +15,14 @@ import { MastersVrpActionModal } from "./component/mastersActionModal/MastersVrp
 import { VariantModal } from "./component/variantModal/VariantModal";
 import { OrderActionModal } from "./component/orderActionModal/OrderActionModal";
 import { RetailerActionModal } from "./component/retailerActionModal/RetailerActionModal";
+import { Modal } from "./component/modal/Modal";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <Modal/>
       <RetailerActionModal />
       <OrderActionModal />
       <PriorityModal />

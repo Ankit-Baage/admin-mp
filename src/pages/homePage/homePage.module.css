@@ -75,7 +75,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
 
 }
 
@@ -107,7 +107,7 @@
   padding: 16px 12px;
 }
 
-.box__nav__head {
+.box__nav__head__wrapper {
   display: flex;
   column-gap: 8px;
   align-items: center;
