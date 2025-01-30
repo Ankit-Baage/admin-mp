@@ -7,41 +7,44 @@ export const updateRetailerApiSlice = apiSlice.injectEndpoints({
       query: ({ id, status }) => ({
         url: "retailers",
         method: "PATCH",
-        body: {
-          id,
-          status,
-        },
+        body: { id, status },
       }),
-      onQueryStarted: async ({ id }, { dispatch, queryFulfilled }) => {
+
+      onQueryStarted: async ({ id, status }, { dispatch, queryFulfilled }) => {
+        // Optimistic Update: Update the cache immediately
+        const patchResult = dispatch(
+          apiSlice.util.updateQueryData("getRetailersList", undefined, (draft) => {
+            const retailer = draft.entities?.[id];
+            if (retailer) {
+              retailer.status = status; // Optimistic update
+            }
+          })
+        );
+
         try {
           const { data } = await queryFulfilled;
 
-          // Validate response data
-          if (data?.status && data?.url) {
+          // Ensure API response contains expected fields
+          if (data?.status) {
             dispatch(
-              apiSlice.util.updateQueryData(
-                "getRetailersList",
-                undefined,
-                (draft) => {
-                  const retailer = draft.entities?.[id];
-                  if (retailer) {
-                    retailer.status = data.status;
-                    retailer.url = data.url;
-                  }
+              apiSlice.util.updateQueryData("getRetailersList", undefined, (draft) => {
+                const retailer = draft.entities?.[id];
+                if (retailer) {
+                  retailer.status = data.status; // Update with actual response
                 }
-              )
+              })
             );
           } else {
             console.warn("Unexpected API response:", data);
           }
         } catch (err) {
           console.error("Update retailer failed:", err);
-          // Optional: Refetch the retailer list to ensure data integrity
-          // dispatch(apiSlice.util.invalidateTags([{ type: "retailers", id }]));
+          patchResult.undo(); // Rollback the optimistic update on error
         }
       },
+
       invalidatesTags: (result, error, { id }) => [
-        { type: "retailers", id },
+        { type: "retailers", id }, // Only invalidate the updated retailer, not the entire list
       ],
     }),
   }),

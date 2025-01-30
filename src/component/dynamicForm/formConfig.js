@@ -43,7 +43,7 @@ export const formConfig = {
       ],
       label: "Choose Status",
       defaultValue:
-        formData.p_status_id === 0 || 1 || 2 ? "" : formData.p_status_id,
+        formData.p_status_id === (0 || 1 || 2) ? "" : formData.p_status_id,
       // disabled: true,
     },
 

@@ -32,6 +32,7 @@ export const updateOrderApiSlice = apiSlice.injectEndpoints({
                   if (order) {
                     order.status = status; // Use the status you sent
                     order.url = url; // Use the URL you sent
+                    order.payment_id =payment_id; // Use the payment
                   }
                 }
               )
