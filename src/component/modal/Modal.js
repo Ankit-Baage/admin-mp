@@ -98,9 +98,202 @@ export const Modal = () => {
     }
   }, [approveRequest, configData, dispatch, module]);
 
+  const handlers = useMemo(
+    () => ({
+      inventory: async (data) =>
+        rejectRequest({
+          category: configData.category,
+          request_id: configData.request_id,
+          remarks: data.remarks,
+        }).unwrap(),
+
+      masters: async (data) =>
+        rejectRequest({
+          category: configData.category,
+          request_id: configData.request_id,
+          remarks: data.remarks,
+        }).unwrap(),
+
+      retailer: async (data) =>
+        updateRetailerList({
+          id: configData?.id,
+          status: data.status,
+        }).unwrap(),
+
+      order: async (data) =>
+        operationType === "Update"
+          ? updateOrderList({
+              payment_id: configData.payment_id,
+              status: data.status,
+              url: data.url,
+            }).unwrap()
+          : null,
+
+      advertisement: async (data) => {
+        if (operationType === "Add") {
+          return addAdvertisement({
+            sequence: data.sequence,
+            category: data.module,
+            page: data.page,
+            url: data.url,
+            media_type: data.mediaType,
+            params: data.params,
+            navigate_to_page: data.navigateTo,
+          }).unwrap();
+        } else if (operationType === "Update") {
+          return updateAdvertisementList({
+            id: configData.id,
+            sequence: data.sequence,
+            category: data.module,
+            page: data.page,
+            url: data.url,
+            media_type: data.mediaType,
+            params: data.params,
+            navigate_to_page: data.navigateTo,
+          }).unwrap();
+        } else {
+          return deleteAdvertisementList({ id: configData.id }).unwrap();
+        }
+      },
+    }),
+    [
+      addAdvertisement,
+      configData,
+      deleteAdvertisementList,
+      operationType,
+      rejectRequest,
+      updateAdvertisementList,
+      updateOrderList,
+      updateRetailerList,
+    ]
+  );
+
+  // const handlePrimary = useCallback(
+  //   async (data) => {
+  //     console.log("modal", data);
+  //     if (!configData) {
+  //       console.error("Config data is missing!");
+  //       return;
+  //     }
+
+  //     const id = toast.loading("Processing...");
+
+  //     try {
+  //       let response;
+
+  //       switch (module) {
+  //         case "inventory":
+  //           response = await rejectRequest({
+  //             category: configData.category,
+  //             request_id: configData.request_id,
+  //             remarks: data.remarks,
+  //           }).unwrap();
+  //           console.log(data);
+  //           break;
+
+  //         case "masters":
+  //           response = await rejectRequest({
+  //             category: configData.category,
+  //             request_id: configData.request_id,
+  //             remarks: data.remarks,
+  //           }).unwrap();
+  //           break;
+  //         case "retailer":
+  //           const payload = {
+  //             id: configData?.id,
+  //             status: data.status,
+  //           };
+  //           console.log(payload);
+  //           response = await updateRetailerList(payload).unwrap();
+
+  //           break;
+  //         case "order":
+  //           if (operationType === "Update") {
+  //             response = await updateOrderList({
+  //               payment_id: configData.payment_id,
+  //               status: data.status,
+  //               url: data.url,
+  //             }).unwrap();
+  //           }
+
+  //           break;
+
+  //         case "advertisement":
+  //           if (operationType === "Add") {
+  //             console.log(data);
+  //             const advertisementData = {
+  //               sequence: data.sequence,
+  //               category: data.module,
+  //               page: data.page,
+  //               url: data.url,
+  //               media_type: data.mediaType,
+  //               params: data.params,
+  //               navigate_to_page: data.navigateTo,
+  //             };
+  //             console.log("add", advertisementData);
+  //             response = await addAdvertisement(advertisementData).unwrap();
+  //           } else if (operationType === "Update") {
+  //             const advertisementData = {
+  //               id: configData.id,
+  //               sequence: data.sequence,
+  //               category: data.module,
+  //               page: data.page,
+  //               url: data.url,
+  //               media_type: data.mediaType,
+  //               params: data.params,
+  //               navigate_to_page: data.navigateTo,
+  //             };
+  //             response = await updateAdvertisementList(
+  //               advertisementData
+  //             ).unwrap();
+  //           } else {
+  //             response = await deleteAdvertisementList({
+  //               id: configData.id,
+  //             }).unwrap();
+  //           }
+
+  //           break;
+
+  //         default:
+  //           console.error(`Unsupported module: ${module}!`);
+  //           return;
+  //       }
+
+  //       toast.update(id, {
+  //         render: response?.message?.displayMessage,
+  //         type: "success",
+  //         isLoading: false,
+  //         autoClose: 2000,
+  //       });
+  //     } catch (error) {
+  //       toast.update(id, {
+  //         render: error.message.displayMessage || "An error occurred!",
+  //         type: "error",
+  //         isLoading: false,
+  //         autoClose: 2000,
+  //       });
+  //       console.error(error);
+  //     } finally {
+  //       dispatch(closeModal());
+  //     }
+  //   },
+  //   [
+  //     addAdvertisement,
+  //     configData,
+  //     deleteAdvertisementList,
+  //     dispatch,
+  //     module,
+  //     operationType,
+  //     rejectRequest,
+  //     updateAdvertisementList,
+  //     updateOrderList,
+  //     updateRetailerList,
+  //   ]
+  // );
+
+  // For the modal form, bind the functions to the buttons dynamically:
   const handlePrimary = useCallback(
     async (data) => {
-      console.log("modal", data);
       if (!configData) {
         console.error("Config data is missing!");
         return;
@@ -109,85 +302,10 @@ export const Modal = () => {
       const id = toast.loading("Processing...");
 
       try {
-        let response;
+        const handler = handlers[module]; // Get the correct function dynamically
+        if (!handler) throw new Error(`Unsupported module: ${module}!`);
 
-        switch (module) {
-          case "inventory":
-            response = await rejectRequest({
-              category: configData.category,
-              request_id: configData.request_id,
-              remarks: data.remarks,
-            }).unwrap();
-            console.log(data);
-            break;
-
-          case "masters":
-            response = await rejectRequest({
-              category: configData.category,
-              request_id: configData.request_id,
-              remarks: data.remarks,
-            }).unwrap();
-            break;
-          case "retailer":
-            const payload = {
-              id: configData?.id,
-              status: data.status,
-            };
-            console.log(payload);
-            response = await updateRetailerList(payload).unwrap();
-
-            break;
-          case "order":
-            if (operationType === "Update") {
-              response = await updateOrderList({
-                payment_id: configData.payment_id,
-                status: data.status,
-                url: data.url,
-              }).unwrap();
-            }
-
-            break;
-
-          case "advertisement":
-            if (operationType === "Add") {
-              console.log(data);
-              const advertisementData = {
-                sequence: data.sequence,
-                category: data.module,
-                page: data.page,
-                url: data.url,
-                media_type: data.mediaType,
-                params: data.params,
-                navigate_to_page: data.navigateTo,
-              };
-              console.log("add", advertisementData);
-              response = await addAdvertisement(advertisementData).unwrap();
-            } else if (operationType === "Update") {
-              const advertisementData = {
-                id: configData.id,
-                sequence: data.sequence,
-                category: data.module,
-                page: data.page,
-                url: data.url,
-                media_type: data.mediaType,
-                params: data.params,
-                navigate_to_page: data.navigateTo,
-              };
-              response = await updateAdvertisementList(
-                advertisementData
-              ).unwrap();
-            } else {
-              response = await deleteAdvertisementList({
-                id: configData.id,
-              }).unwrap();
-            }
-
-            break;
-
-          default:
-            console.error(`Unsupported module: ${module}!`);
-            return;
-        }
+        const response = await handler(data);
 
         toast.update(id, {
           render: response?.message?.displayMessage,
@@ -207,22 +325,8 @@ export const Modal = () => {
         dispatch(closeModal());
       }
     },
-    [
-      addAdvertisement,
-      configData,
-      deleteAdvertisementList,
-      dispatch,
-      module,
-      operationType,
-      rejectRequest,
-      updateAdvertisementList,
-      updateOrderList,
-      updateRetailerList,
-    ]
+    [handlers, module, configData, dispatch]
   );
-
-  // For the modal form, bind the functions to the buttons dynamically:
-
   return (
     <AnimatePresence>
       {isOpen ? (
