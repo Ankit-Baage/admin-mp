@@ -11,8 +11,8 @@ export const OrderTablePage = ({ data }) => {
 
   const dispatch = useDispatch();
   const handleOpenModal = useCallback(
-    (rowData) => {
-      console.log(rowData)
+    (rowData, identifier) => {
+      console.log(identifier);
       dispatch(
         openModal({
           component: "DynamicForm",
@@ -23,8 +23,9 @@ export const OrderTablePage = ({ data }) => {
           },
           configData: {
             ...rowData,
+            identifier
           },
-          operationType: "primary",
+          operationType: identifier,
           module: "order"
         })
       );

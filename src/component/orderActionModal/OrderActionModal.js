@@ -10,11 +10,12 @@ import {
 import { toast } from "react-toastify";
 import { useUpdateOrderListMutation } from "../../services/updateOrderApiSlice";
 import { CustomInput } from "../customInput/CustomInput";
-import { FileUploadInput } from "../fileUploadInput/FileUploadInput";
+
 import { AdvertisementCustomSelect } from "../advertisementSelect/AdvertisementSelect";
 import { OrderCustomSelect } from "./orderActionCustomSelect/OrderCustomSelect";
 import { OrderActionFileUpload } from "./orderActionFileUpload/OrderActionFileUpload";
-import { CustomSelect } from "../dynamicForm/customSelect/CustomSelect";
+import { CustomSelect } from "../customSelect/CustomSelect";
+
 
 const statuses = [
   { id: 1, itemLabel: "Approve" },

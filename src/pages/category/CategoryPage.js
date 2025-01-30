@@ -11,7 +11,7 @@ import {
   setCategory,
 } from "../../store/categorySlice";
 import { TablePage } from "./TablePage";
-import { FiltersPage } from "../filters/FiltersPage";
+import { FiltersPage } from "./filters/FiltersPage";
 import classes from "./categoryPage.module.css";
 import { CategoryPageSkeleton } from "../../component/skeleton/CategoryPageSkeleton";
 

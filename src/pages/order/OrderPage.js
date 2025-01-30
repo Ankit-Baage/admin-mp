@@ -13,10 +13,9 @@ import { selectOrderState } from "../../store/orderFilterSlice";
 
 export const OrderPage = () => {
   const appliedFilters = useSelector(selectOrderState);
-  const { data, isSuccess } = useGetOrdersListQuery(appliedFilters);
+  const { isSuccess } = useGetOrdersListQuery(appliedFilters);
 
   const tableData = useSelector(selectOrders);
-  console.log("orderFilter", appliedFilters);
 
   return isSuccess ? (
     <div className={classes.box}>

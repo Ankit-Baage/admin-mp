@@ -8,12 +8,16 @@
 
 .from__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
   grid-auto-rows: auto;
   gap: 16px;
   width: 100%;
+  align-items: center;
+}
 
-
+/* If the total number of items is odd, make the last item span 2 columns */
+.from__grid > :nth-last-child(1):nth-child(odd) {
+  grid-column: span 2;
 }
 
 .form__head {

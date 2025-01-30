@@ -2,45 +2,31 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import search from "../../assets/search.svg";
 import classes from "./searchInput.module.css";
-import { useDispatch } from "react-redux";
-import { setVrp_no } from "../../store/mastersVrpFiltersSlice";
-import { useLocation, useNavigate } from "react-router-dom";
 
-export const SearchInput = ({ placeholder }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
+export const SearchInput = ({
+  placeholder,
+  onSearch,
+  searchTextFrmStore,
+  searchFilter,
+  onClear,
+}) => {
   const { register, handleSubmit, setValue } = useForm();
+
+  // Synchronize input value with `searchTextFrmStore`
+  useEffect(() => {
+    setValue("searchText", searchTextFrmStore || ""); // Set the input field to match Redux store value
+  }, [searchTextFrmStore, setValue]);
 
   const onSubmit = (data) => {
     const { searchText } = data;
-    if (searchText.trim()) {
-      console.log("Submitted search text:", searchText);
-      dispatch(setVrp_no({ vrp_no: searchText }));
-
-      // Update URL search parameters
-      const queryParams = new URLSearchParams(location.search);
-      queryParams.set("vrp_no", searchText);
-      navigate(`?${queryParams.toString()}`, { replace: true });
-    } else {
-      dispatch(setVrp_no({ vrp_no: null }));
-
-      // Remove the search parameter from URL
-      const queryParams = new URLSearchParams(location.search);
-      queryParams.delete("vrp_no");
-      navigate(`?${queryParams.toString()}`, { replace: true });
-    }
+    onSearch(searchText);
   };
 
-  useEffect(() => {
-    // Get search parameter from URL
-    const queryParams = new URLSearchParams(location.search);
-    const searchText = queryParams.get("vrp_no") || "";
-    dispatch(setVrp_no({ vrp_no: searchText }));
-
-    // Set the input value based on the URL
-    setValue("searchText", searchText);
-  }, [dispatch, location.search, setValue]);
+  const handleClear = (e) => {
+    e.preventDefault(); // Prevent form submission on button click
+    setValue("searchText", ""); // Clear the input field
+    onClear(); // Call the clear callback
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.container}>
@@ -53,14 +39,24 @@ export const SearchInput = ({ placeholder }) => {
           {...register("searchText")}
         />
       </label>
-      <button type="submit" className={classes.container__box}>
-        <img
-          src={search}
-          alt="search"
-          className={classes.container__box__img}
+      {!searchFilter ? (
+        <button type="submit" className={classes.container__box}>
+          |
+          <img
+            src={search}
+            alt="search"
+            className={classes.container__box__img}
+          />
+          <span className={classes.container__box__btn}>Search</span>
+        </button>
+      ) : (
+        <button
+          type="button"
+          className={classes.container__box__btn__close}
+          onClick={handleClear}
         />
-        <span className={classes.container__box__btn}>Search</span>
-      </button>
+        
+      )}
     </form>
   );
 };

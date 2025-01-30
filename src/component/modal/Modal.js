@@ -9,183 +9,35 @@ import {
   useRejectRequestMutation,
 } from "../../services/actionModalApiSlice";
 import classes from "./modal.module.css";
-import { Message } from "../message/Message";
 import { onClose } from "../../store/actionModalSlice";
 import { PriorityPortal } from "../priorityPortal/PriorityPortal";
 import { useUpdateRetailerListMutation } from "../../services/updateRetailerApiSlice";
 import { useUpdateOrderListMutation } from "../../services/updateOrderApiSlice";
+import { formConfig } from "../dynamicForm/formConfig";
+import {
+  useAddAdvertisementMutation,
+  useDeleteAdvertisementListMutation,
+  useUpdateAdvertisementListMutation,
+} from "../../services/updateAdvertisementSlice";
 
 export const Modal = () => {
   const dispatch = useDispatch();
   const { isOpen, component, uiData, configData, operationType, module } =
     useSelector((state) => state.modal);
+
   const [rejectRequest] = useRejectRequestMutation();
   const [approveRequest] = useApproveRequestMutation();
 
   const [updateRetailerList] = useUpdateRetailerListMutation();
   const [updateOrderList] = useUpdateOrderListMutation();
+  const [deleteAdvertisementList] = useDeleteAdvertisementListMutation();
+  const [addAdvertisement] = useAddAdvertisementMutation();
+  const [updateAdvertisementList] = useUpdateAdvertisementListMutation();
 
-  // Dynamically generate modal configuration
   const modalConfig = useMemo(() => {
     if (!configData) return [];
-
-    if (module === "inventory") {
-      return [
-        {
-          id: "requestId",
-          type: "text",
-          defaultValue: configData.request_id,
-          label: "Request Id",
-          placeholder: "Request Id",
-          disabled: true,
-        },
-        {
-          id: "originalPrice",
-          type: "text",
-          defaultValue: configData.original_price,
-          label: "Original Price",
-          placeholder: "Original Price",
-          disabled: true,
-        },
-        {
-          id: "remarks",
-          type: "textarea",
-          defaultValue: configData.remarks === "-" ? null : configData.remarks,
-          label: "Remarks*",
-          placeholder: "Remarks*",
-          disabled: configData.approval_status !== "pending",
-        },
-      ];
-    } else if (module === "retailer") {
-      return [
-        {
-          id: "phoneNumber",
-          type: "text",
-          defaultValue: configData.mobile_no,
-          label: "Phone Number",
-          placeholder: "Phone Number",
-          disabled: true, // Read-only field for update as well
-        },
-        {
-          id: "status",
-          type: "select",
-          options: [
-            { id: 3, label: "Approve" },
-            { id: 4, label: "Reject" },
-          ],
-          label: "Choose Status",
-        },
-        {
-          id: "aadharNumber",
-          type: "text", // Allow editing
-          defaultValue: configData.aadhar_number,
-          label: "Aadhar Number",
-          placeholder: "Aadhar Number",
-          disabled: true, // Editable field
-        },
-        // {
-        //   id: "aadharImage",
-        //   type: "file", // Allow editing
-        //   defaultValue: configData?.aadhar_image_url,
-        //   url: configData?.aadhar_image_url,
-        //   label: "Aadhar Image",
-        //   urlWithExt: configData?.aadharUrlLabel,
-        //   disabled: true, // Editable field
-        // },
-        {
-          id: "aadharImage",
-          type: "preview", // Allow editing
-          defaultValue: configData?.aadhar_image_url,
-          url: configData?.aadhar_image_url,
-          label: "Aadhar Image",
-          urlWithExt: configData?.aadharUrlLabel,
-          disabled: true, // Editable field
-        },
-        {
-          id: "panNumber",
-          type: "text", // Allow editing
-          defaultValue: configData.pan_number,
-          label: "Pan Number",
-          disabled: true, // Editable field
-        },
-        // {
-        //   id: "PanImage",
-        //   type: "file", // Allow editing
-        //   defaultValue: configData.pan_image_url,
-        //   url: configData?.pan_image_url,
-        //   label: "Pan Image",
-        //   urlWithExt: configData.panUrlLabel,
-
-        //   disabled: true,
-        // },
-        {
-          id: "PanImage",
-          type: "preview", // Allow editing
-          defaultValue: configData.pan_image_url,
-          url: configData?.pan_image_url,
-          label: "Pan Image",
-          urlWithExt: configData.panUrlLabel,
-
-          disabled: true,
-        },
-      ];
-    } else if (module === "order") {
-      return [
-        {
-          id: "orderId",
-          type: "text",
-          defaultValue: configData?.order_id,
-          label: "Order Id",
-          placeholder: "Order Id",
-          disabled: true, // Read-only field for update as well
-        },
-        {
-          id: "transactionId",
-          type: "text",
-          defaultValue: configData?.transaction_id,
-          label: "Transaction Id",
-          placeholder: "Transaction Id",
-          disabled: false, // Read-only field for update as well
-        },
-        {
-          id: "paymentStatus",
-          type: "text",
-          defaultValue: configData.payment_status,
-          label: "Payment Status",
-          placeholder: "Payment Status",
-          disabled: true, // Read-only field for update as well
-        },
-        {
-          id: "paymentDetails",
-          type: "text",
-          defaultValue: configData.payment_details,
-          label: "Payment Details",
-          placeholder: "Payment Details",
-          disabled: true,
-        },
-        {
-          id: "status",
-          type: "select",
-          options: [
-            { id: 1, label: "Approve" },
-            { id: 2, label: "Reject" },
-          ],
-          label: "Choose Status",
-        },
-        {
-          id: "file",
-          type: "file", // Allow editing
-          defaultValue: configData.url,
-          label: "Upload",
-          url:configData?.url,
-          urlWithExt: configData?.urlLabel,
-          disabled: true, // Editable field
-        },
-      ];
-    } else {
-      return [];
-    }
-    // Default fallback if the operationType is not recognized
+    const generateConfig = formConfig[module];
+    return generateConfig ? generateConfig(configData) : [];
   }, [configData, module]);
 
   const handleClose = () => {
@@ -248,6 +100,7 @@ export const Modal = () => {
 
   const handlePrimary = useCallback(
     async (data) => {
+      console.log("modal", data);
       if (!configData) {
         console.error("Config data is missing!");
         return;
@@ -260,8 +113,6 @@ export const Modal = () => {
 
         switch (module) {
           case "inventory":
-            // Handle approve operation for "inventory"
-            console.log("reject");
             response = await rejectRequest({
               category: configData.category,
               request_id: configData.request_id,
@@ -287,11 +138,47 @@ export const Modal = () => {
 
             break;
           case "order":
-            response = await updateOrderList({
-              payment_id: configData.payment_id,
-              status: data.status,
+            if (operationType === "Update") {
+              response = await updateOrderList({
+                payment_id: configData.payment_id,
+                status: data.status,
+                url: data.url,
+              }).unwrap();
+            }
+
+            break;
+
+          case "advertisement":
+            const advertisementData = {
+              id: configData.id,
+              sequence: data.sequence,
+              category: data.module,
+              page: data.page,
               url: data.url,
-            }).unwrap();
+              media_type: data.mediaType,
+            };
+
+            if (operationType === "Add") {
+              console.log(data);
+              const advertisementData = {
+                sequence: data.sequence,
+                category: data.module,
+                page: data.page,
+                url: data.url,
+                media_type: data.mediaType,
+                params: data.params,
+                navigate_to_page: data.navigateTo,
+              };
+              response = await addAdvertisement(advertisementData).unwrap();
+            } else if (operationType === "Update") {
+              response = await updateAdvertisementList(
+                advertisementData
+              ).unwrap();
+            } else {
+              response = await deleteAdvertisementList({
+                id: configData.id,
+              }).unwrap();
+            }
 
             break;
 
@@ -318,7 +205,18 @@ export const Modal = () => {
         dispatch(closeModal());
       }
     },
-    [configData, dispatch, module, rejectRequest, updateOrderList, updateRetailerList]
+    [
+      addAdvertisement,
+      configData,
+      deleteAdvertisementList,
+      dispatch,
+      module,
+      operationType,
+      rejectRequest,
+      updateAdvertisementList,
+      updateOrderList,
+      updateRetailerList,
+    ]
   );
 
   // For the modal form, bind the functions to the buttons dynamically:

@@ -1,9 +1,15 @@
 .box {
   display: flex;
+  column-gap: 60px;
   align-items: center;
-  column-gap: 100px;
   justify-content: space-between;
 }
+
+
+.box__content {
+  width: 50%
+}
+
 
 .box__btn{
   border-radius: 4px;

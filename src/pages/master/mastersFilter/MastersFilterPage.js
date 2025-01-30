@@ -168,7 +168,7 @@ export const MastersFiltersPage = () => {
       {filteredInputs.map((input) => (
         <CustomSelect
           key={input.label}
-          optionData={input.optionData}
+          options={input.optionData}
           label={input.label}
           onSelection={input.onSelection}
           selectedId={input.selectedId}

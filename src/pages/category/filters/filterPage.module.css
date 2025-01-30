@@ -1,13 +1,15 @@
 .box {
   display: flex;
-  justify-content: space-between;
+ justify-content: space-between;
   align-items: center;
+}
+.box__content {
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .box__btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   color: #FFFFFF;
   font-size: 12px;
   line-height: 12px;
@@ -19,6 +21,3 @@
   cursor: pointer;
 }
 
-.box__btn__secondary {
-  background-color: #FF6F3F;
-}

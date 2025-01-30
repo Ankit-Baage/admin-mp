@@ -1,7 +1,7 @@
-.box {
+/* .box {
   display: flex;
   flex-direction: column;
-}
+} */
 
 .box__title {
   font-size: 12px;
@@ -21,17 +21,13 @@
   border-radius: 4px;
   padding: 12px 6px;
   background-color: #EDFEF8;
+  cursor: pointer;
 }
 
 .box__img {
   display: block;
   width: 16px;
   height: 16px;
-}
-
-.box__img:hover {
-  transform: scale(50) translateY(-36%);
-  z-index: 14;
 }
 
 .box__url {

@@ -16,13 +16,13 @@ import {
   useGetPageListQuery,
 } from "../../services/pagesApiSlice";
 import { AdvertisementCustomSelect } from "../advertisementSelect/AdvertisementSelect";
-import { FileUploadInput } from "../fileUploadInput/FileUploadInput";
 import {
   useAddAdvertisementMutation,
   useDeleteAdvertisementListMutation,
   useUpdateAdvertisementListMutation,
 } from "../../services/updateAdvertisementSlice";
 import { toast } from "react-toastify";
+import { FormUploadInput } from "../dynamicForm/formUploadInput/FormUploadInput";
 
 const medias = [
   { id: "image", itemLabel: "image" },
@@ -208,7 +208,7 @@ export const AdvertisementActionModal = () => {
                 Sequence
               </label>
             </div>
-            <FileUploadInput
+            <FormUploadInput
               urlWithExt={uploadedImage.urlLabel}
               url={uploadedImage.url}
               onSelection={(imageUrl) => handleChange(imageUrl)}

@@ -1,7 +1,7 @@
 import React from "react";
-import classes from "./customInput.module.css";
+import classes from "./formInput.module.css";
 
-export const CustomInput = ({
+export const FormInput = ({
   id,
   type,
   placeholder,
@@ -17,7 +17,7 @@ export const CustomInput = ({
         id={id}
         className={classes.box__input}
         placeholder={placeholder}
-        {...register(id, validation)}
+        {...(register ? register(id, validation) : {})} // Only use register if passed
         disabled={disabled}
       />
       <label htmlFor={id} className={classes.box__label}>

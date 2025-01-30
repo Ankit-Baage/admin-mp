@@ -1,4 +1,9 @@
 .box {
+  width: 100%;
+}
+
+.box__select {
+  width: 100%;
   font-family: "Poppins", sans;
   color: #2f3567;
   font-size: 14px;
@@ -6,10 +11,8 @@
   font-weight: 400;
   border: 1px solid #E6E6E6;
   border-radius: 4px;
-  padding: 4px;
-  width:156px;
+  padding: 6px;
   cursor: pointer;
-  width: 40%
 }
 
 
@@ -18,10 +21,4 @@
   color: #2f3567;
   font-size: 14px;
   line-height: 1.5;
-}
-
-
-.box__option:checked {
-  background-color: #FFD4C5;
-  color: white;
 }

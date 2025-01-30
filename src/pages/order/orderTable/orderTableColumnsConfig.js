@@ -75,7 +75,7 @@ export const orderTableColumnsConfig = {
               borderRadius: "4px",
               cursor: "pointer",
             }}
-            onClick={() => handleOpenModal(props.row.original)}
+            onClick={() => handleOpenModal(props.row.original, "Update")}
           >
             View
           </button>

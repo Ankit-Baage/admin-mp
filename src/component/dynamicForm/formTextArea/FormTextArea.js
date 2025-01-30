@@ -1,7 +1,7 @@
 import React from "react";
-import classes from "./customTextArea.module.css";
+import classes from "./formTextArea.module.css";
 
-export const CustomTextArea = ({
+export const FormTextArea = ({
   id,
   type,
   placeholder,

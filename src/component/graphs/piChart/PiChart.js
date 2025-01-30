@@ -44,7 +44,7 @@ export const PieChart = ({ data }) => {
   });
 
   return (
-    <svg width={177} height={187} viewBox="-4 0 110 100">
+    <svg width={180} height={184} viewBox="-8 0 120 95">
       {paths}
       <circle cx="50" cy="50" r="30" fill="white" />{" "}
       {/* Inner circle for donut effect */}

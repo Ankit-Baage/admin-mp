@@ -7,7 +7,7 @@ const retailersListAdapter = createEntityAdapter({
   selectId: (retailer) => retailer.id,
 });
 
-const initialRetailersState = retailersListAdapter.getInitialState();
+const initialState = retailersListAdapter.getInitialState();
 
 // Define the slice
 export const retailersListSlice = apiSlice.injectEndpoints({
@@ -49,7 +49,7 @@ export const retailersListSlice = apiSlice.injectEndpoints({
 
         // Use the adapter to set all items in the state
         return retailersListAdapter.setAll(
-          initialRetailersState,
+          initialState,
           loadedRetailersList
         );
       },
@@ -74,13 +74,20 @@ export const { useGetRetailersListQuery } = retailersListSlice;
 const retailerFilter = (state) => state.retailerFilter;
 
 // Select the retailers from the state (with applied filter)
-const selectRetailersListData = createSelector(
-  [(state) => state, retailerFilter],
-  (state, filter) => {
-    const result =
-      retailersListSlice.endpoints.getRetailersList.select(filter)(state);
-    return result?.data ?? initialRetailersState;
+
+const selectRetailerListResult =createSelector(
+  [retailerFilter,(state)=>state],
+  (filter,state)=>{
+    const result = retailersListSlice.endpoints.getRetailersList.select({
+      status: filter.status,
+      search:filter.search
+    })(state);
+    return result;
   }
+)
+const selectRetailersListData = createSelector(
+  [selectRetailerListResult],
+  (retailerListResult) => retailerListResult?.data ?? initialState
 );
 
 // Adapter selectors for retailers

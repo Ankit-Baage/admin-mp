@@ -6,8 +6,9 @@ import {
 } from "../../services/sellerApiSlice";
 import { useSelector } from "react-redux";
 import { selectLotList, useGetLotListQuery } from "../../services/lotApiSlice";
-import { CustomSelect } from "../dynamicForm/customSelect/CustomSelect";
+
 import { selectCategoryState } from "../../store/categorySlice";
+import { CustomSelect } from "../customSelect/CustomSelect";
 
 export const PriorityPortal = ({
   heading,

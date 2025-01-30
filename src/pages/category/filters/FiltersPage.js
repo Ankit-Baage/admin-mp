@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectSellerList,
   useGetSellerListQuery,
-} from "../../services/sellerApiSlice";
-import { selectCategoryState, setFilters } from "../../store/categorySlice";
+} from "../../../services/sellerApiSlice";
+import { selectCategoryState, setFilters } from "../../../store/categorySlice";
 import {
   selectStatusList,
   useGetStatusListQuery,
-} from "../../services/statusApiSlice";
+} from "../../../services/statusApiSlice";
 
 import classes from "./filterPage.module.css";
 import { useSearchParams } from "react-router-dom";
-import { onOpen } from "../../store/priorityModalSlice";
-// import { CustomSelect } from "../../component/customSelect/CustomSelect";
-import { CustomSelect } from "../../component/dynamicForm/customSelect/CustomSelect";
-import { openModal } from "../../store/modalSlice";
+import { onOpen } from "../../../store/priorityModalSlice";
+
+import { openModal } from "../../../store/modalSlice";
+import { CustomSelect } from "../../../component/customSelect/CustomSelect";
 
 export const FiltersPage = ({ filters }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,7 +36,6 @@ export const FiltersPage = ({ filters }) => {
   const handlePriorityModal = () => {
     dispatch(onOpen());
   };
-  
 
   useEffect(() => {
     const sellerParam = searchParams.get("seller_id");
@@ -69,27 +68,26 @@ export const FiltersPage = ({ filters }) => {
 
   return (
     <div className={classes.box}>
-      <CustomSelect
-        options={sellerList}
-        label="Select Seller"
-        onChange={(option) => {
-          handleSelection("seller_id", option);
-        }}
-        value={category.seller_id || ""}
-      />
-      <CustomSelect
-        options={statusList}
-        label="Select Status"
-        onChange={(option) => {
-          handleSelection("status", option);
-        }}
-        value={category.status || ""}
-      />
+      <div className={classes.box__content}>
+        <CustomSelect
+          name="seller_id"
+          options={sellerList}
+          label="Select Seller"
+          onSelection={handleSelection}
+          selectedId={category.seller_id || ""}
+        />
+      </div>
+      <div className={classes.box__content}>
+        <CustomSelect
+          name="status"
+          options={statusList}
+          label="Select Status"
+          onSelection={handleSelection}
+          selectedId={category.status || ""}
+        />
+      </div>
 
-      <button
-        className={`${classes.box__btn} ${classes.box__btn__secondary}`}
-        onClick={handlePriorityModal}
-      >
+      <button className={classes.box__btn} onClick={handlePriorityModal}>
         Set Priority
       </button>
     </div>

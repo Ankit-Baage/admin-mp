@@ -5,29 +5,36 @@ import { advertisementTableColumnsConfig } from "./advertisementTableColumnDef";
 import { Table } from "../../../component/table/Table";
 import {  onOpen, setIsOpen } from "../../../store/advertisementActionModalSlice";
 import { openMedia } from "../../../store/mediaPreviewSlice";
+import { openModal } from "../../../store/modalSlice";
 
-export const AdvertisementTablePage = ({ data }) => {
+export const AdvertisementTablePage = ({ data, moduleList, pageList }) => {
   const [columnDefs, setColumnDefs] = useState([]);
 
   const dispatch = useDispatch();
+
   const handleOpenModal = useCallback(
-    (rowData, action) => {
-      // Step 1: Update modalData
+    (rowData, identifier) => {
+      console.log(identifier)
       dispatch(
-        onOpen({
-          id: rowData.id,
-          action,
-          category: rowData.category,
-          categoryLabel: rowData.categoryLabel,
-          page: rowData.page,
-          url: rowData.url,
-          media_type: rowData.media_type,
-          urlLabel: rowData.urlLabel,
-          sequence: rowData.sequence,
+        openModal({
+          component: "DynamicForm",
+          uiData: {
+            heading: `${identifier} Advertisement`,
+            primaryButtonLabel: identifier,
+            isGridRequired: true
+          },
+          configData: {
+            ...rowData,
+            moduleList,
+            pageList,
+            identifier
+          },
+          operationType: identifier,
+          module: "advertisement"
         })
       );
     },
-    [dispatch]
+    [dispatch, moduleList, pageList]
   );
   
   const handleOpenView = useCallback(

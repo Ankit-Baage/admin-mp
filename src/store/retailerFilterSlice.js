@@ -4,14 +4,17 @@ const retailerFilterSlice = createSlice({
   name: "retailerFilter",
   initialState: {
     status: null,
+    search:null,
   },
   reducers: {
     setRetailerFilter: (state, action) => {
-      state.status = action.payload.status;
+      state.status = action.payload.status || null;
+      state.search = action.payload.search || null;
     },
 
     clearRetailerFilters: (state) => {
       state.status = null;
+      state.search = null;
     },
   },
 });

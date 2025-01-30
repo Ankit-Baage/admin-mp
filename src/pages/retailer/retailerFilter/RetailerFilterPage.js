@@ -1,60 +1,86 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import classes from "./retailerFilterPage.module.css";
 import { SearchInput } from "../../../component/searchInput/SearchInput";
-import { CustomSelect } from "../../../component/customSelect/CustomSelect";
+
 import { useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setRetailerFilter } from "../../../store/retailerFilterSlice";
-import { PaymentCustomSelect } from "../../../component/paymentCustomSelect/PaymentCustomSelect";
+import { CustomSelect } from "../../../component/customSelect/CustomSelect";
 
 const optionData = [
-  { id: 1, label: "Approved" },
+  { id: 1, label: "Incomplete" },
+  { id: 2, label: "Pending for verification" },
+  { id: 3, label: "Verified" },
   { id: 4, label: "Rejected" },
 ];
 
 export const RetailersFilterPage = ({ filters }) => {
-  const [appliedFilter, setAppliedFilter] = useState({
-    status: null,
-  });
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
-
   useEffect(() => {
     const statusParam = searchParams.get("status");
+    const searchParam = searchParams.get("search");
 
-    setAppliedFilter((prevFilters) => ({
-      ...prevFilters,
-      status: statusParam || null,
-    }));
-    dispatch(setRetailerFilter({ status: statusParam }));
-  }, [dispatch, searchParams]);
+    if (filters.status !== statusParam || filters.search !== searchParam) {
+      dispatch(
+        setRetailerFilter({
+          status: statusParam || null,
+          search: searchParam || null,
+        })
+      );
+    }
+  }, [dispatch, searchParams, filters]);
 
-   const handleSelection = (selectedOptionId) => {
-      setAppliedFilter((prevFilters) => ({
-        ...prevFilters,
-        status: selectedOptionId || null,
-      }));
-      const newSearchParams = new URLSearchParams(searchParams);
-      if (selectedOptionId) {
-        newSearchParams.set("status", selectedOptionId);
-      } else {
-        newSearchParams.delete("status");
-      }
-      setSearchParams(newSearchParams);
-      dispatch(setRetailerFilter({ status: appliedFilter.status }));
-    };
+  const updateFilterParams = (key, value) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (value) {
+      newSearchParams.set(key, value);
+    } else {
+      newSearchParams.delete(key);
+    }
+    setSearchParams(newSearchParams);
+    dispatch(setRetailerFilter({ [key]: value || null }));
+  };
+
+  const handleSelection = (identifier, selectedOptionId) => {
+    updateFilterParams(identifier, selectedOptionId);
+  };
+
+  const handleSearch = (searchText) => {
+    updateFilterParams("search", searchText);
+  };
+
+  const handleClearText = () => {
+    // Remove "search" from URL params
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete("search");
+    setSearchParams(newSearchParams);
+
+    // Reset "search" in the Redux store
+    dispatch(setRetailerFilter({ search: null }));
+  };
+
   return (
     <div className={classes.box}>
+      {/* Search Input */}
       <div className={classes.box__content}>
-        <SearchInput placeholder="search by Name or Phone No." />
+        <SearchInput
+          placeholder="Search by Name or Phone No."
+          onSearch={handleSearch}
+          searchTextFrmStore={filters.search}
+          searchFilter={filters.search != null}
+          onClear={handleClearText}
+        />
       </div>
 
+      {/* Custom Select Dropdown */}
       <div className={classes.box__content}>
-        <PaymentCustomSelect
+        <CustomSelect
+          name="status"
           label="Select All"
-          optionData={optionData}
-          onChange={(selectedOptionId) => handleSelection(selectedOptionId)}
-          selectOptionId={filters.status}
+          options={optionData}
+          onSelection={handleSelection}
+          selectedId={filters.status || ""}
         />
       </div>
     </div>

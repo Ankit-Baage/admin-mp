@@ -42,7 +42,7 @@ export const advertisementSlice = apiSlice.injectEndpoints({
         }
       },
       invalidatesTags: (result, error, { id }) => [
-        { type: "advertisement", id },
+        { type: "advertisement", id: "advertisementList" },
       ],
     }),
     deleteAdvertisementList: builder.mutation({
@@ -58,7 +58,7 @@ export const advertisementSlice = apiSlice.injectEndpoints({
               "getAdvertisementList",
               undefined,
               (draft) => {
-                draft.entities[id] = undefined;
+                delete draft.entities[id];
               }
             )
           );
@@ -67,7 +67,7 @@ export const advertisementSlice = apiSlice.injectEndpoints({
         }
       },
       invalidatesTags: (result, error, { id }) => [
-        { type: "advertisement", id },
+        { type: "advertisement", id: "advertisementList"},
       ],
     }),
     addAdvertisement: builder.mutation({
@@ -101,7 +101,9 @@ export const advertisementSlice = apiSlice.injectEndpoints({
           console.error("Add advertisement failed:", err);
         }
       },
-      invalidatesTags: ["advertisement"],
+      invalidatesTags: [
+        { type: "advertisement", id: "advertisementList" },
+      ],
     }),
   }),
 });

@@ -9,7 +9,7 @@ import new_phone from "../../assets/new_phone.svg";
 import { Info } from "../../component/infoCard/Info";
 import { Card } from "../../component/infoCard/Card";
 import classes from "./homePage.module.css";
-import { CustomSelect } from "../../component/dynamicForm/customSelect/CustomSelect";
+
 import { PieChart } from "../../component/graphs/piChart/PiChart";
 import { Link } from "react-router-dom";
 import {
@@ -17,6 +17,7 @@ import {
   useGetProfilePaymentSummaryQuery,
   useGetSalesSummaryQuery,
 } from "../../services/homeApiSlice";
+import { CustomSelect } from "../../component/customSelect/CustomSelect";
 
 
 const optionData = [

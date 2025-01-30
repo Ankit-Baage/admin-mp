@@ -1,13 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { CustomInput } from "./customInput/CustomInput";
-import { CustomSelect } from "./customSelect/CustomSelect";
+import { FormInput } from "./formInput/FormInput";
 
 import classes from "./dynamicForm.module.css";
 
-import { CustomTextArea } from "./customTextArea/CustomTextArea";
+import {  FormTextArea } from "./formTextArea/FormTextArea";
 import { CustomMediaPreview } from "./customMediaPreview/CustomMediaPreview";
-import { FileUploadInput } from "./fileUploadInput/FileUploadInput";
+import { FormSelect } from "./formSelect/FormSelect";
+import { FormUploadInput } from "./formUploadInput/FormUploadInput";
 
 export const DynamicForm = ({
   heading,
@@ -20,7 +20,7 @@ export const DynamicForm = ({
   isGridRequired,
 }) => {
   const defaultValues = config.reduce((acc, field) => {
-    acc[field.id] = field.defaultValue || ""; // Set default values for each field
+    acc[field.id] = field.defaultValue ?? ""; // Set default values for each field
     return acc;
   }, {});
   const { register, handleSubmit, setValue, formState } = useForm({
@@ -53,7 +53,7 @@ export const DynamicForm = ({
             case "password":
             case "number":
               return (
-                <CustomInput
+                <FormInput
                   key={key}
                   id={field.id}
                   type={field.type}
@@ -67,29 +67,33 @@ export const DynamicForm = ({
 
             case "select":
               return (
-                <CustomSelect
+                <FormSelect
                   key={key}
+                  id={field.id}
                   options={field.options}
                   label={field.label}
-                  onChange={(value) => setValue(field.id, value)}
+                  value={field.value}
+                  register={register}
+                  disabled={field.disabled}
                 />
               );
 
             case "file":
               return (
-                <FileUploadInput
+                <FormUploadInput
                   key={key}
                   id={field.id}
                   onChange={handleFileChange}
                   label={field.label}
-                  urlWithExt={field.urlWithExt}
+                  urlLabel={field?.urlLabel}
                   url={field?.url}
                   disabled={field.disabled}
+
                 />
               );
             case "textarea": // Add support for CustomTextArea
               return (
-                <CustomTextArea
+                <FormTextArea
                   key={key}
                   id={field.id}
                   placeholder={field.placeholder}
@@ -109,7 +113,7 @@ export const DynamicForm = ({
                   disabled={field.disabled}
                   media_type={field.media_type}
                   url={field.url}
-                  urlWithExt={field.urlWithExt}
+                  urlLabel={field.urlLabel}
                 />
               );
             default:

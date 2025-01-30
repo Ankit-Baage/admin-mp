@@ -1,5 +1,18 @@
 import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
+import {
+  buildQueryString,
+  extractReadableLabel,
+} from "../utils/buildQueryString";
+
+const categoryLabels = {
+  spares: "SPARES",
+  vrp: "VRP",
+  prexo: "PREXO",
+  open_box: "OPEN BOX",
+  new_phones: "NEW PHONE",
+  home: "HOME",
+};
 
 const advertisementListAdapter = createEntityAdapter({
   selectId: (advertisement) => advertisement.id,
@@ -10,58 +23,13 @@ const initialState = advertisementListAdapter.getInitialState();
 export const advertisementListSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAdvertisementList: builder.query({
-      query: ({ category, page }) => {
-        let queryString = "advertisement";
-        if (category) {
-          queryString += `?category=${category}`;
-          if (page) {
-            queryString += `&page=${page}`;
-          }
-        } else if (page) {
-          queryString += `?page=${page}`;
-        }
-        return queryString;
-      },
+      query: (filters) => buildQueryString("advertisement", filters),
       transformResponse: (responseData) => {
-        const loadedAdvertisementList = responseData.data.map((item) => {
-          // Add categoryLabel based on category
-          let categoryLabel = "";
-          switch (item.category) {
-            case "spares":
-              categoryLabel = "SPARES";
-              break;
-            case "vrp":
-              categoryLabel = "VRP";
-              break;
-            case "prexo":
-              categoryLabel = "PREXO";
-              break;
-            case "open_box":
-              categoryLabel = "OPEN BOX";
-              break;
-            case "new_phones":
-              categoryLabel = "NEW PHONE";
-              break;
-            case "home":
-              categoryLabel = "HOME";
-              break;
-            default:
-              categoryLabel = "UNKNOWN";
-              break;
-          }
-
-          // Extract urlLabel from the URL
-          const urlParts = item.url.split("/");
-          const urlLabelWithExt = urlParts[urlParts.length - 1];
-
-          // If you want to remove the extension and get the base name
-
-          return {
-            ...item,
-            categoryLabel,
-            urlLabel: urlLabelWithExt,
-          };
-        });
+        const loadedAdvertisementList = responseData.data.map((item) => ({
+          ...item,
+          categoryLabel: categoryLabels[item.category] || "UNKNOWN",
+          urlLabel: extractReadableLabel(item.url),
+        }));
 
         console.log(loadedAdvertisementList);
         return advertisementListAdapter.setAll(
@@ -69,7 +37,7 @@ export const advertisementListSlice = apiSlice.injectEndpoints({
           loadedAdvertisementList
         );
       },
-      providesTags: (result, error, arg) => {
+      providesTags: (result) => {
         if (!result) {
           return [{ type: "advertisement", id: "advertisementList" }];
         }

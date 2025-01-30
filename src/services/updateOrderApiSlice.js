@@ -45,8 +45,10 @@ export const updateOrderApiSlice = apiSlice.injectEndpoints({
         }
       },
 
-      invalidatesTags: (result, error, { id }) =>
-        id ? [{ type: "orders", id }] : [],
+      invalidatesTags: (result, error, { id }) => [
+        { type: "orders", id: "ordersList" }, // Invalidate the entire orders list
+        ...(id ? [{ type: "orders", id }] : []), // Also invalidate the specific order if an ID is present
+      ],
     }),
   }),
 });

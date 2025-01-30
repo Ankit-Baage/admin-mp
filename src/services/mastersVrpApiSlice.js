@@ -10,8 +10,16 @@ const initialState = mastersVrpListAdapter.getInitialState();
 export const mastersVrpListSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getMastersVrpList: builder.query({
-      query: ({ vrp_no }) => {
-        return vrp_no ? `masters/vrp?vrp_no=${vrp_no}` : "masters/vrp";
+      query: (filters) => {
+        const validFilters = Object.fromEntries(
+          Object.entries(filters).filter(([key, value]) => value != null)
+        );
+
+        // Create query parameters string
+        const queryParams = new URLSearchParams(validFilters).toString();
+
+        // If there are no valid filters, just return the base URL
+        return queryParams ? `/masters/vrp?${queryParams}` : "/masters/vrp";
       },
 
       transformResponse: (responseData) => {
