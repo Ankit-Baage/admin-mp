@@ -32,28 +32,30 @@ export const formConfig = {
       defaultValue: formData.mobile_no,
       label: "Phone Number",
       placeholder: "Phone Number",
-      disabled: true, // Read-only field for update as well
+      disabled: true,
     },
     {
       id: "status",
       type: "select",
       options: [
-        { id: 3, label: "Approve" },
-        { id: 4, label: "Reject" },
+        { id: 3, label: "Verified" },
+        { id: 4, label: "Rejected" },
       ],
       label: "Choose Status",
-      defaultValue: formData.status,
+      defaultValue:
+        formData.p_status_id === 0 || 1 || 2 ? "" : formData.p_status_id,
+      // disabled: true,
     },
-   
+
     {
       id: "aadharNumber",
-      type: "text", // Allow editing
+      type: "text",
       defaultValue: formData.aadhar_number,
       label: "Aadhar Number",
       placeholder: "Aadhar Number",
-      disabled: true, // Editable field
+      disabled: true,
     },
-    
+
     {
       id: "aadharImage",
       type: "preview", // Allow editing
@@ -62,7 +64,7 @@ export const formConfig = {
       label: "Aadhar Image",
       urlLabel: formData?.aadharUrlLabel,
       disabled: true,
-      media_type:"image"
+      media_type: "image",
     },
     {
       id: "panNumber",
@@ -78,10 +80,9 @@ export const formConfig = {
       url: formData?.pan_image_url,
       label: "Pan Image",
       urlLabel: formData.panUrlLabel,
-      media_type:"image",
+      media_type: "image",
       disabled: true,
     },
-    
   ],
   order: (formData) => [
     {
@@ -124,7 +125,8 @@ export const formConfig = {
         { id: 2, label: "Reject" },
       ],
       label: "Choose Status",
-      defaultValue: formData.approval_status
+      defaultValue:
+        formData.approval_status === "0" ? "" : formData.approval_status,
     },
 
     {
@@ -168,6 +170,7 @@ export const formConfig = {
       label: "Choose Module",
       type: "select",
       options: formData.moduleList,
+      defaultValue: formData.category,
       disabled: formData.identifier === "Delete",
     },
     {

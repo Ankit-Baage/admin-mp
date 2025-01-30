@@ -68,19 +68,7 @@ export const AdvertisementFilterPage = ({ filters, moduleList, pageList }) => {
     [dispatch, moduleList, pageList]
   );
 
-  const handleAdd = () => {
-    dispatch(
-      onOpen({
-        action: "Add",
-        category: "",
-        categoryLabel: "",
-        page: "",
-        url: "",
-        media_type: "",
-        urlLabel: "",
-      })
-    );
-  };
+  
 
   return (
     <div className={classes.box}>

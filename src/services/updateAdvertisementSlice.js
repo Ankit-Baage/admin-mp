@@ -3,7 +3,16 @@ import { apiSlice } from "./apiSlice";
 export const advertisementSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     updateAdvertisementList: builder.mutation({
-      query: ({ id, sequence, category, page, url, media_type }) => ({
+      query: ({
+        id,
+        sequence,
+        category,
+        page,
+        url,
+        media_type,
+        params,
+        navigate_to_page,
+      }) => ({
         url: `advertisement`,
         method: "PUT",
         body: {
@@ -13,6 +22,8 @@ export const advertisementSlice = apiSlice.injectEndpoints({
           page,
           url,
           media_type,
+          params,
+          navigate_to_page,
         },
       }),
       onQueryStarted: async (
@@ -67,11 +78,19 @@ export const advertisementSlice = apiSlice.injectEndpoints({
         }
       },
       invalidatesTags: (result, error, { id }) => [
-        { type: "advertisement", id: "advertisementList"},
+        { type: "advertisement", id: "advertisementList" },
       ],
     }),
     addAdvertisement: builder.mutation({
-      query: ({ sequence, category, page, url, media_type }) => ({
+      query: ({
+        sequence,
+        category,
+        page,
+        url,
+        media_type,
+        params,
+        navigate_to_page,
+      }) => ({
         url: `advertisement`,
         method: "POST",
         body: {
@@ -80,6 +99,8 @@ export const advertisementSlice = apiSlice.injectEndpoints({
           page,
           url,
           media_type,
+          params,
+          navigate_to_page,
         },
       }),
       onQueryStarted: async (
@@ -101,9 +122,7 @@ export const advertisementSlice = apiSlice.injectEndpoints({
           console.error("Add advertisement failed:", err);
         }
       },
-      invalidatesTags: [
-        { type: "advertisement", id: "advertisementList" },
-      ],
+      invalidatesTags: [{ type: "advertisement", id: "advertisementList" }],
     }),
   }),
 });

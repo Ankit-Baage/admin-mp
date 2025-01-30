@@ -149,15 +149,6 @@ export const Modal = () => {
             break;
 
           case "advertisement":
-            const advertisementData = {
-              id: configData.id,
-              sequence: data.sequence,
-              category: data.module,
-              page: data.page,
-              url: data.url,
-              media_type: data.mediaType,
-            };
-
             if (operationType === "Add") {
               console.log(data);
               const advertisementData = {
@@ -169,8 +160,19 @@ export const Modal = () => {
                 params: data.params,
                 navigate_to_page: data.navigateTo,
               };
+              console.log("add", advertisementData);
               response = await addAdvertisement(advertisementData).unwrap();
             } else if (operationType === "Update") {
+              const advertisementData = {
+                id: configData.id,
+                sequence: data.sequence,
+                category: data.module,
+                page: data.page,
+                url: data.url,
+                media_type: data.mediaType,
+                params: data.params,
+                navigate_to_page: data.navigateTo,
+              };
               response = await updateAdvertisementList(
                 advertisementData
               ).unwrap();
