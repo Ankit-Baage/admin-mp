@@ -72,7 +72,7 @@ export const DynamicForm = ({
                   id={field.id}
                   options={field.options}
                   label={field.label}
-                  value={field.value}
+                  // value={field.value}
                   register={register}
                   disabled={field.disabled}
                 />

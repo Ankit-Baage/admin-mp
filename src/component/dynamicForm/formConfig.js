@@ -42,8 +42,7 @@ export const formConfig = {
         { id: 4, label: "Rejected" },
       ],
       label: "Choose Status",
-      defaultValue:
-        formData.p_status_id === (0 || 1 || 2) ? "" : formData.p_status_id,
+      defaultValue: [0, 1, 2].includes(formData.p_status_id) ? "" : formData.p_status_id
       // disabled: true,
     },
 
@@ -125,8 +124,7 @@ export const formConfig = {
         { id: 2, label: "Reject" },
       ],
       label: "Choose Status",
-      defaultValue:
-        formData.approval_status === "0" ? "" : formData.approval_status,
+      defaultValue: formData.approval_status !== "0" ? formData.approval_status : ""
     },
 
     {
